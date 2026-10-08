@@ -1,12 +1,17 @@
 import { readFile } from 'node:fs/promises';
+import { pathToFileURL } from 'node:url';
 import { Database } from './Database.js';
 
-const db = Database.getInstance();
-const sql = await readFile(new URL('./schema.sql', import.meta.url), 'utf8');
+export async function migrate() {
+  const sql = await readFile(new URL('./schema.sql', import.meta.url), 'utf8');
+  await Database.getInstance().query(sql);
+}
 
-try {
-  await db.query(sql);
-  console.log('Schema applied');
-} finally {
-  await db.close();
+if (import.meta.url === pathToFileURL(process.argv[1]).href) {
+  try {
+    await migrate();
+    console.log('Schema applied');
+  } finally {
+    await Database.getInstance().close();
+  }
 }

@@ -105,7 +105,7 @@ curl -X POST https://<backend>/api/v1/remodels/preview \
 ```bash
 npm install
 cp .env.example .env      # poner tu DATABASE_URL
-npm run migrate           # crea las tablas
+npm run migrate           # crea las tablas (el servidor también las crea al arrancar)
 npm run dev               # http://localhost:3000/api/v1/hello
 npm test
 ```
