@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import { RemodelRequestBuilder, ROOM_TYPES, STYLES } from '../ai/builders/RemodelRequestBuilder.js';
 import { RemodelService } from '../ai/RemodelService.js';
+import { requireAuth } from '../middleware/auth.js';
 
 export const remodelRouter = Router();
 const service = new RemodelService();
@@ -13,7 +14,7 @@ remodelRouter.get('/room-types', (_req, res) => {
   res.json(ROOM_TYPES);
 });
 
-remodelRouter.post('/remodels/preview', async (req, res, next) => {
+remodelRouter.post('/remodels/preview', requireAuth, async (req, res, next) => {
   let request;
   try {
     const { photoUrl, roomType, style, budget, colors, keepFurniture } = req.body ?? {};

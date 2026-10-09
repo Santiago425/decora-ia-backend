@@ -12,6 +12,10 @@ if (Database.getInstance().isConfigured) {
   }
 }
 
+if (env.jwtSecretIsEphemeral) {
+  console.warn('JWT_SECRET is not set: using a temporary secret, sessions will end on restart');
+}
+
 createApp().listen(env.port, () => {
   console.log(`DecoraIA API listening on port ${env.port}`);
 });

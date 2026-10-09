@@ -91,13 +91,19 @@ erDiagram
 | `GET` | `/api/v1/health` | Estado de la API y de la base de datos |
 | `GET` | `/api/v1/styles` | Estilos de diseño disponibles |
 | `GET` | `/api/v1/room-types` | Tipos de espacio disponibles |
-| `POST` | `/api/v1/remodels/preview` | Genera una propuesta de remodelación |
+| `POST` | `/api/v1/auth/register` | Crea una cuenta (`fullName`, `email`, `password`) y devuelve la sesión |
+| `POST` | `/api/v1/auth/login` | Inicia sesión y devuelve un token JWT |
+| `GET` | `/api/v1/auth/me` | Datos del usuario de la sesión 🔐 |
+| `POST` | `/api/v1/remodels/preview` | Genera una propuesta de remodelación 🔐 |
+
+🔐 = requiere la cabecera `Authorization: Bearer <token>`.
 
 Ejemplo:
 
 ```bash
 curl -X POST https://<backend>/api/v1/remodels/preview \
   -H "Content-Type: application/json" \
+  -H "Authorization: Bearer <token>" \
   -d '{"photoUrl":"https://example.com/cuarto.jpg","style":"nordic","budget":500}'
 ```
 
@@ -105,6 +111,9 @@ curl -X POST https://<backend>/api/v1/remodels/preview \
 
 | Medida | Dónde | Qué evita |
 |---|---|---|
+| Contraseñas con hash **scrypt** y sal aleatoria (nunca se guardan ni se devuelven en texto plano) | [`src/auth/PasswordHasher.js`](src/auth/PasswordHasher.js) | Robo de contraseñas si se filtra la base de datos. |
+| Sesiones con **JWT** firmado (HS256, expira en 2 h) y rutas protegidas | [`src/auth/TokenService.js`](src/auth/TokenService.js), [`src/middleware/auth.js`](src/middleware/auth.js) | Uso de la IA sin cuenta y tokens falsificados. |
+| Login con mensaje genérico y tiempo constante; máximo 10 intentos fallidos cada 15 min | [`src/auth/AuthService.js`](src/auth/AuthService.js) | Adivinar contraseñas o descubrir qué correos están registrados. |
 | Cabeceras HTTP seguras (Helmet: CSP, `nosniff`, HSTS, sin `X-Powered-By`) | [`src/middleware/security.js`](src/middleware/security.js) | Clickjacking, *sniffing* de contenido y revelar la tecnología del servidor. |
 | CORS restringido a los orígenes de `CORS_ORIGIN` | [`src/middleware/security.js`](src/middleware/security.js) | Que otras páginas web usen la API desde el navegador. |
 | Límite de peticiones (`RATE_LIMIT_PER_MINUTE` por IP en los `POST`) | [`src/middleware/security.js`](src/middleware/security.js) | Abuso y saturación del servicio de IA. |
@@ -137,7 +146,7 @@ docker run -p 3000:3000 --env-file .env decora-ia-backend
 
 | Pieza | Servicio | Notas |
 |---|---|---|
-| API | [Render](https://render.com) (Web Service, Docker, plan gratis) | Variables: `DATABASE_URL`, `CORS_ORIGIN` (URL del frontend), `AI_PROVIDER`, `RATE_LIMIT_PER_MINUTE` |
+| API | [Render](https://render.com) (Web Service, Docker, plan gratis) | Variables: `DATABASE_URL`, `CORS_ORIGIN` (URL del frontend), `JWT_SECRET`, `AI_PROVIDER`, `RATE_LIMIT_PER_MINUTE` |
 | Base de datos | [Neon](https://neon.tech) (PostgreSQL, plan gratis) | `npm run migrate` con la `DATABASE_URL` de Neon |
 | CI | GitHub Actions | Tests + build de la imagen Docker en cada push |
 
@@ -145,6 +154,7 @@ docker run -p 3000:3000 --env-file .env decora-ia-backend
 
 ```
 src/
+├── auth/              Registro, login, hash de contraseñas y tokens
 ├── ai/
 │   ├── adapters/      Adapter → servicio de IA externo
 │   ├── builders/      Builder → solicitud de remodelación
@@ -156,6 +166,7 @@ src/
 ├── db/                Singleton de conexión, esquema y migración
 ├── middleware/        Seguridad: cabeceras, CORS, límite de peticiones, errores
 ├── routes/            Endpoints REST
+├── users/             Acceso a la tabla users (PostgreSQL o memoria)
 ├── app.js
 └── server.js
 ```
