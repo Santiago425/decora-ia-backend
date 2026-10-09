@@ -90,6 +90,7 @@ erDiagram
 | `GET` | `/api/v1/hello` | Hello World del backend |
 | `GET` | `/api/v1/health` | Estado de la API y de la base de datos |
 | `GET` | `/api/v1/styles` | Estilos de diseño disponibles |
+| `GET` | `/api/v1/room-types` | Tipos de espacio disponibles |
 | `POST` | `/api/v1/remodels/preview` | Genera una propuesta de remodelación |
 
 Ejemplo:
@@ -99,6 +100,21 @@ curl -X POST https://<backend>/api/v1/remodels/preview \
   -H "Content-Type: application/json" \
   -d '{"photoUrl":"https://example.com/cuarto.jpg","style":"nordic","budget":500}'
 ```
+
+## 🔒 Seguridad
+
+| Medida | Dónde | Qué evita |
+|---|---|---|
+| Cabeceras HTTP seguras (Helmet: CSP, `nosniff`, HSTS, sin `X-Powered-By`) | [`src/middleware/security.js`](src/middleware/security.js) | Clickjacking, *sniffing* de contenido y revelar la tecnología del servidor. |
+| CORS restringido a los orígenes de `CORS_ORIGIN` | [`src/middleware/security.js`](src/middleware/security.js) | Que otras páginas web usen la API desde el navegador. |
+| Límite de peticiones (`RATE_LIMIT_PER_MINUTE` por IP en los `POST`) | [`src/middleware/security.js`](src/middleware/security.js) | Abuso y saturación del servicio de IA. |
+| Cuerpo JSON de máximo 20 KB y errores de JSON como `400` | [`src/app.js`](src/app.js) | Peticiones gigantes y errores internos expuestos. |
+| Validación estricta en el Builder (URL `http(s)`, tipo de espacio, estilo, presupuesto, colores `#hex`) | [`src/ai/builders/RemodelRequestBuilder.js`](src/ai/builders/RemodelRequestBuilder.js) | Datos maliciosos o inválidos llegando a la IA (p. ej. `javascript:` o `file://`). |
+| TLS verificado hacia PostgreSQL | [`src/db/Database.js`](src/db/Database.js) | Conexiones interceptadas a la base de datos. |
+| Tiempo máximo de espera al servicio de IA (`AI_TIMEOUT_MS`) | [`src/ai/adapters/AIServiceAdapter.js`](src/ai/adapters/AIServiceAdapter.js) | Peticiones colgadas indefinidamente. |
+| Mensajes de error genéricos (sin detalles internos) | [`src/routes/health.routes.js`](src/routes/health.routes.js) | Filtrar información de la base de datos. |
+| Contenedor Docker sin privilegios de root | [`Dockerfile`](Dockerfile) | Que un fallo comprometa todo el contenedor. |
+| Secretos solo en variables de entorno (`.env` ignorado por git) | [`.env.example`](.env.example) | Contraseñas subidas al repositorio. |
 
 ## 🚀 Ejecutar en local
 
@@ -121,7 +137,7 @@ docker run -p 3000:3000 --env-file .env decora-ia-backend
 
 | Pieza | Servicio | Notas |
 |---|---|---|
-| API | [Render](https://render.com) (Web Service, Docker, plan gratis) | Variables: `DATABASE_URL`, `CORS_ORIGIN`, `AI_PROVIDER` |
+| API | [Render](https://render.com) (Web Service, Docker, plan gratis) | Variables: `DATABASE_URL`, `CORS_ORIGIN` (URL del frontend), `AI_PROVIDER`, `RATE_LIMIT_PER_MINUTE` |
 | Base de datos | [Neon](https://neon.tech) (PostgreSQL, plan gratis) | `npm run migrate` con la `DATABASE_URL` de Neon |
 | CI | GitHub Actions | Tests + build de la imagen Docker en cada push |
 
@@ -138,6 +154,7 @@ src/
 │   └── RemodelService.js
 ├── config/            Variables de entorno
 ├── db/                Singleton de conexión, esquema y migración
+├── middleware/        Seguridad: cabeceras, CORS, límite de peticiones, errores
 ├── routes/            Endpoints REST
 ├── app.js
 └── server.js

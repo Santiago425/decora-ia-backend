@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { RemodelRequestBuilder, STYLES } from '../ai/builders/RemodelRequestBuilder.js';
+import { RemodelRequestBuilder, ROOM_TYPES, STYLES } from '../ai/builders/RemodelRequestBuilder.js';
 import { RemodelService } from '../ai/RemodelService.js';
 
 export const remodelRouter = Router();
@@ -7,6 +7,10 @@ const service = new RemodelService();
 
 remodelRouter.get('/styles', (_req, res) => {
   res.json(STYLES);
+});
+
+remodelRouter.get('/room-types', (_req, res) => {
+  res.json(ROOM_TYPES);
 });
 
 remodelRouter.post('/remodels/preview', async (req, res, next) => {

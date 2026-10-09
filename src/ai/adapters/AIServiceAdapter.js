@@ -4,8 +4,9 @@ import { ImageGenerator } from '../products/ImageGenerator.js';
 // Adapter: traduce la API HTTP del servicio de IA externo (snake_case, su propio
 // formato de respuesta) a las interfaces RoomAnalyzer e ImageGenerator del backend.
 export class AIServiceClient {
-  constructor(baseUrl) {
+  constructor(baseUrl, timeoutMs = 30000) {
     this.baseUrl = baseUrl;
+    this.timeoutMs = timeoutMs;
   }
 
   async post(path, body) {
@@ -13,6 +14,7 @@ export class AIServiceClient {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(body),
+      signal: AbortSignal.timeout(this.timeoutMs),
     });
     if (!res.ok) throw new Error(`AI service responded ${res.status}`);
     return res.json();

@@ -6,7 +6,7 @@ import { LoggingDecorator, RetryDecorator } from './decorators/ImageGeneratorDec
 export function createAIFactory(provider = env.aiProvider) {
   switch (provider) {
     case 'external':
-      return new ExternalAIFactory(env.aiServiceUrl);
+      return new ExternalAIFactory(env.aiServiceUrl, env.aiTimeoutMs);
     case 'mock':
     default:
       return new MockAIFactory();

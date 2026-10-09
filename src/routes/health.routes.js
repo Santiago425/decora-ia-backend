@@ -12,6 +12,7 @@ healthRouter.get('/health', async (_req, res) => {
     const { rows } = await db.query('SELECT now() AS server_time, count(*)::int AS styles FROM design_styles');
     res.json({ api: 'up', database: 'up', ...rows[0] });
   } catch (err) {
-    res.status(503).json({ api: 'up', database: 'down', error: err.message });
+    console.error('Health check failed:', err.message);
+    res.status(503).json({ api: 'up', database: 'down' });
   }
 });

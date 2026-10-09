@@ -12,8 +12,8 @@ test('Singleton: Database always returns the same instance', () => {
 });
 
 test('Builder: validates the style', () => {
-  assert.throws(() => new RemodelRequestBuilder().withPhoto('x').withStyle('gothic').build());
-  const req = new RemodelRequestBuilder().withPhoto('x').withBudget('500').build();
+  assert.throws(() => new RemodelRequestBuilder().withPhoto('https://example.com/room.jpg').withStyle('gothic').build());
+  const req = new RemodelRequestBuilder().withPhoto('https://example.com/room.jpg').withBudget('500').build();
   assert.equal(req.budget, 500);
   assert.ok(Object.isFrozen(req));
 });
@@ -36,4 +36,11 @@ test('Decorator: RetryDecorator retries until success', async () => {
   const result = await new RetryDecorator(flaky, 3).generate({});
   assert.equal(result.imageUrl, 'ok');
   assert.equal(calls, 3);
+});
+
+test('Builder: rejects unsafe photo URLs and invalid colors', () => {
+  assert.throws(() => new RemodelRequestBuilder().withPhoto('javascript:alert(1)').build());
+  assert.throws(() => new RemodelRequestBuilder().withPhoto('file:///etc/passwd').build());
+  assert.throws(() => new RemodelRequestBuilder().withPhoto('https://a.com/x.jpg').withColors(['red']).build());
+  assert.throws(() => new RemodelRequestBuilder().withPhoto('https://a.com/x.jpg').forRoom('garage').build());
 });

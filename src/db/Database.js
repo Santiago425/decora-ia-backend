@@ -30,7 +30,7 @@ export class Database {
     if (!this.#pool) {
       this.#pool = new pg.Pool({
         connectionString: env.databaseUrl,
-        ssl: env.databaseUrl.includes('localhost') ? false : { rejectUnauthorized: false },
+        ssl: env.databaseUrl.includes('localhost') ? false : { rejectUnauthorized: true },
         max: 5,
       });
     }
