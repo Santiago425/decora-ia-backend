@@ -29,6 +29,7 @@ Este repositorio es el **backend**: expone la API REST, guarda los datos en Post
 |---|---|---|
 | Frontend | [decora-ia-frontend](https://github.com/Santiago425/decora-ia-frontend) | https://decora-ia-frontend.vercel.app |
 | Backend | [decora-ia-backend](https://github.com/Santiago425/decora-ia-backend) | https://decora-ia-backend.onrender.com/api/v1/hello |
+| Documentación API | Swagger UI | https://decora-ia-backend.onrender.com/api/v1/docs |
 | Base de datos | PostgreSQL en Neon | (privada) |
 
 ## 🔁 Flujo completo
@@ -84,6 +85,9 @@ erDiagram
 ```
 
 ## 🌐 Endpoints
+
+📖 **Documentación interactiva (Swagger UI):** https://decora-ia-backend.onrender.com/api/v1/docs
+Ahí se ve cada ruta con sus parámetros, ejemplos de petición y respuesta, y se puede probar directamente con el botón **Try it out**. La especificación OpenAPI en JSON está en [`/api/v1/openapi.json`](https://decora-ia-backend.onrender.com/api/v1/openapi.json) y su fuente en [`src/docs/openapi.js`](src/docs/openapi.js).
 
 | Método | Ruta | Descripción |
 |---|---|---|
@@ -164,6 +168,7 @@ src/
 │   └── RemodelService.js
 ├── config/            Variables de entorno
 ├── db/                Singleton de conexión, esquema y migración
+├── docs/              Especificación OpenAPI (Swagger)
 ├── middleware/        Seguridad: cabeceras, CORS, límite de peticiones, errores
 ├── routes/            Endpoints REST
 ├── users/             Acceso a la tabla users (PostgreSQL o memoria)
