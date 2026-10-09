@@ -181,4 +181,4 @@ src/
 | Integrante | GitHub |
 |---|---|
 | Santiago Campoverde | [@Santiago425](https://github.com/Santiago425) |
-| Never Melo | _@usuario_ |
+| Never Melo | [@neber18](https://github.com/neber18) |
