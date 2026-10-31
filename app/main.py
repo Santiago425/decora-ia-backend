@@ -11,7 +11,7 @@ from slowapi.errors import RateLimitExceeded
 
 from app.core.rate_limit import limiter
 from app.core.settings import get_settings
-from app.routers import auth, catalog, dashboard, files, health, projects, redesigns
+from app.routers import assistant, auth, catalog, dashboard, files, health, projects, redesigns
 
 FIELD_LABELS = {
     "full_name": "nombre",
@@ -80,7 +80,7 @@ def create_app() -> FastAPI:
         response.headers.setdefault("Referrer-Policy", "no-referrer")
         return response
 
-    routers = (health, auth, catalog, dashboard, projects, redesigns, files)
+    routers = (health, auth, catalog, dashboard, projects, redesigns, assistant, files)
     for router in (module.router for module in routers):
         app.include_router(router, prefix=settings.api_prefix)
 

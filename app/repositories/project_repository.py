@@ -1,10 +1,10 @@
 import uuid
 from decimal import Decimal
 
-from sqlalchemy import func, select
+from sqlalchemy import delete, func, select
 from sqlalchemy.orm import selectinload
 
-from app.models import DesignStyle, Project, Redesign, SceneVersion
+from app.models import ChatMessage, DesignStyle, Project, Redesign, SceneVersion
 from app.repositories.base_repository import BaseRepository
 
 
@@ -85,3 +85,20 @@ class SceneVersionRepository(BaseRepository[SceneVersion]):
     def keep_latest(self, project_id: uuid.UUID, limit: int) -> None:
         for version in self.list_by_project(project_id)[limit:]:
             self.session.delete(version)
+
+
+class ChatMessageRepository(BaseRepository[ChatMessage]):
+    model = ChatMessage
+
+    def recent_by_user(self, user_id: uuid.UUID, limit: int) -> list[ChatMessage]:
+        query = (
+            select(ChatMessage)
+            .where(ChatMessage.user_id == user_id)
+            .order_by(ChatMessage.created_at.desc(), ChatMessage.id.desc())
+            .limit(limit)
+        )
+        return list(reversed(list(self.session.scalars(query))))
+
+    def delete_by_user(self, user_id: uuid.UUID) -> None:
+        self.session.execute(delete(ChatMessage).where(ChatMessage.user_id == user_id))
+        self.session.commit()

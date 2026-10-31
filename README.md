@@ -62,8 +62,9 @@ Los routers nunca tocan la base de datos: reciben los servicios por **inyección
 | **Memento** | Comportamiento | [`app/patterns/mementos/scene_memento.py`](app/patterns/mementos/scene_memento.py) | Guarda versiones de la escena y vuelve a una de ellas sin exponer cómo se almacenan; el repositorio de versiones hace de cuidador y conserva las últimas `SCENE_VERSIONS_LIMIT`. |
 | **Prototype** | Creacional | [`app/patterns/prototypes/project_prototype.py`](app/patterns/prototypes/project_prototype.py) | Duplicar un proyecto copia su escena completa con identificadores nuevos. |
 | **Visitor** | Comportamiento | [`app/patterns/visitors/scene_visitors.py`](app/patterns/visitors/scene_visitors.py) | Recorre habitación, grupos y muebles para calcular el presupuesto con los precios de la base de datos (el cliente no puede alterarlo). |
-
-Los demás patrones (Factory Method, Abstract Factory, Prototype, Composite, Command, Memento y Template Method) se suman en las siguientes fases.
+| **Strategy** | Comportamiento | [`app/patterns/assistant/interpreters.py`](app/patterns/assistant/interpreters.py) | Lumi entiende el mensaje con Gemini (`GeminiIntentInterpreter`) o con reglas en español (`RuleBasedInterpreter`); se elige con `AI_TEXT_PROVIDER`. |
+| **Chain of Responsibility** | Comportamiento | [`app/patterns/assistant/interpreters.py`](app/patterns/assistant/interpreters.py) | `FallbackInterpreter`: si Gemini falla o no responde, el mensaje pasa a las reglas y Lumi sigue funcionando. |
+| **Sanitizador de acciones** | Seguridad | [`app/patterns/assistant/action_sanitizer.py`](app/patterns/assistant/action_sanitizer.py) | Toda acción que propone la IA se valida contra el catálogo de la base de datos antes de llegar al usuario (estilos, materiales y muebles reales, acciones del editor solo dentro del editor). |
 
 ## Base de datos
 
@@ -157,6 +158,9 @@ Las tablas se crean con migraciones de **Alembic** ([`migrations/`](migrations))
 | `GET` / `POST` | `/api/v1/projects/{id}/versions` | Lista o guarda versiones de la escena 🔐 |
 | `GET` | `/api/v1/projects/{id}/versions/{version_id}` | Escena de una versión 🔐 |
 | `POST` | `/api/v1/projects/{id}/versions/{version_id}/restore` | Vuelve a una versión 🔐 |
+| `GET` | `/api/v1/assistant/messages` | Conversación con Lumi 🔐 |
+| `POST` | `/api/v1/assistant/messages` | Envía un mensaje a Lumi (`message`, `page`, `project_id`) y recibe la respuesta con sus acciones 🔐 |
+| `DELETE` | `/api/v1/assistant/messages` | Borra la conversación 🔐 |
 
 🔐 = requiere `Authorization: Bearer <token>`.
 
@@ -220,6 +224,7 @@ Todas están en [`.env.example`](.env.example) con comentarios y se leen en un s
 | `HUGGINGFACE_API_TOKEN`, `HUGGINGFACE_API_BASE_URL`, `HUGGINGFACE_IMAGE_MODEL` | Hugging Face (alternativa para imágenes) |
 | `ROOM_DEFAULT_WIDTH`, `ROOM_DEFAULT_LENGTH`, `ROOM_DEFAULT_HEIGHT` | Medidas de la habitación de un proyecto 3D nuevo |
 | `SCENE_MAX_NODES`, `SCENE_VERSIONS_LIMIT` | Límite de muebles por escena y de versiones guardadas |
+| `ASSISTANT_NAME`, `ASSISTANT_RATE_LIMIT`, `ASSISTANT_HISTORY_LIMIT`, `ASSISTANT_CONTEXT_MESSAGES` | Nombre del asistente, límite de mensajes, historial que se muestra y mensajes que recibe la IA como contexto |
 
 ## Estructura
 
@@ -230,7 +235,7 @@ app/
 ├── schemas/         Entrada y salida (Pydantic)
 ├── repositories/    Acceso a datos (Repository)
 ├── services/        Lógica de negocio
-├── patterns/        Patrones: ai, builders, facades, states, storage, strategies, validators
+├── patterns/        Patrones: ai, assistant, builders, facades, mementos, prototypes, states, storage, strategies, validators, visitors
 ├── routers/         Endpoints REST
 ├── seed_data/       Catálogo inicial en JSON
 ├── dependencies.py  Inyección de dependencias

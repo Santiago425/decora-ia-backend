@@ -8,6 +8,7 @@ from app.repositories.catalog_repositories import (
     StyleRepository,
 )
 from app.repositories.project_repository import (
+    ChatMessageRepository,
     ProjectRepository,
     RedesignRepository,
     SceneVersionRepository,
@@ -15,6 +16,7 @@ from app.repositories.project_repository import (
 from app.repositories.user_repository import UserRepository
 
 __all__ = [
+    "ChatMessageRepository",
     "FurnitureAddonRepository",
     "FurnitureCategoryRepository",
     "FurnitureRepository",

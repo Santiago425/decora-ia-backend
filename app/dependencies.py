@@ -10,7 +10,15 @@ from app.core.database import get_db
 from app.core.security import TokenService
 from app.core.settings import get_settings
 from app.models import User, UserRole
+from app.patterns.ai.gemini_adapter import GeminiClient
+from app.patterns.assistant.interpreters import (
+    FallbackInterpreter,
+    GeminiIntentInterpreter,
+    IntentInterpreter,
+    RuleBasedInterpreter,
+)
 from app.repositories import (
+    ChatMessageRepository,
     FurnitureAddonRepository,
     FurnitureCategoryRepository,
     FurnitureRepository,
@@ -23,6 +31,7 @@ from app.repositories import (
     StyleRepository,
     UserRepository,
 )
+from app.services.assistant_service import AssistantService
 from app.services.auth_service import AuthService
 from app.services.catalog_service import CatalogService
 from app.services.dashboard_service import DashboardService
@@ -65,6 +74,34 @@ def get_project_service(db: DbSession) -> ProjectService:
         FurnitureRepository(db),
         MaterialRepository(db),
         FurnitureAddonRepository(db),
+        get_settings(),
+    )
+
+
+def get_interpreter() -> IntentInterpreter:
+    settings = get_settings()
+    rules = RuleBasedInterpreter()
+    if settings.ai_text_provider != "gemini" or not settings.gemini_api_key:
+        return rules
+    client = GeminiClient(settings.gemini_api_key, settings.gemini_api_base_url, settings.ai_timeout_seconds)
+    return FallbackInterpreter(GeminiIntentInterpreter(client, settings.gemini_text_model, settings.currency_code), rules)
+
+
+def get_assistant_service(
+    db: DbSession,
+    projects: Annotated[ProjectService, Depends(get_project_service)],
+    interpreter: Annotated[IntentInterpreter, Depends(get_interpreter)],
+) -> AssistantService:
+    return AssistantService(
+        ChatMessageRepository(db),
+        ProjectRepository(db),
+        projects,
+        StyleRepository(db),
+        RoomTypeRepository(db),
+        FurnitureCategoryRepository(db),
+        FurnitureRepository(db),
+        MaterialRepository(db),
+        interpreter,
         get_settings(),
     )
 

@@ -65,6 +65,11 @@ class Settings(BaseSettings):
     scene_max_nodes: int = 150
     scene_versions_limit: int = 20
 
+    assistant_name: str = "Lumi"
+    assistant_rate_limit: str = "20/minute"
+    assistant_history_limit: int = 40
+    assistant_context_messages: int = 6
+
     @field_validator("cors_origins", mode="before")
     @classmethod
     def split_origins(cls, value: str | list[str]) -> list[str]:
