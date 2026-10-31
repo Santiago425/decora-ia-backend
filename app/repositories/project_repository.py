@@ -21,6 +21,19 @@ class ProjectRepository(BaseRepository[Project]):
         )
         return list(self.session.scalars(query))
 
+    def list_all_with_owner(self) -> list[Project]:
+        query = (
+            select(Project)
+            .options(
+                selectinload(Project.owner),
+                selectinload(Project.style),
+                selectinload(Project.room_type),
+                selectinload(Project.redesigns),
+            )
+            .order_by(Project.updated_at.desc())
+        )
+        return list(self.session.scalars(query))
+
     def get_owned(self, project_id: uuid.UUID, user_id: uuid.UUID) -> Project | None:
         query = (
             select(Project)

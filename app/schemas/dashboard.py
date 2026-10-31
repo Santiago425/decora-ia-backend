@@ -37,6 +37,8 @@ class ProjectSummary(BaseModel):
     estimated_budget: Decimal
     before_image_url: str | None
     after_image_url: str | None
+    redesign_count: int = 0
+    created_at: datetime | None = None
     updated_at: datetime
 
 

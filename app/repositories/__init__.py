@@ -1,3 +1,4 @@
+from app.repositories.admin_repository import AdminStatsRepository
 from app.repositories.catalog_repositories import (
     FurnitureAddonRepository,
     FurnitureCategoryRepository,
@@ -16,6 +17,7 @@ from app.repositories.project_repository import (
 from app.repositories.user_repository import UserRepository
 
 __all__ = [
+    "AdminStatsRepository",
     "ChatMessageRepository",
     "FurnitureAddonRepository",
     "FurnitureCategoryRepository",

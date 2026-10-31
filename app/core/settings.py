@@ -70,6 +70,10 @@ class Settings(BaseSettings):
     assistant_history_limit: int = 40
     assistant_context_messages: int = 6
 
+    admin_page_size: int = 20
+    admin_stats_days: int = 14
+    show_demo_accounts: bool = True
+
     @field_validator("cors_origins", mode="before")
     @classmethod
     def split_origins(cls, value: str | list[str]) -> list[str]:

@@ -53,6 +53,8 @@ def to_summary(project: Project) -> ProjectSummary:
         estimated_budget=project.estimated_budget,
         before_image_url=latest.original_image_url if latest else None,
         after_image_url=latest.result_image_url if latest else None,
+        redesign_count=len(project.redesigns),
+        created_at=project.created_at,
         updated_at=project.updated_at,
     )
 

@@ -17,7 +17,10 @@ from app.patterns.assistant.interpreters import (
     IntentInterpreter,
     RuleBasedInterpreter,
 )
+from app.patterns.proxies.catalog_admin_proxy import CatalogAdminProxy, CatalogAdminService
+from app.patterns.reports.report_exporters import ReportExporter, report_for
 from app.repositories import (
+    AdminStatsRepository,
     ChatMessageRepository,
     FurnitureAddonRepository,
     FurnitureCategoryRepository,
@@ -31,6 +34,7 @@ from app.repositories import (
     StyleRepository,
     UserRepository,
 )
+from app.services.admin_service import AdminService
 from app.services.assistant_service import AssistantService
 from app.services.auth_service import AuthService
 from app.services.catalog_service import CatalogService
@@ -133,3 +137,28 @@ def require_admin(user: CurrentUser) -> User:
 
 
 AdminUser = Annotated[User, Depends(require_admin)]
+
+
+def get_admin_service(db: DbSession) -> AdminService:
+    return AdminService(
+        AdminStatsRepository(db),
+        UserRepository(db),
+        FurnitureRepository(db),
+        StyleRepository(db),
+        FurnitureAddonRepository(db),
+        get_settings(),
+    )
+
+
+def get_catalog_admin(db: DbSession, user: CurrentUser) -> CatalogAdminProxy:
+    real = CatalogAdminService(
+        FurnitureRepository(db), FurnitureCategoryRepository(db), StyleRepository(db), FurnitureAddonRepository(db)
+    )
+    return CatalogAdminProxy(real, user)
+
+
+def get_report(kind: str, db: DbSession) -> ReportExporter:
+    report = report_for(kind, UserRepository(db), ProjectRepository(db))
+    if report is None:
+        raise HTTPException(status.HTTP_404_NOT_FOUND, "Ese reporte no existe")
+    return report

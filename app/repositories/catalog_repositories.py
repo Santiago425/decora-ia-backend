@@ -1,4 +1,4 @@
-from sqlalchemy import select
+from sqlalchemy import func, select
 from sqlalchemy.orm import selectinload
 
 from app.models import (
@@ -8,6 +8,7 @@ from app.models import (
     FurnitureCategory,
     FurnitureItem,
     Material,
+    Project,
     RoomType,
 )
 from app.repositories.base_repository import BaseRepository
@@ -27,6 +28,16 @@ class StyleRepository(BaseRepository[DesignStyle]):
 
     def get_by_slug(self, slug: str) -> DesignStyle | None:
         return self.session.scalar(select(DesignStyle).where(DesignStyle.slug == slug))
+
+    def all_with_project_counts(self) -> list[tuple[DesignStyle, int]]:
+        project_count = (
+            select(func.count(Project.id)).where(Project.style_id == DesignStyle.id).correlate(DesignStyle).scalar_subquery()
+        )
+        query = select(DesignStyle, project_count).order_by(DesignStyle.sort_order, DesignStyle.name)
+        return [(style, count) for style, count in self.session.execute(query)]
+
+    def count_active(self) -> int:
+        return self.session.scalar(select(func.count(DesignStyle.id)).where(DesignStyle.is_active.is_(True))) or 0
 
 
 class RoomTypeRepository(BaseRepository[RoomType]):
@@ -65,6 +76,15 @@ class FurnitureRepository(BaseRepository[FurnitureItem]):
             query = query.where(FurnitureCategory.slug == category_slug)
         return list(self.session.scalars(query))
 
+    def list_all(self) -> list[FurnitureItem]:
+        query = (
+            select(FurnitureItem)
+            .join(FurnitureItem.category)
+            .options(selectinload(FurnitureItem.category))
+            .order_by(FurnitureCategory.name, FurnitureItem.name)
+        )
+        return list(self.session.scalars(query))
+
     def prices_by_id(self, ids: set[int]) -> dict[int, float]:
         if not ids:
             return {}
@@ -97,6 +117,9 @@ class PaletteRepository(BaseRepository[ColorPalette]):
 
 class FurnitureAddonRepository(BaseRepository[FurnitureAddon]):
     model = FurnitureAddon
+
+    def list_all(self) -> list[FurnitureAddon]:
+        return list(self.session.scalars(select(FurnitureAddon).order_by(FurnitureAddon.price)))
 
     def list_active(self) -> list[FurnitureAddon]:
         query = select(FurnitureAddon).where(FurnitureAddon.is_active.is_(True)).order_by(FurnitureAddon.price)
