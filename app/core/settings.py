@@ -49,7 +49,7 @@ class Settings(BaseSettings):
 
     gemini_api_key: str = ""
     gemini_api_base_url: str = "https://generativelanguage.googleapis.com/v1beta"
-    gemini_text_model: str = "gemini-2.5-flash"
+    gemini_text_model: str = "gemini-3.5-flash-lite"
     gemini_image_model: str = "gemini-2.5-flash-image"
 
     huggingface_api_token: str = ""

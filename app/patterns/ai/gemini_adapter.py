@@ -1,5 +1,6 @@
 import base64
 import json
+import time
 
 import httpx
 from pydantic import ValidationError
@@ -11,6 +12,9 @@ UNAVAILABLE_MESSAGE = "La IA no está disponible en este momento. Inténtalo de 
 
 
 class GeminiClient:
+    retry_statuses = {500, 503}
+    max_attempts = 3
+
     def __init__(self, api_key: str, base_url: str, timeout: float) -> None:
         if not api_key:
             raise AIError("Falta configurar la clave de Gemini (GEMINI_API_KEY)")
@@ -19,15 +23,7 @@ class GeminiClient:
         self.timeout = timeout
 
     def generate(self, model: str, parts: list[dict], generation_config: dict) -> list[dict]:
-        try:
-            response = httpx.post(
-                f"{self.base_url}/models/{model}:generateContent",
-                headers={"x-goog-api-key": self.api_key},
-                json={"contents": [{"role": "user", "parts": parts}], "generationConfig": generation_config},
-                timeout=self.timeout,
-            )
-        except httpx.HTTPError:
-            raise AIError(UNAVAILABLE_MESSAGE) from None
+        response = self._post(model, {"contents": [{"role": "user", "parts": parts}], "generationConfig": generation_config})
         if response.status_code == 429:
             raise AIError(QUOTA_MESSAGE)
         if response.status_code >= 400:
@@ -36,6 +32,24 @@ class GeminiClient:
         if not candidates:
             raise AIError("La IA no pudo procesar esta foto. Prueba con otra imagen")
         return candidates[0].get("content", {}).get("parts", [])
+
+    def _post(self, model: str, body: dict) -> httpx.Response:
+        for attempt in range(1, self.max_attempts + 1):
+            try:
+                response = httpx.post(
+                    f"{self.base_url}/models/{model}:generateContent",
+                    headers={"x-goog-api-key": self.api_key},
+                    json=body,
+                    timeout=self.timeout,
+                )
+            except httpx.HTTPError:
+                if attempt == self.max_attempts:
+                    raise AIError(UNAVAILABLE_MESSAGE) from None
+                continue
+            if response.status_code not in self.retry_statuses or attempt == self.max_attempts:
+                return response
+            time.sleep(attempt)
+        raise AIError(UNAVAILABLE_MESSAGE)
 
     @staticmethod
     def inline(image: ImageData) -> dict:
