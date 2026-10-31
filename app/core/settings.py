@@ -1,0 +1,57 @@
+from functools import lru_cache
+from typing import Annotated
+
+from pydantic import Field, field_validator
+from pydantic_settings import BaseSettings, NoDecode, SettingsConfigDict
+
+
+class Settings(BaseSettings):
+    model_config = SettingsConfigDict(env_file=".env", env_file_encoding="utf-8", extra="ignore")
+
+    app_name: str
+    app_env: str = "development"
+    api_prefix: str = "/api/v1"
+
+    database_url: str
+    database_echo: bool = False
+
+    cors_origins: Annotated[list[str], NoDecode] = Field(default_factory=list)
+
+    jwt_secret: str = Field(min_length=32)
+    jwt_algorithm: str = "HS256"
+    jwt_expire_minutes: int = 120
+
+    login_rate_limit: str = "10/minute"
+    register_rate_limit: str = "5/minute"
+
+    seed_on_startup: bool = False
+    demo_password: str = Field(min_length=8)
+    demo_user_email: str
+    demo_user_name: str
+    demo_admin_email: str
+    demo_admin_name: str
+
+    @field_validator("cors_origins", mode="before")
+    @classmethod
+    def split_origins(cls, value: str | list[str]) -> list[str]:
+        if isinstance(value, str):
+            return [origin.strip() for origin in value.split(",") if origin.strip()]
+        return value
+
+    @field_validator("database_url")
+    @classmethod
+    def use_psycopg_driver(cls, value: str) -> str:
+        for prefix in ("postgres://", "postgresql://"):
+            if value.startswith(prefix):
+                return "postgresql+psycopg://" + value[len(prefix):]
+        return value
+
+    @property
+    def is_sqlite(self) -> bool:
+        return self.database_url.startswith("sqlite")
+
+
+# Singleton: the configuration is read from the environment once and shared by the whole app.
+@lru_cache
+def get_settings() -> Settings:
+    return Settings()

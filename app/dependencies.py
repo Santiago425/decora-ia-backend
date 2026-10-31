@@ -1,0 +1,73 @@
+import uuid
+from typing import Annotated
+
+import jwt
+from fastapi import Depends, HTTPException, status
+from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
+from sqlalchemy.orm import Session
+
+from app.core.database import get_db
+from app.core.security import TokenService
+from app.models import User, UserRole
+from app.repositories import (
+    FurnitureCategoryRepository,
+    FurnitureRepository,
+    MaterialRepository,
+    PaletteRepository,
+    RoomTypeRepository,
+    StyleRepository,
+    UserRepository,
+)
+from app.services.auth_service import AuthService
+from app.services.catalog_service import CatalogService
+
+DbSession = Annotated[Session, Depends(get_db)]
+bearer_scheme = HTTPBearer(auto_error=False)
+
+
+def get_user_repository(db: DbSession) -> UserRepository:
+    return UserRepository(db)
+
+
+def get_auth_service(users: Annotated[UserRepository, Depends(get_user_repository)]) -> AuthService:
+    return AuthService(users)
+
+
+def get_catalog_service(db: DbSession) -> CatalogService:
+    return CatalogService(
+        StyleRepository(db),
+        RoomTypeRepository(db),
+        FurnitureCategoryRepository(db),
+        FurnitureRepository(db),
+        MaterialRepository(db),
+        PaletteRepository(db),
+    )
+
+
+def get_current_user(
+    credentials: Annotated[HTTPAuthorizationCredentials | None, Depends(bearer_scheme)],
+    users: Annotated[UserRepository, Depends(get_user_repository)],
+) -> User:
+    unauthorized = HTTPException(status.HTTP_401_UNAUTHORIZED, "Tu sesión expiró, vuelve a iniciar sesión")
+    if credentials is None:
+        raise HTTPException(status.HTTP_401_UNAUTHORIZED, "Inicia sesión para continuar")
+    try:
+        payload = TokenService.decode(credentials.credentials)
+        user = users.get(uuid.UUID(payload["sub"]))
+    except (jwt.PyJWTError, ValueError):
+        raise unauthorized from None
+    if user is None or not user.is_active:
+        raise unauthorized
+    return user
+
+
+CurrentUser = Annotated[User, Depends(get_current_user)]
+
+
+def require_admin(user: CurrentUser) -> User:
+    if user.role != UserRole.ADMIN:
+        raise HTTPException(status.HTTP_403_FORBIDDEN, "Necesitas permisos de administrador")
+    return user
+
+
+AdminUser = Annotated[User, Depends(require_admin)]

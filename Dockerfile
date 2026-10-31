@@ -1,9 +1,12 @@
-FROM node:22-alpine
+FROM python:3.13-slim
 WORKDIR /app
-ENV NODE_ENV=production
-COPY package*.json ./
-RUN npm ci --omit=dev
-COPY src ./src
-USER node
-EXPOSE 3000
-CMD ["node", "src/server.js"]
+ENV PYTHONDONTWRITEBYTECODE=1 PYTHONUNBUFFERED=1 PORT=8000
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+COPY alembic.ini .
+COPY migrations ./migrations
+COPY app ./app
+RUN useradd --create-home appuser
+USER appuser
+EXPOSE 8000
+CMD ["sh", "-c", "alembic upgrade head && uvicorn app.main:app --host 0.0.0.0 --port $PORT --proxy-headers --forwarded-allow-ips='*'"]

@@ -1,4 +1,9 @@
-node_modules
-.env
 .git
-test
+.venv
+venv
+.env
+*.db
+__pycache__
+.pytest_cache
+tests
+media
