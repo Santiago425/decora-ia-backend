@@ -64,6 +64,8 @@ Los routers nunca tocan la base de datos: reciben los servicios por **inyección
 | **Visitor** | Comportamiento | [`app/patterns/visitors/scene_visitors.py`](app/patterns/visitors/scene_visitors.py) | Recorre habitación, grupos y muebles para calcular el presupuesto con los precios de la base de datos (el cliente no puede alterarlo). |
 | **Strategy** | Comportamiento | [`app/patterns/assistant/interpreters.py`](app/patterns/assistant/interpreters.py) | Lumi entiende el mensaje con Gemini (`GeminiIntentInterpreter`) o con reglas en español (`RuleBasedInterpreter`); se elige con `AI_TEXT_PROVIDER`. |
 | **Chain of Responsibility** | Comportamiento | [`app/patterns/assistant/interpreters.py`](app/patterns/assistant/interpreters.py) | `FallbackInterpreter`: si Gemini falla o no responde, el mensaje pasa a las reglas y Lumi sigue funcionando. |
+| **Proxy de protección** | Estructural | [`app/patterns/proxies/catalog_admin_proxy.py`](app/patterns/proxies/catalog_admin_proxy.py) | `CatalogAdminProxy` tiene la misma interfaz que el servicio del catálogo: revisa que quien edita sea administrador y registra cada cambio antes de delegar. |
+| **Template Method** | Comportamiento | [`app/patterns/reports/report_exporters.py`](app/patterns/reports/report_exporters.py) | `ReportExporter.export()` fija los pasos de un reporte CSV (columnas, filas, formato, nombre) y cada reporte (`UsersReport`, `ProjectsReport`) completa los suyos. |
 | **Sanitizador de acciones** | Seguridad | [`app/patterns/assistant/action_sanitizer.py`](app/patterns/assistant/action_sanitizer.py) | Toda acción que propone la IA se valida contra el catálogo de la base de datos antes de llegar al usuario (estilos, materiales y muebles reales, acciones del editor solo dentro del editor). |
 
 ## Base de datos
@@ -161,8 +163,17 @@ Las tablas se crean con migraciones de **Alembic** ([`migrations/`](migrations))
 | `GET` | `/api/v1/assistant/messages` | Conversación con Lumi 🔐 |
 | `POST` | `/api/v1/assistant/messages` | Envía un mensaje a Lumi (`message`, `page`, `project_id`) y recibe la respuesta con sus acciones 🔐 |
 | `DELETE` | `/api/v1/assistant/messages` | Borra la conversación 🔐 |
+| `GET` | `/api/v1/meta/info` | Nombre de la app, proveedores de IA y cuentas de prueba (para la sección Documentación) 🔐 |
+| `GET` | `/api/v1/admin/stats` | Totales, actividad por día, estados, estilos más usados y proveedores 👑 |
+| `GET` | `/api/v1/admin/users` | Usuarios con búsqueda y páginas (`search`, `page`) 👑 |
+| `PATCH` | `/api/v1/admin/users/{id}` | Cambia rol o activa / desactiva una cuenta 👑 |
+| `GET` / `POST` | `/api/v1/admin/furniture` | Lista todos los muebles (también los ocultos) o agrega uno 👑 |
+| `PATCH` | `/api/v1/admin/furniture/{id}` | Edita precio, medidas, categoría o visibilidad 👑 |
+| `GET` / `PATCH` | `/api/v1/admin/styles`, `/api/v1/admin/styles/{id}` | Estilos con su número de proyectos; edita nombre, luz o visibilidad 👑 |
+| `GET` / `PATCH` | `/api/v1/admin/addons`, `/api/v1/admin/addons/{id}` | Complementos de muebles; edita precio o visibilidad 👑 |
+| `GET` | `/api/v1/admin/reports/{usuarios\|proyectos}` | Descarga el reporte en CSV 👑 |
 
-🔐 = requiere `Authorization: Bearer <token>`.
+🔐 = requiere `Authorization: Bearer <token>`. 👑 = requiere además una cuenta de administrador.
 
 ## Cuentas de prueba
 
@@ -224,6 +235,8 @@ Todas están en [`.env.example`](.env.example) con comentarios y se leen en un s
 | `HUGGINGFACE_API_TOKEN`, `HUGGINGFACE_API_BASE_URL`, `HUGGINGFACE_IMAGE_MODEL` | Hugging Face (alternativa para imágenes) |
 | `ROOM_DEFAULT_WIDTH`, `ROOM_DEFAULT_LENGTH`, `ROOM_DEFAULT_HEIGHT` | Medidas de la habitación de un proyecto 3D nuevo |
 | `SCENE_MAX_NODES`, `SCENE_VERSIONS_LIMIT` | Límite de muebles por escena y de versiones guardadas |
+| `ADMIN_PAGE_SIZE`, `ADMIN_STATS_DAYS` | Usuarios por página y días de la gráfica de actividad del panel de administración |
+| `SHOW_DEMO_ACCOUNTS` | Mostrar las cuentas de prueba en la sección Documentación de la app |
 | `ASSISTANT_NAME`, `ASSISTANT_RATE_LIMIT`, `ASSISTANT_HISTORY_LIMIT`, `ASSISTANT_CONTEXT_MESSAGES` | Nombre del asistente, límite de mensajes, historial que se muestra y mensajes que recibe la IA como contexto |
 
 ## Estructura
@@ -235,7 +248,7 @@ app/
 ├── schemas/         Entrada y salida (Pydantic)
 ├── repositories/    Acceso a datos (Repository)
 ├── services/        Lógica de negocio
-├── patterns/        Patrones: ai, assistant, builders, facades, mementos, prototypes, states, storage, strategies, validators, visitors
+├── patterns/        Patrones: ai, assistant, builders, facades, mementos, prototypes, proxies, reports, states, storage, strategies, validators, visitors
 ├── routers/         Endpoints REST
 ├── seed_data/       Catálogo inicial en JSON
 ├── dependencies.py  Inyección de dependencias
