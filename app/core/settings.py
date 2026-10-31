@@ -57,6 +57,13 @@ class Settings(BaseSettings):
     huggingface_provider: str = "auto"
     huggingface_image_model: str = "black-forest-labs/FLUX.1-Kontext-dev"
 
+    cloudflare_account_id: str = ""
+    cloudflare_api_token: str = ""
+    cloudflare_api_base_url: str = "https://api.cloudflare.com/client/v4"
+    cloudflare_image_model: str = "@cf/runwayml/stable-diffusion-v1-5-img2img"
+    cloudflare_image_strength: float = 0.6
+    cloudflare_image_side: int = 768
+
     budget_economic_max: float = 3_000_000
     budget_standard_max: float = 12_000_000
 

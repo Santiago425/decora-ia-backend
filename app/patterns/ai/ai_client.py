@@ -1,6 +1,7 @@
 from app.core.settings import get_settings
 from app.patterns.ai.ai_decorators import CachingImageEditor, FallbackImageEditor, LoggingImageEditor
 from app.patterns.ai.ai_provider import DesignAdvisor, DesignSuggestions, ImageEditor
+from app.patterns.ai.cloudflare_adapter import CloudflareImageEditor
 from app.patterns.ai.gemini_adapter import GeminiClient, GeminiDesignAdvisor, GeminiImageEditor
 from app.patterns.ai.huggingface_adapter import HuggingFaceImageEditor
 from app.patterns.ai.mock_adapter import MockDesignAdvisor, MockImageEditor
@@ -26,6 +27,16 @@ class AIClient(metaclass=SingletonMeta):
         match s.ai_image_provider:
             case "gemini":
                 return GeminiImageEditor(self._gemini(), s.gemini_image_model)
+            case "cloudflare":
+                return CloudflareImageEditor(
+                    s.cloudflare_account_id,
+                    s.cloudflare_api_token,
+                    s.cloudflare_api_base_url,
+                    s.cloudflare_image_model,
+                    s.cloudflare_image_strength,
+                    s.cloudflare_image_side,
+                    s.ai_timeout_seconds,
+                )
             case "huggingface":
                 return HuggingFaceImageEditor(
                     s.huggingface_api_token, s.huggingface_provider, s.huggingface_image_model, s.ai_timeout_seconds
