@@ -1,33 +1,32 @@
-import base64
+import io
+import logging
 
-import httpx
+from huggingface_hub import InferenceClient
+from huggingface_hub.errors import HfHubHTTPError, InferenceTimeoutError
 
 from app.patterns.ai.ai_provider import AIError, ImageData, ImageEditor
 
+logger = logging.getLogger("habita.ai")
 
-# Adapter: wraps the Hugging Face image-to-image inference API behind the ImageEditor interface.
+
+# Adapter: wraps Hugging Face Inference Providers (image-to-image) behind the ImageEditor interface.
 class HuggingFaceImageEditor(ImageEditor):
     name = "huggingface"
 
-    def __init__(self, token: str, base_url: str, model: str, timeout: float) -> None:
+    def __init__(self, token: str, provider: str, model: str, timeout: float) -> None:
         if not token or not model:
             raise AIError("Falta configurar Hugging Face (HUGGINGFACE_API_TOKEN y HUGGINGFACE_IMAGE_MODEL)")
-        self.url = f"{base_url.rstrip('/')}/{model}"
-        self.token = token
-        self.timeout = timeout
+        self.model = model
+        self.client = InferenceClient(provider=provider or "auto", api_key=token, timeout=timeout)
 
     def edit(self, image: ImageData, prompt: str) -> ImageData:
         try:
-            response = httpx.post(
-                self.url,
-                headers={"Authorization": f"Bearer {self.token}", "Accept": "image/png"},
-                json={"inputs": base64.b64encode(image.data).decode(), "parameters": {"prompt": prompt}},
-                timeout=self.timeout,
-            )
-        except httpx.HTTPError:
-            raise AIError("El modelo de imágenes no respondió. Inténtalo de nuevo") from None
-        if response.status_code == 503:
-            raise AIError("El modelo de imágenes se está encendiendo. Inténtalo en un minuto")
-        if response.status_code >= 400 or not response.headers.get("content-type", "").startswith("image/"):
-            raise AIError("El modelo de imágenes no pudo procesar la foto. Inténtalo de nuevo")
-        return ImageData(response.content, response.headers["content-type"].split(";")[0])
+            result = self.client.image_to_image(image.data, prompt=prompt, model=self.model)
+        except InferenceTimeoutError:
+            raise AIError("El modelo de imágenes tardó demasiado. Inténtalo de nuevo") from None
+        except (HfHubHTTPError, ValueError) as error:
+            logger.warning("ai.huggingface model=%s error=%s", self.model, error)
+            raise AIError("El modelo de imágenes no pudo procesar la foto. Inténtalo de nuevo") from None
+        buffer = io.BytesIO()
+        result.convert("RGB").save(buffer, "JPEG", quality=90)
+        return ImageData(buffer.getvalue(), "image/jpeg")

@@ -53,7 +53,7 @@ Los routers nunca tocan la base de datos: reciben los servicios por **inyección
 | **Builder** | Creacional | [`app/patterns/builders/redesign_request_builder.py`](app/patterns/builders/redesign_request_builder.py) | Arma paso a paso la petición a la IA (foto, habitación, estilo, paleta, presupuesto, conservar estructura) y la valida al final. |
 | **Adapter** | Estructural | [`app/patterns/ai/`](app/patterns/ai) | `GeminiImageEditor`, `HuggingFaceImageEditor` y `MockImageEditor` traducen cada API a la misma interfaz; el proveedor se cambia con `AI_IMAGE_PROVIDER` / `AI_TEXT_PROVIDER`. |
 | **Adapter** | Estructural | [`app/patterns/storage/storage_adapter.py`](app/patterns/storage/storage_adapter.py) | Guardar fotos en disco (desarrollo) o en la base de datos en la nube (producción) con la misma interfaz (`STORAGE_PROVIDER`). |
-| **Decorator** | Estructural | [`app/patterns/ai/ai_decorators.py`](app/patterns/ai/ai_decorators.py) | Añade caché y registro de tiempos a cualquier proveedor de IA sin modificarlo. |
+| **Decorator** | Estructural | [`app/patterns/ai/ai_decorators.py`](app/patterns/ai/ai_decorators.py) | Añade caché, registro de tiempos y respaldo (`FallbackImageEditor` usa el editor local si el proveedor falla) a cualquier proveedor de IA sin modificarlo. |
 | **Facade** | Estructural | [`app/patterns/facades/redesign_facade.py`](app/patterns/facades/redesign_facade.py) | `create_redesign()` valida la foto, la guarda, llama a la IA, calcula sugerencias y presupuesto y registra el proyecto en una sola llamada. |
 | **Chain of Responsibility** | Comportamiento | [`app/patterns/validators/image_validators.py`](app/patterns/validators/image_validators.py) | Formato → tamaño → resolución → contenido: cada validador pasa la foto al siguiente o la rechaza con un mensaje claro. |
 | **Strategy** | Comportamiento | [`app/patterns/strategies/budget_strategies.py`](app/patterns/strategies/budget_strategies.py) | Presupuesto económico, medio o premium: cada estrategia elige productos distintos sin pasarse del presupuesto. |
@@ -245,9 +245,9 @@ Todas están en [`.env.example`](.env.example) con comentarios y se leen en un s
 | `CURRENCY_CODE`, `BUDGET_ECONOMIC_MAX`, `BUDGET_STANDARD_MAX` | Moneda y límites de cada estrategia de presupuesto |
 | `STORAGE_PROVIDER`, `MEDIA_DIR`, `MEDIA_URL_PATH` | Dónde se guardan las fotos |
 | `MAX_UPLOAD_MB`, `MIN_IMAGE_SIDE`, `MAX_IMAGE_SIDE` | Reglas de la cadena de validación de imágenes |
-| `AI_TEXT_PROVIDER`, `AI_IMAGE_PROVIDER`, `AI_TIMEOUT_SECONDS`, `AI_CACHE_SIZE`, `REDESIGN_RATE_LIMIT` | Proveedor de IA, tiempo de espera, caché y límite de rediseños |
+| `AI_TEXT_PROVIDER`, `AI_IMAGE_PROVIDER`, `AI_IMAGE_FALLBACK`, `AI_TIMEOUT_SECONDS`, `AI_CACHE_SIZE`, `REDESIGN_RATE_LIMIT` | Proveedor de IA, tiempo de espera, caché y límite de rediseños |
 | `GEMINI_API_KEY`, `GEMINI_API_BASE_URL`, `GEMINI_TEXT_MODEL`, `GEMINI_IMAGE_MODEL` | Google Gemini |
-| `HUGGINGFACE_API_TOKEN`, `HUGGINGFACE_API_BASE_URL`, `HUGGINGFACE_IMAGE_MODEL` | Hugging Face (alternativa para imágenes) |
+| `HUGGINGFACE_API_TOKEN`, `HUGGINGFACE_PROVIDER`, `HUGGINGFACE_IMAGE_MODEL` | Hugging Face Inference Providers para la imagen rediseñada (por defecto FLUX.1 Kontext) |
 | `ROOM_DEFAULT_WIDTH`, `ROOM_DEFAULT_LENGTH`, `ROOM_DEFAULT_HEIGHT` | Medidas de la habitación de un proyecto 3D nuevo |
 | `SCENE_MAX_NODES`, `SCENE_VERSIONS_LIMIT` | Límite de muebles por escena y de versiones guardadas |
 | `ADMIN_PAGE_SIZE`, `ADMIN_STATS_DAYS` | Usuarios por página y días de la gráfica de actividad del panel de administración |

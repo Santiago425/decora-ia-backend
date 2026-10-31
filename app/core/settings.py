@@ -43,6 +43,7 @@ class Settings(BaseSettings):
 
     ai_text_provider: str = "mock"
     ai_image_provider: str = "mock"
+    ai_image_fallback: str = "mock"
     ai_timeout_seconds: float = 90
     ai_cache_size: int = 32
     redesign_rate_limit: str = "6/minute"
@@ -53,8 +54,8 @@ class Settings(BaseSettings):
     gemini_image_model: str = "gemini-2.5-flash-image"
 
     huggingface_api_token: str = ""
-    huggingface_api_base_url: str = "https://router.huggingface.co/hf-inference/models"
-    huggingface_image_model: str = ""
+    huggingface_provider: str = "auto"
+    huggingface_image_model: str = "black-forest-labs/FLUX.1-Kontext-dev"
 
     budget_economic_max: float = 3_000_000
     budget_standard_max: float = 12_000_000

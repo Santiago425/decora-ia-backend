@@ -3,7 +3,7 @@ import logging
 import time
 from collections import OrderedDict
 
-from app.patterns.ai.ai_provider import ImageData, ImageEditor
+from app.patterns.ai.ai_provider import AIError, ImageData, ImageEditor
 
 logger = logging.getLogger("habita.ai")
 
@@ -43,3 +43,20 @@ class CachingImageEditor(ImageEditorDecorator):
         if len(self._cache) > self.max_entries:
             self._cache.popitem(last=False)
         return result
+
+
+class FallbackImageEditor(ImageEditorDecorator):
+    """Falls back to a backup editor when the main provider fails, so a redesign never ends empty."""
+
+    def __init__(self, inner: ImageEditor, backup: ImageEditor) -> None:
+        super().__init__(inner)
+        self.backup = backup
+
+    def edit(self, image: ImageData, prompt: str) -> ImageData:
+        try:
+            return super().edit(image, prompt)
+        except AIError as error:
+            logger.warning(
+                "ai.fallback provider=%s backup=%s reason=%s", self.name, self.backup.name, error.user_message
+            )
+            return self.backup.edit(image, prompt)
