@@ -11,6 +11,7 @@ Proyecto final de **Patrones de Diseño**
 ![SQLAlchemy](https://img.shields.io/badge/SQLAlchemy-2-D71F00)
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-Neon-4169E1?logo=postgresql&logoColor=white)
 ![Docker](https://img.shields.io/badge/Docker-ready-2496ED?logo=docker&logoColor=white)
+![CI](https://github.com/Santiago425/decora-ia-backend/actions/workflows/ci.yml/badge.svg)
 
 </div>
 
@@ -206,12 +207,25 @@ uvicorn app.main:app --reload      # http://localhost:8000/api/v1/docs
 pytest
 ```
 
-Con Docker:
+Con Docker Compose (PostgreSQL + API, sin instalar Python):
+
+```bash
+cp .env.example .env
+docker compose up --build          # http://localhost:8000/api/v1/docs
+```
+
+Solo la imagen de la API:
 
 ```bash
 docker build -t habita-backend .
 docker run -p 8000:8000 --env-file .env habita-backend
 ```
+
+## Calidad
+
+- **87 pruebas** con pytest: autenticación y roles, catálogo, rediseño con IA simulada, cadena de validación de imágenes, estrategias de presupuesto, estados, proyectos 3D con versiones, Lumi (reglas, sanitizador de acciones y respaldo cuando falla la IA) y panel de administración.
+- **Integración continua** con GitHub Actions: en cada push se instalan dependencias, se corren las pruebas y se construye la imagen de Docker.
+- Despliegue automático en **Render** desde `main`; las migraciones de Alembic se aplican al arrancar el contenedor.
 
 ## Variables de entorno
 
@@ -221,6 +235,7 @@ Todas están en [`.env.example`](.env.example) con comentarios y se leen en un s
 |---|---|
 | `APP_NAME`, `APP_ENV`, `API_PREFIX`, `PORT` | Datos generales de la aplicación |
 | `DATABASE_URL`, `DATABASE_ECHO` | Conexión a la base de datos (SQLite en local, PostgreSQL en producción) |
+| `POSTGRES_DB`, `POSTGRES_USER`, `POSTGRES_PASSWORD`, `API_PORT` | Solo para `docker compose`: base de datos local y puerto de la API |
 | `CORS_ORIGINS` | Orígenes del frontend permitidos |
 | `JWT_SECRET`, `JWT_ALGORITHM`, `JWT_EXPIRE_MINUTES` | Firma y duración de las sesiones |
 | `LOGIN_RATE_LIMIT`, `REGISTER_RATE_LIMIT` | Límite de intentos |

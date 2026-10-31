@@ -17,3 +17,4 @@ jobs:
       - run: pip install -r requirements-dev.txt
       - run: pytest -q
       - run: docker build -t habita-backend .
+      - run: cp .env.example .env && docker compose config --quiet
