@@ -73,6 +73,7 @@ class FurnitureCategory(Base):
     name: Mapped[str] = mapped_column(String(60))
     icon: Mapped[str] = mapped_column(String(40), default="box")
     shape: Mapped[str] = mapped_column(String(40))
+    room_types: Mapped[list[str]] = mapped_column(JSON, default=list)
 
     items: Mapped[list["FurnitureItem"]] = relationship(back_populates="category")
 

@@ -1,17 +1,28 @@
 from contextlib import asynccontextmanager
+from pathlib import Path
 
 from fastapi import FastAPI, Request, status
 from fastapi.exceptions import RequestValidationError
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse, RedirectResponse
+from fastapi.staticfiles import StaticFiles
 from slowapi import _rate_limit_exceeded_handler
 from slowapi.errors import RateLimitExceeded
 
 from app.core.rate_limit import limiter
 from app.core.settings import get_settings
-from app.routers import auth, catalog, dashboard, health
+from app.routers import auth, catalog, dashboard, files, health, redesigns
 
-FIELD_LABELS = {"full_name": "nombre", "email": "correo", "password": "contraseña", "role": "tipo de cuenta"}
+FIELD_LABELS = {
+    "full_name": "nombre",
+    "email": "correo",
+    "password": "contraseña",
+    "role": "tipo de cuenta",
+    "image": "foto",
+    "room_type": "tipo de habitación",
+    "style": "estilo",
+    "budget": "presupuesto",
+}
 
 
 @asynccontextmanager
@@ -69,8 +80,13 @@ def create_app() -> FastAPI:
         response.headers.setdefault("Referrer-Policy", "no-referrer")
         return response
 
-    for router in (health.router, auth.router, catalog.router, dashboard.router):
+    for router in (health.router, auth.router, catalog.router, dashboard.router, redesigns.router, files.router):
         app.include_router(router, prefix=settings.api_prefix)
+
+    if settings.storage_provider == "local":
+        media = Path(settings.media_dir)
+        media.mkdir(parents=True, exist_ok=True)
+        app.mount(settings.media_url_path, StaticFiles(directory=media), name="media")
 
     @app.get("/", include_in_schema=False)
     def root() -> RedirectResponse:

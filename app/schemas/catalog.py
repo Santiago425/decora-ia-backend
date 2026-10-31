@@ -50,6 +50,7 @@ class FurnitureCategoryResponse(ORMModel):
     name: str
     icon: str
     shape: str
+    room_types: list[str]
 
 
 class FurnitureItemResponse(ORMModel):

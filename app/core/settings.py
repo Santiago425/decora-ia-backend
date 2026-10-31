@@ -32,6 +32,33 @@ class Settings(BaseSettings):
     demo_admin_email: str
     demo_admin_name: str
 
+    currency_code: str = "COP"
+
+    storage_provider: str = "local"
+    media_dir: str = "media"
+    media_url_path: str = "/media"
+    max_upload_mb: float = 8
+    min_image_side: int = 256
+    max_image_side: int = 1536
+
+    ai_text_provider: str = "mock"
+    ai_image_provider: str = "mock"
+    ai_timeout_seconds: float = 90
+    ai_cache_size: int = 32
+    redesign_rate_limit: str = "6/minute"
+
+    gemini_api_key: str = ""
+    gemini_api_base_url: str = "https://generativelanguage.googleapis.com/v1beta"
+    gemini_text_model: str = "gemini-2.5-flash"
+    gemini_image_model: str = "gemini-2.5-flash-image"
+
+    huggingface_api_token: str = ""
+    huggingface_api_base_url: str = "https://router.huggingface.co/hf-inference/models"
+    huggingface_image_model: str = ""
+
+    budget_economic_max: float = 3_000_000
+    budget_standard_max: float = 12_000_000
+
     @field_validator("cors_origins", mode="before")
     @classmethod
     def split_origins(cls, value: str | list[str]) -> list[str]:

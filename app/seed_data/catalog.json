@@ -1,124 +1,730 @@
 {
   "room_types": [
-    { "slug": "living_room", "name": "Sala", "icon": "sofa", "sort_order": 1 },
-    { "slug": "bedroom", "name": "Dormitorio", "icon": "bed-double", "sort_order": 2 },
-    { "slug": "kitchen", "name": "Cocina", "icon": "cooking-pot", "sort_order": 3 },
-    { "slug": "dining_room", "name": "Comedor", "icon": "utensils", "sort_order": 4 },
-    { "slug": "office", "name": "Oficina", "icon": "monitor", "sort_order": 5 },
-    { "slug": "bathroom", "name": "Baño", "icon": "bath", "sort_order": 6 }
+    {
+      "slug": "living_room",
+      "name": "Sala",
+      "icon": "sofa",
+      "sort_order": 1
+    },
+    {
+      "slug": "bedroom",
+      "name": "Dormitorio",
+      "icon": "bed-double",
+      "sort_order": 2
+    },
+    {
+      "slug": "kitchen",
+      "name": "Cocina",
+      "icon": "cooking-pot",
+      "sort_order": 3
+    },
+    {
+      "slug": "dining_room",
+      "name": "Comedor",
+      "icon": "utensils",
+      "sort_order": 4
+    },
+    {
+      "slug": "office",
+      "name": "Oficina",
+      "icon": "monitor",
+      "sort_order": 5
+    },
+    {
+      "slug": "bathroom",
+      "name": "Baño",
+      "icon": "bath",
+      "sort_order": 6
+    }
   ],
   "materials": [
-    { "slug": "wall_bone_white", "name": "Pintura blanco hueso", "surface": "wall", "color_hex": "#f2ede4", "roughness": 0.9, "metalness": 0, "price_per_unit": 18000 },
-    { "slug": "wall_sage_green", "name": "Pintura verde salvia", "surface": "wall", "color_hex": "#a9b49a", "roughness": 0.9, "metalness": 0, "price_per_unit": 22000 },
-    { "slug": "wall_terracotta", "name": "Pintura terracota", "surface": "wall", "color_hex": "#c4704f", "roughness": 0.9, "metalness": 0, "price_per_unit": 22000 },
-    { "slug": "wall_stone_grey", "name": "Gris piedra", "surface": "wall", "color_hex": "#9b9a96", "roughness": 0.85, "metalness": 0, "price_per_unit": 20000 },
-    { "slug": "wall_exposed_brick", "name": "Ladrillo visto", "surface": "wall", "color_hex": "#9c4f3a", "roughness": 1, "metalness": 0, "price_per_unit": 85000 },
-    { "slug": "wall_warm_sand", "name": "Arena cálida", "surface": "wall", "color_hex": "#e3d3bb", "roughness": 0.9, "metalness": 0, "price_per_unit": 20000 },
-    { "slug": "floor_light_oak", "name": "Roble claro", "surface": "floor", "color_hex": "#d2b48c", "roughness": 0.7, "metalness": 0, "price_per_unit": 120000 },
-    { "slug": "floor_walnut", "name": "Nogal", "surface": "floor", "color_hex": "#6b4a32", "roughness": 0.65, "metalness": 0, "price_per_unit": 160000 },
-    { "slug": "floor_microcement", "name": "Microcemento", "surface": "floor", "color_hex": "#b8b3ab", "roughness": 0.6, "metalness": 0, "price_per_unit": 140000 },
-    { "slug": "floor_white_porcelain", "name": "Porcelanato blanco", "surface": "floor", "color_hex": "#ecebe7", "roughness": 0.25, "metalness": 0, "price_per_unit": 95000 },
-    { "slug": "floor_terracotta_tile", "name": "Baldosa de barro", "surface": "floor", "color_hex": "#b5643f", "roughness": 0.8, "metalness": 0, "price_per_unit": 110000 },
-    { "slug": "floor_bamboo", "name": "Bambú natural", "surface": "floor", "color_hex": "#c9a96e", "roughness": 0.7, "metalness": 0, "price_per_unit": 130000 },
-    { "slug": "fabric_sand_linen", "name": "Lino arena", "surface": "furniture", "color_hex": "#d8c8ae", "roughness": 0.95, "metalness": 0, "price_per_unit": 0 },
-    { "slug": "leather_cognac", "name": "Cuero coñac", "surface": "furniture", "color_hex": "#8a4b2a", "roughness": 0.5, "metalness": 0, "price_per_unit": 0 },
-    { "slug": "metal_matte_black", "name": "Metal negro mate", "surface": "furniture", "color_hex": "#232323", "roughness": 0.4, "metalness": 0.8, "price_per_unit": 0 },
-    { "slug": "wood_ash", "name": "Madera de fresno", "surface": "furniture", "color_hex": "#d9c09b", "roughness": 0.7, "metalness": 0, "price_per_unit": 0 },
-    { "slug": "velvet_forest", "name": "Terciopelo verde bosque", "surface": "furniture", "color_hex": "#3f5a46", "roughness": 0.9, "metalness": 0, "price_per_unit": 0 },
-    { "slug": "rattan", "name": "Ratán", "surface": "furniture", "color_hex": "#c19a5b", "roughness": 0.85, "metalness": 0, "price_per_unit": 0 },
-    { "slug": "white_lacquer", "name": "Laca blanca", "surface": "furniture", "color_hex": "#f5f4f0", "roughness": 0.3, "metalness": 0, "price_per_unit": 0 },
-    { "slug": "brass", "name": "Latón", "surface": "furniture", "color_hex": "#b5924c", "roughness": 0.35, "metalness": 0.9, "price_per_unit": 0 }
+    {
+      "slug": "wall_bone_white",
+      "name": "Pintura blanco hueso",
+      "surface": "wall",
+      "color_hex": "#f2ede4",
+      "roughness": 0.9,
+      "metalness": 0,
+      "price_per_unit": 18000
+    },
+    {
+      "slug": "wall_sage_green",
+      "name": "Pintura verde salvia",
+      "surface": "wall",
+      "color_hex": "#a9b49a",
+      "roughness": 0.9,
+      "metalness": 0,
+      "price_per_unit": 22000
+    },
+    {
+      "slug": "wall_terracotta",
+      "name": "Pintura terracota",
+      "surface": "wall",
+      "color_hex": "#c4704f",
+      "roughness": 0.9,
+      "metalness": 0,
+      "price_per_unit": 22000
+    },
+    {
+      "slug": "wall_stone_grey",
+      "name": "Gris piedra",
+      "surface": "wall",
+      "color_hex": "#9b9a96",
+      "roughness": 0.85,
+      "metalness": 0,
+      "price_per_unit": 20000
+    },
+    {
+      "slug": "wall_exposed_brick",
+      "name": "Ladrillo visto",
+      "surface": "wall",
+      "color_hex": "#9c4f3a",
+      "roughness": 1,
+      "metalness": 0,
+      "price_per_unit": 85000
+    },
+    {
+      "slug": "wall_warm_sand",
+      "name": "Arena cálida",
+      "surface": "wall",
+      "color_hex": "#e3d3bb",
+      "roughness": 0.9,
+      "metalness": 0,
+      "price_per_unit": 20000
+    },
+    {
+      "slug": "floor_light_oak",
+      "name": "Roble claro",
+      "surface": "floor",
+      "color_hex": "#d2b48c",
+      "roughness": 0.7,
+      "metalness": 0,
+      "price_per_unit": 120000
+    },
+    {
+      "slug": "floor_walnut",
+      "name": "Nogal",
+      "surface": "floor",
+      "color_hex": "#6b4a32",
+      "roughness": 0.65,
+      "metalness": 0,
+      "price_per_unit": 160000
+    },
+    {
+      "slug": "floor_microcement",
+      "name": "Microcemento",
+      "surface": "floor",
+      "color_hex": "#b8b3ab",
+      "roughness": 0.6,
+      "metalness": 0,
+      "price_per_unit": 140000
+    },
+    {
+      "slug": "floor_white_porcelain",
+      "name": "Porcelanato blanco",
+      "surface": "floor",
+      "color_hex": "#ecebe7",
+      "roughness": 0.25,
+      "metalness": 0,
+      "price_per_unit": 95000
+    },
+    {
+      "slug": "floor_terracotta_tile",
+      "name": "Baldosa de barro",
+      "surface": "floor",
+      "color_hex": "#b5643f",
+      "roughness": 0.8,
+      "metalness": 0,
+      "price_per_unit": 110000
+    },
+    {
+      "slug": "floor_bamboo",
+      "name": "Bambú natural",
+      "surface": "floor",
+      "color_hex": "#c9a96e",
+      "roughness": 0.7,
+      "metalness": 0,
+      "price_per_unit": 130000
+    },
+    {
+      "slug": "fabric_sand_linen",
+      "name": "Lino arena",
+      "surface": "furniture",
+      "color_hex": "#d8c8ae",
+      "roughness": 0.95,
+      "metalness": 0,
+      "price_per_unit": 0
+    },
+    {
+      "slug": "leather_cognac",
+      "name": "Cuero coñac",
+      "surface": "furniture",
+      "color_hex": "#8a4b2a",
+      "roughness": 0.5,
+      "metalness": 0,
+      "price_per_unit": 0
+    },
+    {
+      "slug": "metal_matte_black",
+      "name": "Metal negro mate",
+      "surface": "furniture",
+      "color_hex": "#232323",
+      "roughness": 0.4,
+      "metalness": 0.8,
+      "price_per_unit": 0
+    },
+    {
+      "slug": "wood_ash",
+      "name": "Madera de fresno",
+      "surface": "furniture",
+      "color_hex": "#d9c09b",
+      "roughness": 0.7,
+      "metalness": 0,
+      "price_per_unit": 0
+    },
+    {
+      "slug": "velvet_forest",
+      "name": "Terciopelo verde bosque",
+      "surface": "furniture",
+      "color_hex": "#3f5a46",
+      "roughness": 0.9,
+      "metalness": 0,
+      "price_per_unit": 0
+    },
+    {
+      "slug": "rattan",
+      "name": "Ratán",
+      "surface": "furniture",
+      "color_hex": "#c19a5b",
+      "roughness": 0.85,
+      "metalness": 0,
+      "price_per_unit": 0
+    },
+    {
+      "slug": "white_lacquer",
+      "name": "Laca blanca",
+      "surface": "furniture",
+      "color_hex": "#f5f4f0",
+      "roughness": 0.3,
+      "metalness": 0,
+      "price_per_unit": 0
+    },
+    {
+      "slug": "brass",
+      "name": "Latón",
+      "surface": "furniture",
+      "color_hex": "#b5924c",
+      "roughness": 0.35,
+      "metalness": 0.9,
+      "price_per_unit": 0
+    }
   ],
   "styles": [
     {
-      "slug": "nordic", "name": "Nórdico", "sort_order": 1,
+      "slug": "nordic",
+      "name": "Nórdico",
+      "sort_order": 1,
       "description": "Madera clara, blancos suaves y mucha luz natural.",
       "image_url": "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?auto=format&fit=crop&w=1200&q=80",
-      "lighting_color": "#fff6e8", "lighting_intensity": 1.15,
-      "materials": ["wall_bone_white", "floor_light_oak", "fabric_sand_linen", "wood_ash"],
-      "palettes": [{ "name": "Bosque nórdico", "colors": ["#f4f1ea", "#d8c8ae", "#a9b49a", "#5f6b5a", "#2f3a33"] }]
+      "lighting_color": "#fff6e8",
+      "lighting_intensity": 1.15,
+      "materials": [
+        "wall_bone_white",
+        "floor_light_oak",
+        "fabric_sand_linen",
+        "wood_ash"
+      ],
+      "palettes": [
+        {
+          "name": "Bosque nórdico",
+          "colors": [
+            "#f4f1ea",
+            "#d8c8ae",
+            "#a9b49a",
+            "#5f6b5a",
+            "#2f3a33"
+          ]
+        }
+      ]
     },
     {
-      "slug": "industrial", "name": "Industrial", "sort_order": 2,
+      "slug": "industrial",
+      "name": "Industrial",
+      "sort_order": 2,
       "description": "Ladrillo, metal negro y tonos tostados.",
       "image_url": "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=1200&q=80",
-      "lighting_color": "#ffd9a8", "lighting_intensity": 0.85,
-      "materials": ["wall_exposed_brick", "floor_microcement", "leather_cognac", "metal_matte_black"],
-      "palettes": [{ "name": "Taller urbano", "colors": ["#2b2b2b", "#4a4a48", "#8a4b2a", "#9c4f3a", "#c9c3b8"] }]
+      "lighting_color": "#ffd9a8",
+      "lighting_intensity": 0.85,
+      "materials": [
+        "wall_exposed_brick",
+        "floor_microcement",
+        "leather_cognac",
+        "metal_matte_black"
+      ],
+      "palettes": [
+        {
+          "name": "Taller urbano",
+          "colors": [
+            "#2b2b2b",
+            "#4a4a48",
+            "#8a4b2a",
+            "#9c4f3a",
+            "#c9c3b8"
+          ]
+        }
+      ]
     },
     {
-      "slug": "minimalist", "name": "Minimalista", "sort_order": 3,
+      "slug": "minimalist",
+      "name": "Minimalista",
+      "sort_order": 3,
       "description": "Solo lo esencial, superficies limpias y calma.",
       "image_url": "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=1200&q=80",
-      "lighting_color": "#ffffff", "lighting_intensity": 1.1,
-      "materials": ["wall_bone_white", "floor_white_porcelain", "white_lacquer", "wood_ash"],
-      "palettes": [{ "name": "Calma blanca", "colors": ["#ffffff", "#f1efea", "#d9d4cb", "#a8a197", "#3a3835"] }]
+      "lighting_color": "#ffffff",
+      "lighting_intensity": 1.1,
+      "materials": [
+        "wall_bone_white",
+        "floor_white_porcelain",
+        "white_lacquer",
+        "wood_ash"
+      ],
+      "palettes": [
+        {
+          "name": "Calma blanca",
+          "colors": [
+            "#ffffff",
+            "#f1efea",
+            "#d9d4cb",
+            "#a8a197",
+            "#3a3835"
+          ]
+        }
+      ]
     },
     {
-      "slug": "boho", "name": "Boho", "sort_order": 4,
+      "slug": "boho",
+      "name": "Boho",
+      "sort_order": 4,
       "description": "Texturas naturales, plantas y colores tierra.",
       "image_url": "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&w=1200&q=80",
-      "lighting_color": "#ffe2b8", "lighting_intensity": 0.95,
-      "materials": ["wall_terracotta", "floor_terracotta_tile", "rattan", "fabric_sand_linen"],
-      "palettes": [{ "name": "Atardecer boho", "colors": ["#f2cc8f", "#e07a5f", "#c4704f", "#81b29a", "#3d405b"] }]
+      "lighting_color": "#ffe2b8",
+      "lighting_intensity": 0.95,
+      "materials": [
+        "wall_terracotta",
+        "floor_terracotta_tile",
+        "rattan",
+        "fabric_sand_linen"
+      ],
+      "palettes": [
+        {
+          "name": "Atardecer boho",
+          "colors": [
+            "#f2cc8f",
+            "#e07a5f",
+            "#c4704f",
+            "#81b29a",
+            "#3d405b"
+          ]
+        }
+      ]
     },
     {
-      "slug": "modern", "name": "Moderno", "sort_order": 5,
+      "slug": "modern",
+      "name": "Moderno",
+      "sort_order": 5,
       "description": "Líneas rectas, contrastes y acabados actuales.",
       "image_url": "https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?auto=format&fit=crop&w=1200&q=80",
-      "lighting_color": "#fff2e0", "lighting_intensity": 1.0,
-      "materials": ["wall_stone_grey", "floor_walnut", "velvet_forest", "metal_matte_black"],
-      "palettes": [{ "name": "Contraste moderno", "colors": ["#e9e6e1", "#9b9a96", "#3f5a46", "#6b4a32", "#1f1f1f"] }]
+      "lighting_color": "#fff2e0",
+      "lighting_intensity": 1.0,
+      "materials": [
+        "wall_stone_grey",
+        "floor_walnut",
+        "velvet_forest",
+        "metal_matte_black"
+      ],
+      "palettes": [
+        {
+          "name": "Contraste moderno",
+          "colors": [
+            "#e9e6e1",
+            "#9b9a96",
+            "#3f5a46",
+            "#6b4a32",
+            "#1f1f1f"
+          ]
+        }
+      ]
     },
     {
-      "slug": "classic", "name": "Clásico", "sort_order": 6,
+      "slug": "classic",
+      "name": "Clásico",
+      "sort_order": 6,
       "description": "Molduras, maderas nobles y detalles dorados.",
       "image_url": "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1200&q=80",
-      "lighting_color": "#ffe9c4", "lighting_intensity": 0.9,
-      "materials": ["wall_warm_sand", "floor_walnut", "velvet_forest", "brass"],
-      "palettes": [{ "name": "Salón clásico", "colors": ["#efe6d6", "#c8b48f", "#b5924c", "#5a3e2b", "#2e3b33"] }]
+      "lighting_color": "#ffe9c4",
+      "lighting_intensity": 0.9,
+      "materials": [
+        "wall_warm_sand",
+        "floor_walnut",
+        "velvet_forest",
+        "brass"
+      ],
+      "palettes": [
+        {
+          "name": "Salón clásico",
+          "colors": [
+            "#efe6d6",
+            "#c8b48f",
+            "#b5924c",
+            "#5a3e2b",
+            "#2e3b33"
+          ]
+        }
+      ]
     },
     {
-      "slug": "japandi", "name": "Japandi", "sort_order": 7,
+      "slug": "japandi",
+      "name": "Japandi",
+      "sort_order": 7,
       "description": "Lo mejor del estilo japonés y nórdico: sereno y natural.",
       "image_url": "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=80",
-      "lighting_color": "#fff1dc", "lighting_intensity": 1.0,
-      "materials": ["wall_warm_sand", "floor_bamboo", "wood_ash", "fabric_sand_linen"],
-      "palettes": [{ "name": "Té verde", "colors": ["#f3eee6", "#d6c7b0", "#a9b49a", "#7a6a58", "#2f2b27"] }]
+      "lighting_color": "#fff1dc",
+      "lighting_intensity": 1.0,
+      "materials": [
+        "wall_warm_sand",
+        "floor_bamboo",
+        "wood_ash",
+        "fabric_sand_linen"
+      ],
+      "palettes": [
+        {
+          "name": "Té verde",
+          "colors": [
+            "#f3eee6",
+            "#d6c7b0",
+            "#a9b49a",
+            "#7a6a58",
+            "#2f2b27"
+          ]
+        }
+      ]
     }
   ],
   "furniture_categories": [
-    { "slug": "sofa", "name": "Sofás", "icon": "sofa", "shape": "sofa" },
-    { "slug": "bed", "name": "Camas", "icon": "bed-double", "shape": "bed" },
-    { "slug": "table", "name": "Mesas", "icon": "table", "shape": "table" },
-    { "slug": "chair", "name": "Sillas", "icon": "armchair", "shape": "chair" },
-    { "slug": "lamp", "name": "Lámparas", "icon": "lamp", "shape": "lamp" },
-    { "slug": "shelf", "name": "Estantes", "icon": "library", "shape": "shelf" },
-    { "slug": "rug", "name": "Alfombras", "icon": "rectangle-horizontal", "shape": "rug" },
-    { "slug": "plant", "name": "Plantas", "icon": "sprout", "shape": "plant" },
-    { "slug": "desk", "name": "Escritorios", "icon": "monitor", "shape": "desk" },
-    { "slug": "storage", "name": "Almacenamiento", "icon": "archive", "shape": "cabinet" }
+    {
+      "slug": "sofa",
+      "name": "Sofás",
+      "icon": "sofa",
+      "shape": "sofa",
+      "room_types": [
+        "living_room",
+        "office"
+      ]
+    },
+    {
+      "slug": "bed",
+      "name": "Camas",
+      "icon": "bed-double",
+      "shape": "bed",
+      "room_types": [
+        "bedroom"
+      ]
+    },
+    {
+      "slug": "table",
+      "name": "Mesas",
+      "icon": "table",
+      "shape": "table",
+      "room_types": [
+        "living_room",
+        "dining_room",
+        "kitchen"
+      ]
+    },
+    {
+      "slug": "chair",
+      "name": "Sillas",
+      "icon": "armchair",
+      "shape": "chair",
+      "room_types": [
+        "living_room",
+        "dining_room",
+        "office",
+        "bedroom"
+      ]
+    },
+    {
+      "slug": "lamp",
+      "name": "Lámparas",
+      "icon": "lamp",
+      "shape": "lamp",
+      "room_types": [
+        "living_room",
+        "bedroom",
+        "office",
+        "dining_room"
+      ]
+    },
+    {
+      "slug": "shelf",
+      "name": "Estantes",
+      "icon": "library",
+      "shape": "shelf",
+      "room_types": [
+        "living_room",
+        "office",
+        "bedroom"
+      ]
+    },
+    {
+      "slug": "rug",
+      "name": "Alfombras",
+      "icon": "rectangle-horizontal",
+      "shape": "rug",
+      "room_types": [
+        "living_room",
+        "bedroom",
+        "dining_room"
+      ]
+    },
+    {
+      "slug": "plant",
+      "name": "Plantas",
+      "icon": "sprout",
+      "shape": "plant",
+      "room_types": [
+        "living_room",
+        "bedroom",
+        "office",
+        "bathroom",
+        "kitchen",
+        "dining_room"
+      ]
+    },
+    {
+      "slug": "desk",
+      "name": "Escritorios",
+      "icon": "monitor",
+      "shape": "desk",
+      "room_types": [
+        "office",
+        "bedroom"
+      ]
+    },
+    {
+      "slug": "storage",
+      "name": "Almacenamiento",
+      "icon": "archive",
+      "shape": "cabinet",
+      "room_types": [
+        "living_room",
+        "dining_room",
+        "bedroom",
+        "kitchen",
+        "bathroom"
+      ]
+    }
   ],
   "furniture_items": [
-    { "category": "sofa", "name": "Sofá Oslo 3 puestos", "description": "Tapizado en lino, patas de roble.", "price": 2890000, "width": 2.1, "depth": 0.9, "height": 0.82, "default_color": "#d8c8ae" },
-    { "category": "sofa", "name": "Sofá Chester de cuero", "description": "Cuero coñac con capitoné.", "price": 4650000, "width": 2.2, "depth": 0.95, "height": 0.78, "default_color": "#8a4b2a" },
-    { "category": "sofa", "name": "Sofá modular Nube", "description": "Módulos en terciopelo.", "price": 3990000, "width": 2.6, "depth": 1.0, "height": 0.75, "default_color": "#3f5a46" },
-    { "category": "bed", "name": "Cama Kioto doble", "description": "Base baja de madera de fresno.", "price": 2350000, "width": 1.6, "depth": 2.1, "height": 0.9, "default_color": "#d9c09b" },
-    { "category": "bed", "name": "Cama tapizada Aurora", "description": "Cabecero alto en tela.", "price": 2990000, "width": 1.8, "depth": 2.15, "height": 1.2, "default_color": "#e3d3bb" },
-    { "category": "table", "name": "Mesa de centro Roble", "description": "Redonda, madera maciza.", "price": 690000, "width": 0.9, "depth": 0.9, "height": 0.42, "default_color": "#c8a27a" },
-    { "category": "table", "name": "Comedor Nogal 6 puestos", "description": "Rectangular de nogal.", "price": 3200000, "width": 1.9, "depth": 0.95, "height": 0.76, "default_color": "#6b4a32" },
-    { "category": "table", "name": "Mesa auxiliar de metal", "description": "Estructura negra mate.", "price": 320000, "width": 0.45, "depth": 0.45, "height": 0.55, "default_color": "#232323" },
-    { "category": "chair", "name": "Silla Windsor", "description": "Madera torneada clásica.", "price": 380000, "width": 0.5, "depth": 0.52, "height": 0.9, "default_color": "#c19a5b" },
-    { "category": "chair", "name": "Butaca Lounge", "description": "Butaca tapizada para lectura.", "price": 1450000, "width": 0.8, "depth": 0.85, "height": 0.8, "default_color": "#a9b49a" },
-    { "category": "lamp", "name": "Lámpara de pie Arco", "description": "Arco de latón con pantalla.", "price": 790000, "width": 0.4, "depth": 1.2, "height": 1.9, "default_color": "#b5924c" },
-    { "category": "lamp", "name": "Lámpara de mesa Papel", "description": "Pantalla de papel de arroz.", "price": 240000, "width": 0.3, "depth": 0.3, "height": 0.45, "default_color": "#f3eee6" },
-    { "category": "shelf", "name": "Estantería Escalera", "description": "Cinco niveles en fresno.", "price": 890000, "width": 0.8, "depth": 0.35, "height": 1.8, "default_color": "#d9c09b" },
-    { "category": "shelf", "name": "Biblioteca Industrial", "description": "Metal y madera recuperada.", "price": 1250000, "width": 1.2, "depth": 0.4, "height": 2.0, "default_color": "#4a4a48" },
-    { "category": "rug", "name": "Alfombra de yute", "description": "Tejida a mano, 2 x 3 m.", "price": 560000, "width": 2.0, "depth": 3.0, "height": 0.01, "default_color": "#c9a96e" },
-    { "category": "rug", "name": "Alfombra bereber", "description": "Lana con patrón geométrico.", "price": 980000, "width": 1.6, "depth": 2.3, "height": 0.015, "default_color": "#efe6d6" },
-    { "category": "plant", "name": "Monstera en maceta", "description": "Planta grande de interior.", "price": 180000, "width": 0.6, "depth": 0.6, "height": 1.3, "default_color": "#3d805b" },
-    { "category": "plant", "name": "Olivo pequeño", "description": "Maceta de barro.", "price": 220000, "width": 0.5, "depth": 0.5, "height": 1.5, "default_color": "#7d8f69" },
-    { "category": "desk", "name": "Escritorio Estudio", "description": "Tablero de roble con cajón.", "price": 1150000, "width": 1.4, "depth": 0.7, "height": 0.75, "default_color": "#d2b48c" },
-    { "category": "storage", "name": "Aparador Sideboard", "description": "Cuatro puertas, laca blanca.", "price": 1690000, "width": 1.8, "depth": 0.45, "height": 0.8, "default_color": "#f5f4f0" }
+    {
+      "category": "sofa",
+      "name": "Sofá Oslo 3 puestos",
+      "description": "Tapizado en lino, patas de roble.",
+      "price": 2890000,
+      "width": 2.1,
+      "depth": 0.9,
+      "height": 0.82,
+      "default_color": "#d8c8ae"
+    },
+    {
+      "category": "sofa",
+      "name": "Sofá Chester de cuero",
+      "description": "Cuero coñac con capitoné.",
+      "price": 4650000,
+      "width": 2.2,
+      "depth": 0.95,
+      "height": 0.78,
+      "default_color": "#8a4b2a"
+    },
+    {
+      "category": "sofa",
+      "name": "Sofá modular Nube",
+      "description": "Módulos en terciopelo.",
+      "price": 3990000,
+      "width": 2.6,
+      "depth": 1.0,
+      "height": 0.75,
+      "default_color": "#3f5a46"
+    },
+    {
+      "category": "bed",
+      "name": "Cama Kioto doble",
+      "description": "Base baja de madera de fresno.",
+      "price": 2350000,
+      "width": 1.6,
+      "depth": 2.1,
+      "height": 0.9,
+      "default_color": "#d9c09b"
+    },
+    {
+      "category": "bed",
+      "name": "Cama tapizada Aurora",
+      "description": "Cabecero alto en tela.",
+      "price": 2990000,
+      "width": 1.8,
+      "depth": 2.15,
+      "height": 1.2,
+      "default_color": "#e3d3bb"
+    },
+    {
+      "category": "table",
+      "name": "Mesa de centro Roble",
+      "description": "Redonda, madera maciza.",
+      "price": 690000,
+      "width": 0.9,
+      "depth": 0.9,
+      "height": 0.42,
+      "default_color": "#c8a27a"
+    },
+    {
+      "category": "table",
+      "name": "Comedor Nogal 6 puestos",
+      "description": "Rectangular de nogal.",
+      "price": 3200000,
+      "width": 1.9,
+      "depth": 0.95,
+      "height": 0.76,
+      "default_color": "#6b4a32"
+    },
+    {
+      "category": "table",
+      "name": "Mesa auxiliar de metal",
+      "description": "Estructura negra mate.",
+      "price": 320000,
+      "width": 0.45,
+      "depth": 0.45,
+      "height": 0.55,
+      "default_color": "#232323"
+    },
+    {
+      "category": "chair",
+      "name": "Silla Windsor",
+      "description": "Madera torneada clásica.",
+      "price": 380000,
+      "width": 0.5,
+      "depth": 0.52,
+      "height": 0.9,
+      "default_color": "#c19a5b"
+    },
+    {
+      "category": "chair",
+      "name": "Butaca Lounge",
+      "description": "Butaca tapizada para lectura.",
+      "price": 1450000,
+      "width": 0.8,
+      "depth": 0.85,
+      "height": 0.8,
+      "default_color": "#a9b49a"
+    },
+    {
+      "category": "lamp",
+      "name": "Lámpara de pie Arco",
+      "description": "Arco de latón con pantalla.",
+      "price": 790000,
+      "width": 0.4,
+      "depth": 1.2,
+      "height": 1.9,
+      "default_color": "#b5924c"
+    },
+    {
+      "category": "lamp",
+      "name": "Lámpara de mesa Papel",
+      "description": "Pantalla de papel de arroz.",
+      "price": 240000,
+      "width": 0.3,
+      "depth": 0.3,
+      "height": 0.45,
+      "default_color": "#f3eee6"
+    },
+    {
+      "category": "shelf",
+      "name": "Estantería Escalera",
+      "description": "Cinco niveles en fresno.",
+      "price": 890000,
+      "width": 0.8,
+      "depth": 0.35,
+      "height": 1.8,
+      "default_color": "#d9c09b"
+    },
+    {
+      "category": "shelf",
+      "name": "Biblioteca Industrial",
+      "description": "Metal y madera recuperada.",
+      "price": 1250000,
+      "width": 1.2,
+      "depth": 0.4,
+      "height": 2.0,
+      "default_color": "#4a4a48"
+    },
+    {
+      "category": "rug",
+      "name": "Alfombra de yute",
+      "description": "Tejida a mano, 2 x 3 m.",
+      "price": 560000,
+      "width": 2.0,
+      "depth": 3.0,
+      "height": 0.01,
+      "default_color": "#c9a96e"
+    },
+    {
+      "category": "rug",
+      "name": "Alfombra bereber",
+      "description": "Lana con patrón geométrico.",
+      "price": 980000,
+      "width": 1.6,
+      "depth": 2.3,
+      "height": 0.015,
+      "default_color": "#efe6d6"
+    },
+    {
+      "category": "plant",
+      "name": "Monstera en maceta",
+      "description": "Planta grande de interior.",
+      "price": 180000,
+      "width": 0.6,
+      "depth": 0.6,
+      "height": 1.3,
+      "default_color": "#3d805b"
+    },
+    {
+      "category": "plant",
+      "name": "Olivo pequeño",
+      "description": "Maceta de barro.",
+      "price": 220000,
+      "width": 0.5,
+      "depth": 0.5,
+      "height": 1.5,
+      "default_color": "#7d8f69"
+    },
+    {
+      "category": "desk",
+      "name": "Escritorio Estudio",
+      "description": "Tablero de roble con cajón.",
+      "price": 1150000,
+      "width": 1.4,
+      "depth": 0.7,
+      "height": 0.75,
+      "default_color": "#d2b48c"
+    },
+    {
+      "category": "storage",
+      "name": "Aparador Sideboard",
+      "description": "Cuatro puertas, laca blanca.",
+      "price": 1690000,
+      "width": 1.8,
+      "depth": 0.45,
+      "height": 0.8,
+      "default_color": "#f5f4f0"
+    }
   ]
 }

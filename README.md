@@ -48,8 +48,17 @@ Los routers nunca tocan la base de datos: reciben los servicios por **inyección
 | **Singleton** | Creacional | [`app/patterns/singleton.py`](app/patterns/singleton.py), [`app/core/database.py`](app/core/database.py) | Una sola conexión (motor y pool) a la base de datos por proceso. |
 | **Repository** | Arquitectura | [`app/repositories/`](app/repositories) | Los servicios piden y guardan entidades sin escribir SQL. |
 | **Inyección de dependencias** | Arquitectura | [`app/dependencies.py`](app/dependencies.py) | Cada endpoint recibe sus servicios ya armados; en las pruebas se pueden reemplazar. |
+| **Singleton** | Creacional | [`app/patterns/ai/ai_client.py`](app/patterns/ai/ai_client.py) | Un solo cliente de IA por proceso, con su caché compartida. |
+| **Builder** | Creacional | [`app/patterns/builders/redesign_request_builder.py`](app/patterns/builders/redesign_request_builder.py) | Arma paso a paso la petición a la IA (foto, habitación, estilo, paleta, presupuesto, conservar estructura) y la valida al final. |
+| **Adapter** | Estructural | [`app/patterns/ai/`](app/patterns/ai) | `GeminiImageEditor`, `HuggingFaceImageEditor` y `MockImageEditor` traducen cada API a la misma interfaz; el proveedor se cambia con `AI_IMAGE_PROVIDER` / `AI_TEXT_PROVIDER`. |
+| **Adapter** | Estructural | [`app/patterns/storage/storage_adapter.py`](app/patterns/storage/storage_adapter.py) | Guardar fotos en disco (desarrollo) o en la base de datos en la nube (producción) con la misma interfaz (`STORAGE_PROVIDER`). |
+| **Decorator** | Estructural | [`app/patterns/ai/ai_decorators.py`](app/patterns/ai/ai_decorators.py) | Añade caché y registro de tiempos a cualquier proveedor de IA sin modificarlo. |
+| **Facade** | Estructural | [`app/patterns/facades/redesign_facade.py`](app/patterns/facades/redesign_facade.py) | `create_redesign()` valida la foto, la guarda, llama a la IA, calcula sugerencias y presupuesto y registra el proyecto en una sola llamada. |
+| **Chain of Responsibility** | Comportamiento | [`app/patterns/validators/image_validators.py`](app/patterns/validators/image_validators.py) | Formato → tamaño → resolución → contenido: cada validador pasa la foto al siguiente o la rechaza con un mensaje claro. |
+| **Strategy** | Comportamiento | [`app/patterns/strategies/budget_strategies.py`](app/patterns/strategies/budget_strategies.py) | Presupuesto económico, medio o premium: cada estrategia elige productos distintos sin pasarse del presupuesto. |
+| **State** | Comportamiento | [`app/patterns/states/redesign_states.py`](app/patterns/states/redesign_states.py) | Subiendo → procesando → listo / error: cada estado decide a cuál se puede pasar (un error se puede reintentar). |
 
-Los demás patrones (Factory Method, Abstract Factory, Builder, Prototype, Adapter, Facade, Decorator, Composite, Proxy, Strategy, Command, Memento, Observer, State, Chain of Responsibility y Template Method) se suman en las siguientes fases.
+Los demás patrones (Factory Method, Abstract Factory, Prototype, Composite, Command, Memento y Template Method) se suman en las siguientes fases.
 
 ## Base de datos
 
@@ -109,6 +118,11 @@ Las tablas se crean con migraciones de **Alembic** ([`migrations/`](migrations))
 | `POST` | `/api/v1/auth/login` | Inicia sesión como usuario o administrador (`role`) |
 | `GET` | `/api/v1/auth/me` | Datos de la sesión 🔐 |
 | `GET` | `/api/v1/dashboard` | Resumen del usuario: proyectos, rediseños, estilo favorito, presupuesto, actividad y últimos proyectos 🔐 |
+| `POST` | `/api/v1/redesigns` | Rediseña una foto (multipart: `image`, `room_type`, `style`, `palette`, `budget`, `keep_structure`) 🔐 |
+| `GET` | `/api/v1/redesigns/{id}` | Consulta un rediseño 🔐 |
+| `POST` | `/api/v1/redesigns/{id}/variations` | Genera otra versión con la misma foto 🔐 |
+| `POST` | `/api/v1/redesigns/{id}/retry` | Reintenta un rediseño que falló 🔐 |
+| `GET` | `/api/v1/files/{id}` | Imagen guardada en la base de datos |
 | `GET` | `/api/v1/catalog/styles` | Estilos con sus paletas y materiales |
 | `GET` | `/api/v1/catalog/room-types` | Tipos de habitación |
 | `GET` | `/api/v1/catalog/furniture-categories` | Categorías de muebles |
@@ -170,6 +184,12 @@ Todas están en [`.env.example`](.env.example) con comentarios y se leen en un s
 | `SEED_ON_STARTUP` | Cargar catálogo y cuentas de prueba al arrancar |
 | `SEED_DEMO_PROJECTS` | Agregar proyectos de ejemplo a la cuenta de usuario de prueba |
 | `DEMO_PASSWORD`, `DEMO_USER_*`, `DEMO_ADMIN_*` | Cuentas de prueba |
+| `CURRENCY_CODE`, `BUDGET_ECONOMIC_MAX`, `BUDGET_STANDARD_MAX` | Moneda y límites de cada estrategia de presupuesto |
+| `STORAGE_PROVIDER`, `MEDIA_DIR`, `MEDIA_URL_PATH` | Dónde se guardan las fotos |
+| `MAX_UPLOAD_MB`, `MIN_IMAGE_SIDE`, `MAX_IMAGE_SIDE` | Reglas de la cadena de validación de imágenes |
+| `AI_TEXT_PROVIDER`, `AI_IMAGE_PROVIDER`, `AI_TIMEOUT_SECONDS`, `AI_CACHE_SIZE`, `REDESIGN_RATE_LIMIT` | Proveedor de IA, tiempo de espera, caché y límite de rediseños |
+| `GEMINI_API_KEY`, `GEMINI_API_BASE_URL`, `GEMINI_TEXT_MODEL`, `GEMINI_IMAGE_MODEL` | Google Gemini |
+| `HUGGINGFACE_API_TOKEN`, `HUGGINGFACE_API_BASE_URL`, `HUGGINGFACE_IMAGE_MODEL` | Hugging Face (alternativa para imágenes) |
 
 ## Estructura
 
@@ -180,7 +200,7 @@ app/
 ├── schemas/         Entrada y salida (Pydantic)
 ├── repositories/    Acceso a datos (Repository)
 ├── services/        Lógica de negocio
-├── patterns/        Implementaciones de los patrones de diseño
+├── patterns/        Patrones: ai, builders, facades, states, storage, strategies, validators
 ├── routers/         Endpoints REST
 ├── seed_data/       Catálogo inicial en JSON
 ├── dependencies.py  Inyección de dependencias

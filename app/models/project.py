@@ -65,6 +65,7 @@ class Redesign(Base):
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utc_now)
 
     project: Mapped[Project] = relationship(back_populates="redesigns")
+    style: Mapped["DesignStyle | None"] = relationship()  # noqa: F821
 
 
 class SceneVersion(Base):

@@ -57,8 +57,11 @@ def seed_catalog(session: Session, data: dict) -> None:
 
     categories = FurnitureCategoryRepository(session)
     for item in data["furniture_categories"]:
-        if not categories.get_by_slug(item["slug"]):
+        category = categories.get_by_slug(item["slug"])
+        if category is None:
             session.add(categories.model(**item))
+        elif not category.room_types:
+            category.room_types = item["room_types"]
     session.flush()
 
     if not session.query(FurnitureItem).first():
