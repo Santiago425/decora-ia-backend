@@ -39,7 +39,11 @@ class Project(TimestampMixin, Base):
     scene: Mapped[dict | None] = mapped_column(JSON)
 
     owner: Mapped["User"] = relationship(back_populates="projects")  # noqa: F821
-    redesigns: Mapped[list["Redesign"]] = relationship(back_populates="project", cascade="all, delete-orphan")
+    style: Mapped["DesignStyle | None"] = relationship()  # noqa: F821
+    room_type: Mapped["RoomType | None"] = relationship()  # noqa: F821
+    redesigns: Mapped[list["Redesign"]] = relationship(
+        back_populates="project", cascade="all, delete-orphan", order_by="Redesign.created_at.desc()"
+    )
     scene_versions: Mapped[list["SceneVersion"]] = relationship(back_populates="project", cascade="all, delete-orphan")
 
 

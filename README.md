@@ -108,6 +108,7 @@ Las tablas se crean con migraciones de **Alembic** ([`migrations/`](migrations))
 | `POST` | `/api/v1/auth/register` | Crea una cuenta de usuario |
 | `POST` | `/api/v1/auth/login` | Inicia sesión como usuario o administrador (`role`) |
 | `GET` | `/api/v1/auth/me` | Datos de la sesión 🔐 |
+| `GET` | `/api/v1/dashboard` | Resumen del usuario: proyectos, rediseños, estilo favorito, presupuesto, actividad y últimos proyectos 🔐 |
 | `GET` | `/api/v1/catalog/styles` | Estilos con sus paletas y materiales |
 | `GET` | `/api/v1/catalog/room-types` | Tipos de habitación |
 | `GET` | `/api/v1/catalog/furniture-categories` | Categorías de muebles |
@@ -167,6 +168,7 @@ Todas están en [`.env.example`](.env.example) con comentarios y se leen en un s
 | `JWT_SECRET`, `JWT_ALGORITHM`, `JWT_EXPIRE_MINUTES` | Firma y duración de las sesiones |
 | `LOGIN_RATE_LIMIT`, `REGISTER_RATE_LIMIT` | Límite de intentos |
 | `SEED_ON_STARTUP` | Cargar catálogo y cuentas de prueba al arrancar |
+| `SEED_DEMO_PROJECTS` | Agregar proyectos de ejemplo a la cuenta de usuario de prueba |
 | `DEMO_PASSWORD`, `DEMO_USER_*`, `DEMO_ADMIN_*` | Cuentas de prueba |
 
 ## Estructura

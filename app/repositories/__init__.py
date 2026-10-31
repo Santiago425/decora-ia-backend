@@ -6,7 +6,7 @@ from app.repositories.catalog_repositories import (
     RoomTypeRepository,
     StyleRepository,
 )
-from app.repositories.project_repository import ProjectRepository
+from app.repositories.project_repository import ProjectRepository, RedesignRepository
 from app.repositories.user_repository import UserRepository
 
 __all__ = [
@@ -15,6 +15,7 @@ __all__ = [
     "MaterialRepository",
     "PaletteRepository",
     "ProjectRepository",
+    "RedesignRepository",
     "RoomTypeRepository",
     "StyleRepository",
     "UserRepository",

@@ -25,6 +25,7 @@ class Settings(BaseSettings):
     register_rate_limit: str = "5/minute"
 
     seed_on_startup: bool = False
+    seed_demo_projects: bool = False
     demo_password: str = Field(min_length=8)
     demo_user_email: str
     demo_user_name: str

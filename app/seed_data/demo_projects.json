@@ -1,0 +1,25 @@
+[
+  {
+    "name": "Sala luminosa", "room_type": "living_room", "style": "nordic", "status": "finished",
+    "estimated_budget": 6850000, "days_ago": 2,
+    "before_image_url": "https://images.unsplash.com/photo-1493809842364-78817add7ffb?auto=format&fit=crop&w=1000&q=75",
+    "after_image_url": "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?auto=format&fit=crop&w=1000&q=75"
+  },
+  {
+    "name": "Dormitorio sereno", "room_type": "bedroom", "style": "japandi", "status": "in_design",
+    "estimated_budget": 4320000, "days_ago": 5,
+    "before_image_url": "https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=1000&q=75",
+    "after_image_url": "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1000&q=75"
+  },
+  {
+    "name": "Estudio de trabajo", "room_type": "office", "style": "industrial", "status": "in_design",
+    "estimated_budget": 3790000, "days_ago": 9,
+    "before_image_url": "https://images.unsplash.com/photo-1524758631624-e2822e304c36?auto=format&fit=crop&w=1000&q=75",
+    "after_image_url": "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=1000&q=75"
+  },
+  {
+    "name": "Comedor familiar", "room_type": "dining_room", "style": "nordic", "status": "draft",
+    "estimated_budget": 2950000, "days_ago": 14,
+    "before_image_url": null, "after_image_url": null
+  }
+]

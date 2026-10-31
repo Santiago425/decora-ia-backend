@@ -14,12 +14,15 @@ from app.repositories import (
     FurnitureRepository,
     MaterialRepository,
     PaletteRepository,
+    ProjectRepository,
+    RedesignRepository,
     RoomTypeRepository,
     StyleRepository,
     UserRepository,
 )
 from app.services.auth_service import AuthService
 from app.services.catalog_service import CatalogService
+from app.services.dashboard_service import DashboardService
 
 DbSession = Annotated[Session, Depends(get_db)]
 bearer_scheme = HTTPBearer(auto_error=False)
@@ -42,6 +45,10 @@ def get_catalog_service(db: DbSession) -> CatalogService:
         MaterialRepository(db),
         PaletteRepository(db),
     )
+
+
+def get_dashboard_service(db: DbSession) -> DashboardService:
+    return DashboardService(ProjectRepository(db), RedesignRepository(db))
 
 
 def get_current_user(

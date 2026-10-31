@@ -13,6 +13,7 @@ os.environ.update(
         "LOGIN_RATE_LIMIT": "1000/minute",
         "REGISTER_RATE_LIMIT": "1000/minute",
         "SEED_ON_STARTUP": "false",
+        "SEED_DEMO_PROJECTS": "true",
         "DEMO_PASSWORD": "DemoPass123",
         "DEMO_USER_EMAIL": "user@test.app",
         "DEMO_USER_NAME": "Test User",
