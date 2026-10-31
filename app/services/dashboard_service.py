@@ -4,9 +4,9 @@ from app.schemas.dashboard import (
     ActivityItem,
     DashboardResponse,
     DashboardStats,
-    ProjectSummary,
     StyleUsage,
 )
+from app.services.project_service import to_summary
 
 RECENT_PROJECTS = 6
 RECENT_ACTIVITY = 6
@@ -30,7 +30,7 @@ class DashboardService:
             stats=stats,
             style_usage=usage,
             recent_activity=self._activity(user, recent),
-            recent_projects=[self._summary(project) for project in recent],
+            recent_projects=[to_summary(project) for project in recent],
         )
 
     def _activity(self, user: User, recent_projects: list[Project]) -> list[ActivityItem]:
@@ -43,18 +43,3 @@ class DashboardService:
             for r in self.redesigns.recent_by_user(user.id, RECENT_ACTIVITY)
         ]
         return sorted(items, key=lambda item: item.happened_at, reverse=True)[:RECENT_ACTIVITY]
-
-    @staticmethod
-    def _summary(project: Project) -> ProjectSummary:
-        latest = project.redesigns[0] if project.redesigns else None
-        return ProjectSummary(
-            id=project.id,
-            name=project.name,
-            status=project.status,
-            style_name=project.style.name if project.style else None,
-            room_type_name=project.room_type.name if project.room_type else None,
-            estimated_budget=project.estimated_budget,
-            before_image_url=latest.original_image_url if latest else None,
-            after_image_url=latest.result_image_url if latest else None,
-            updated_at=project.updated_at,
-        )

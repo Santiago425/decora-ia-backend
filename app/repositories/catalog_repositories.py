@@ -1,7 +1,15 @@
 from sqlalchemy import select
 from sqlalchemy.orm import selectinload
 
-from app.models import ColorPalette, DesignStyle, FurnitureCategory, FurnitureItem, Material, RoomType
+from app.models import (
+    ColorPalette,
+    DesignStyle,
+    FurnitureAddon,
+    FurnitureCategory,
+    FurnitureItem,
+    Material,
+    RoomType,
+)
 from app.repositories.base_repository import BaseRepository
 
 
@@ -57,6 +65,12 @@ class FurnitureRepository(BaseRepository[FurnitureItem]):
             query = query.where(FurnitureCategory.slug == category_slug)
         return list(self.session.scalars(query))
 
+    def prices_by_id(self, ids: set[int]) -> dict[int, float]:
+        if not ids:
+            return {}
+        query = select(FurnitureItem.id, FurnitureItem.price).where(FurnitureItem.id.in_(ids))
+        return {item_id: float(price) for item_id, price in self.session.execute(query)}
+
 
 class MaterialRepository(BaseRepository[Material]):
     model = Material
@@ -70,9 +84,26 @@ class MaterialRepository(BaseRepository[Material]):
     def get_by_slug(self, slug: str) -> Material | None:
         return self.session.scalar(select(Material).where(Material.slug == slug))
 
+    def prices_by_slug(self) -> dict[str, float]:
+        return {slug: float(price) for slug, price in self.session.execute(select(Material.slug, Material.price_per_unit))}
+
 
 class PaletteRepository(BaseRepository[ColorPalette]):
     model = ColorPalette
 
     def list_ordered(self) -> list[ColorPalette]:
         return list(self.session.scalars(select(ColorPalette).order_by(ColorPalette.name)))
+
+
+class FurnitureAddonRepository(BaseRepository[FurnitureAddon]):
+    model = FurnitureAddon
+
+    def list_active(self) -> list[FurnitureAddon]:
+        query = select(FurnitureAddon).where(FurnitureAddon.is_active.is_(True)).order_by(FurnitureAddon.price)
+        return list(self.session.scalars(query))
+
+    def get_by_slug(self, slug: str) -> FurnitureAddon | None:
+        return self.session.scalar(select(FurnitureAddon).where(FurnitureAddon.slug == slug))
+
+    def prices_by_slug(self) -> dict[str, float]:
+        return {slug: float(price) for slug, price in self.session.execute(select(FurnitureAddon.slug, FurnitureAddon.price))}

@@ -4,7 +4,7 @@ from decimal import Decimal
 from sqlalchemy import func, select
 from sqlalchemy.orm import selectinload
 
-from app.models import DesignStyle, Project, Redesign
+from app.models import DesignStyle, Project, Redesign, SceneVersion
 from app.repositories.base_repository import BaseRepository
 
 
@@ -22,7 +22,12 @@ class ProjectRepository(BaseRepository[Project]):
         return list(self.session.scalars(query))
 
     def get_owned(self, project_id: uuid.UUID, user_id: uuid.UUID) -> Project | None:
-        return self.session.scalar(select(Project).where(Project.id == project_id, Project.user_id == user_id))
+        query = (
+            select(Project)
+            .where(Project.id == project_id, Project.user_id == user_id)
+            .options(selectinload(Project.style), selectinload(Project.room_type), selectinload(Project.redesigns))
+        )
+        return self.session.scalar(query)
 
     def count_by_user(self, user_id: uuid.UUID) -> int:
         return self.session.scalar(select(func.count()).where(Project.user_id == user_id)) or 0
@@ -59,3 +64,24 @@ class RedesignRepository(BaseRepository[Redesign]):
             .limit(limit)
         )
         return list(self.session.scalars(query))
+
+
+# Caretaker of the scene mementos: keeps the saved versions and drops the oldest ones.
+class SceneVersionRepository(BaseRepository[SceneVersion]):
+    model = SceneVersion
+
+    def list_by_project(self, project_id: uuid.UUID) -> list[SceneVersion]:
+        query = (
+            select(SceneVersion)
+            .where(SceneVersion.project_id == project_id)
+            .order_by(SceneVersion.created_at.desc(), SceneVersion.id.desc())
+        )
+        return list(self.session.scalars(query))
+
+    def get_for_project(self, version_id: int, project_id: uuid.UUID) -> SceneVersion | None:
+        query = select(SceneVersion).where(SceneVersion.id == version_id, SceneVersion.project_id == project_id)
+        return self.session.scalar(query)
+
+    def keep_latest(self, project_id: uuid.UUID, limit: int) -> None:
+        for version in self.list_by_project(project_id)[limit:]:
+            self.session.delete(version)

@@ -726,5 +726,108 @@
       "height": 0.8,
       "default_color": "#f5f4f0"
     }
+  ],
+  "furniture_addons": [
+    {
+      "slug": "cushions",
+      "name": "Cojines decorativos",
+      "description": "Juego de tres cojines a juego con el estilo.",
+      "price": 120000,
+      "visual": "cushions",
+      "categories": [
+        "sofa",
+        "bed",
+        "chair"
+      ],
+      "color_hex": "#e9dcc6"
+    },
+    {
+      "slug": "throw_blanket",
+      "name": "Manta tejida",
+      "description": "Manta de algodón sobre el respaldo o los pies.",
+      "price": 95000,
+      "visual": "throw",
+      "categories": [
+        "sofa",
+        "bed"
+      ],
+      "color_hex": "#c4704f"
+    },
+    {
+      "slug": "stain_guard",
+      "name": "Protección antimanchas",
+      "description": "Tratamiento que repele líquidos en telas.",
+      "price": 150000,
+      "visual": "none",
+      "categories": [
+        "sofa",
+        "chair",
+        "bed",
+        "rug"
+      ],
+      "color_hex": null
+    },
+    {
+      "slug": "glass_top",
+      "name": "Cubierta de vidrio",
+      "description": "Vidrio templado que protege el tablero.",
+      "price": 210000,
+      "visual": "glass",
+      "categories": [
+        "table",
+        "desk"
+      ],
+      "color_hex": "#dfe9ec"
+    },
+    {
+      "slug": "brass_legs",
+      "name": "Patas de latón",
+      "description": "Cambia las patas por latón cepillado.",
+      "price": 180000,
+      "visual": "legs",
+      "categories": [
+        "table",
+        "chair",
+        "sofa",
+        "storage",
+        "desk"
+      ],
+      "color_hex": "#b5924c"
+    },
+    {
+      "slug": "led_strip",
+      "name": "Tira LED cálida",
+      "description": "Luz indirecta regulable.",
+      "price": 130000,
+      "visual": "glow",
+      "categories": [
+        "shelf",
+        "storage",
+        "desk"
+      ],
+      "color_hex": "#ffd9a0"
+    },
+    {
+      "slug": "ceramic_pot",
+      "name": "Maceta de cerámica",
+      "description": "Maceta esmaltada hecha a mano.",
+      "price": 85000,
+      "visual": "pot",
+      "categories": [
+        "plant"
+      ],
+      "color_hex": "#c86f4b"
+    },
+    {
+      "slug": "smart_bulb",
+      "name": "Bombillo inteligente",
+      "description": "Cambia la intensidad desde el celular.",
+      "price": 70000,
+      "visual": "glow",
+      "categories": [
+        "lamp"
+      ],
+      "color_hex": "#fff1c9"
+    }
   ]
 }

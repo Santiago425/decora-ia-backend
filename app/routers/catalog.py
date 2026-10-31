@@ -4,6 +4,7 @@ from fastapi import APIRouter, Depends, Query
 
 from app.dependencies import get_catalog_service
 from app.schemas.catalog import (
+    FurnitureAddonResponse,
     FurnitureCategoryResponse,
     FurnitureItemResponse,
     MaterialResponse,
@@ -45,3 +46,8 @@ def list_materials(service: Service, surface: Annotated[str | None, Query(max_le
 @router.get("/palettes", response_model=list[PaletteResponse])
 def list_palettes(service: Service):
     return service.list_palettes()
+
+
+@router.get("/addons", response_model=list[FurnitureAddonResponse])
+def list_addons(service: Service):
+    return service.list_addons()

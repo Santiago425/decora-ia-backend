@@ -1,4 +1,5 @@
 from app.repositories.catalog_repositories import (
+    FurnitureAddonRepository,
     FurnitureCategoryRepository,
     FurnitureRepository,
     MaterialRepository,
@@ -6,10 +7,15 @@ from app.repositories.catalog_repositories import (
     RoomTypeRepository,
     StyleRepository,
 )
-from app.repositories.project_repository import ProjectRepository, RedesignRepository
+from app.repositories.project_repository import (
+    ProjectRepository,
+    RedesignRepository,
+    SceneVersionRepository,
+)
 from app.repositories.user_repository import UserRepository
 
 __all__ = [
+    "FurnitureAddonRepository",
     "FurnitureCategoryRepository",
     "FurnitureRepository",
     "MaterialRepository",
@@ -17,6 +23,7 @@ __all__ = [
     "ProjectRepository",
     "RedesignRepository",
     "RoomTypeRepository",
+    "SceneVersionRepository",
     "StyleRepository",
     "UserRepository",
 ]

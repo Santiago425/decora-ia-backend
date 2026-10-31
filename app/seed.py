@@ -11,6 +11,7 @@ from app.core.settings import get_settings
 from app.models import (
     ColorPalette,
     DesignStyle,
+    FurnitureAddon,
     FurnitureItem,
     Material,
     Project,
@@ -22,6 +23,7 @@ from app.models import (
     UserRole,
 )
 from app.repositories import (
+    FurnitureAddonRepository,
     FurnitureCategoryRepository,
     MaterialRepository,
     ProjectRepository,
@@ -69,6 +71,11 @@ def seed_catalog(session: Session, data: dict) -> None:
             category = categories.get_by_slug(item["category"])
             fields = {k: v for k, v in item.items() if k != "category"}
             session.add(FurnitureItem(**{**fields, "price": Decimal(str(item["price"])), "category_id": category.id}))
+
+    addons = FurnitureAddonRepository(session)
+    for item in data["furniture_addons"]:
+        if not addons.get_by_slug(item["slug"]):
+            session.add(FurnitureAddon(**{**item, "price": Decimal(str(item["price"]))}))
 
 
 def seed_demo_accounts(session: Session) -> None:

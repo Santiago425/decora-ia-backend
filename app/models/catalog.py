@@ -94,3 +94,17 @@ class FurnitureItem(Base):
     is_active: Mapped[bool] = mapped_column(Boolean, default=True)
 
     category: Mapped[FurnitureCategory] = relationship(back_populates="items")
+
+
+class FurnitureAddon(Base):
+    __tablename__ = "furniture_addons"
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    slug: Mapped[str] = mapped_column(String(40), unique=True, index=True)
+    name: Mapped[str] = mapped_column(String(80))
+    description: Mapped[str] = mapped_column(Text, default="")
+    price: Mapped[Decimal] = mapped_column(Numeric(12, 2))
+    visual: Mapped[str] = mapped_column(String(20), default="none")
+    color_hex: Mapped[str | None] = mapped_column(String(7))
+    categories: Mapped[list[str]] = mapped_column(JSON, default=list)
+    is_active: Mapped[bool] = mapped_column(Boolean, default=True)

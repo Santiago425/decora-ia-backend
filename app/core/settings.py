@@ -59,6 +59,12 @@ class Settings(BaseSettings):
     budget_economic_max: float = 3_000_000
     budget_standard_max: float = 12_000_000
 
+    room_default_width: float = 5.0
+    room_default_length: float = 4.0
+    room_default_height: float = 2.7
+    scene_max_nodes: int = 150
+    scene_versions_limit: int = 20
+
     @field_validator("cors_origins", mode="before")
     @classmethod
     def split_origins(cls, value: str | list[str]) -> list[str]:

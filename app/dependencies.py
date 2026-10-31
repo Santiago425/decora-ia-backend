@@ -8,8 +8,10 @@ from sqlalchemy.orm import Session
 
 from app.core.database import get_db
 from app.core.security import TokenService
+from app.core.settings import get_settings
 from app.models import User, UserRole
 from app.repositories import (
+    FurnitureAddonRepository,
     FurnitureCategoryRepository,
     FurnitureRepository,
     MaterialRepository,
@@ -17,12 +19,14 @@ from app.repositories import (
     ProjectRepository,
     RedesignRepository,
     RoomTypeRepository,
+    SceneVersionRepository,
     StyleRepository,
     UserRepository,
 )
 from app.services.auth_service import AuthService
 from app.services.catalog_service import CatalogService
 from app.services.dashboard_service import DashboardService
+from app.services.project_service import ProjectService
 
 DbSession = Annotated[Session, Depends(get_db)]
 bearer_scheme = HTTPBearer(auto_error=False)
@@ -44,11 +48,25 @@ def get_catalog_service(db: DbSession) -> CatalogService:
         FurnitureRepository(db),
         MaterialRepository(db),
         PaletteRepository(db),
+        FurnitureAddonRepository(db),
     )
 
 
 def get_dashboard_service(db: DbSession) -> DashboardService:
     return DashboardService(ProjectRepository(db), RedesignRepository(db))
+
+
+def get_project_service(db: DbSession) -> ProjectService:
+    return ProjectService(
+        ProjectRepository(db),
+        SceneVersionRepository(db),
+        StyleRepository(db),
+        RoomTypeRepository(db),
+        FurnitureRepository(db),
+        MaterialRepository(db),
+        FurnitureAddonRepository(db),
+        get_settings(),
+    )
 
 
 def get_current_user(

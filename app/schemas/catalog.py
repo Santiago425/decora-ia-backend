@@ -64,3 +64,14 @@ class FurnitureItemResponse(ORMModel):
     default_color: str
     model_url: str | None
     category: FurnitureCategoryResponse
+
+
+class FurnitureAddonResponse(ORMModel):
+    id: int
+    slug: str
+    name: str
+    description: str
+    price: Decimal
+    visual: str
+    color_hex: str | None
+    categories: list[str]
