@@ -6,7 +6,21 @@ from app.models import FurnitureItem
 SCENE_FORMAT = 1
 WALL_GAP = 0.05
 CORNER_GAP = 0.4
-ANCHOR_SHAPES = ("bed", "sofa", "desk", "cabinet", "shelf")
+ANCHOR_SHAPES = (
+    "bed",
+    "sofa",
+    "bathtub",
+    "counter",
+    "desk",
+    "vanity",
+    "fridge",
+    "toilet",
+    "stove",
+    "wardrobe",
+    "cabinet",
+    "shelf",
+    "tv_stand",
+)
 
 
 def new_node_id() -> str:
