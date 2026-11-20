@@ -10,11 +10,22 @@ class UserRepository(BaseRepository[User]):
     def get_by_email(self, email: str) -> User | None:
         return self.session.scalar(select(User).where(User.email == email.lower()))
 
-    def search(self, text: str | None, limit: int, offset: int) -> tuple[list[tuple[User, int]], int]:
+    def search(
+        self,
+        text: str | None,
+        limit: int,
+        offset: int,
+        role: UserRole | None = None,
+        active: bool | None = None,
+    ) -> tuple[list[tuple[User, int]], int]:
         filters = []
         if text:
             pattern = f"%{text.lower()}%"
             filters.append(or_(func.lower(User.full_name).like(pattern), func.lower(User.email).like(pattern)))
+        if role is not None:
+            filters.append(User.role == role)
+        if active is not None:
+            filters.append(User.is_active.is_(active))
         total = self.session.scalar(select(func.count(User.id)).where(*filters)) or 0
         project_count = (
             select(func.count(Project.id)).where(Project.user_id == User.id).correlate(User).scalar_subquery()
