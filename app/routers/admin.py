@@ -3,10 +3,10 @@ from typing import Annotated
 
 from fastapi import APIRouter, Depends, HTTPException, Query, Response, status
 
-from app.dependencies import AdminUser, get_admin_service, get_catalog_admin, get_report
+from app.dependencies import AdminUser, get_admin_service, get_catalog_admin, get_report, get_report_format
 from app.models import UserRole
 from app.patterns.proxies.catalog_admin_proxy import CatalogAdminError, CatalogAdminProxy
-from app.patterns.reports.report_exporters import ReportExporter
+from app.patterns.reports.report_exporters import ReportExporter, ReportFormat
 from app.schemas.admin import (
     AddonUpdate,
     AdminAddon,
@@ -100,10 +100,14 @@ def update_addon(addon_id: int, data: AddonUpdate, catalog: Catalog):
 
 
 @router.get("/reports/{kind}", response_class=Response)
-def download_report(admin: AdminUser, report: Annotated[ReportExporter, Depends(get_report)]):
-    file_name, content = report.export()
+def download_report(
+    admin: AdminUser,
+    report: Annotated[ReportExporter, Depends(get_report)],
+    fmt: Annotated[ReportFormat, Depends(get_report_format)],
+):
+    file_name, content = report.export(fmt)
     return Response(
         content,
-        media_type="text/csv; charset=utf-8",
+        media_type=fmt.media_type,
         headers={"Content-Disposition": f'attachment; filename="{file_name}"'},
     )

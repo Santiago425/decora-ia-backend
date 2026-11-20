@@ -50,6 +50,7 @@ Los routers nunca tocan la base de datos: reciben los servicios por **inyección
 | **Repository** | Arquitectura | [`app/repositories/`](app/repositories) | Los servicios piden y guardan entidades sin escribir SQL. |
 | **Inyección de dependencias** | Arquitectura | [`app/dependencies.py`](app/dependencies.py) | Cada endpoint recibe sus servicios ya armados; en las pruebas se pueden reemplazar. |
 | **Singleton** | Creacional | [`app/patterns/ai/ai_client.py`](app/patterns/ai/ai_client.py) | Un solo cliente de IA por proceso, con su caché compartida. |
+| **Abstract Factory** | Creacional | [`app/patterns/ai/provider_factories.py`](app/patterns/ai/provider_factories.py) | Cada proveedor (`GeminiFactory`, `CloudflareFactory`, `HuggingFaceFactory`, `MockFactory`) crea su familia de productos de IA: editor de imágenes y asesor de diseño. Agregar un proveedor es agregar una fábrica. |
 | **Builder** | Creacional | [`app/patterns/builders/redesign_request_builder.py`](app/patterns/builders/redesign_request_builder.py) | Arma paso a paso la petición a la IA (foto, habitación, estilo, paleta, presupuesto, conservar estructura) y la valida al final. |
 | **Adapter** | Estructural | [`app/patterns/ai/`](app/patterns/ai) | `GeminiImageEditor`, `CloudflareImageEditor`, `HuggingFaceImageEditor` y `MockImageEditor` traducen cada API a la misma interfaz; el proveedor se cambia con `AI_IMAGE_PROVIDER` / `AI_TEXT_PROVIDER`. |
 | **Adapter** | Estructural | [`app/patterns/storage/storage_adapter.py`](app/patterns/storage/storage_adapter.py) | Guardar fotos en disco (desarrollo) o en la base de datos en la nube (producción) con la misma interfaz (`STORAGE_PROVIDER`). |
@@ -62,11 +63,13 @@ Los routers nunca tocan la base de datos: reciben los servicios por **inyección
 | **Builder** + director | Creacional | [`app/patterns/builders/room_builder.py`](app/patterns/builders/room_builder.py) | `RoomBuilder` arma la escena 3D (medidas, paredes, piso, luz, muebles) y `StarterLayoutDirector` coloca los muebles sugeridos según el tipo de habitación. |
 | **Memento** | Comportamiento | [`app/patterns/mementos/scene_memento.py`](app/patterns/mementos/scene_memento.py) | Guarda versiones de la escena y vuelve a una de ellas sin exponer cómo se almacenan; el repositorio de versiones hace de cuidador y conserva las últimas `SCENE_VERSIONS_LIMIT`. |
 | **Prototype** | Creacional | [`app/patterns/prototypes/project_prototype.py`](app/patterns/prototypes/project_prototype.py) | Duplicar un proyecto copia su escena completa con identificadores nuevos. |
-| **Visitor** | Comportamiento | [`app/patterns/visitors/scene_visitors.py`](app/patterns/visitors/scene_visitors.py) | Recorre habitación, grupos y muebles para calcular el presupuesto con los precios de la base de datos (el cliente no puede alterarlo). |
+| **Visitor** | Comportamiento | [`app/patterns/visitors/scene_visitors.py`](app/patterns/visitors/scene_visitors.py) | Cada nodo de la escena (`RoomElement`, `GroupElement`, `ItemElement`) llama con `accept()` al método que le toca; así el presupuesto y el conteo de muebles viven fuera de los datos y usan los precios de la base de datos. |
+| **Iterator** | Comportamiento | [`app/patterns/visitors/scene_visitors.py`](app/patterns/visitors/scene_visitors.py) | `SceneIterator` recorre habitación, grupos y muebles en profundidad sin que quien lo usa sepa cómo se guardan los hijos. |
 | **Strategy** | Comportamiento | [`app/patterns/assistant/interpreters.py`](app/patterns/assistant/interpreters.py) | Lumi entiende el mensaje con Gemini (`GeminiIntentInterpreter`) o con reglas en español (`RuleBasedInterpreter`); se elige con `AI_TEXT_PROVIDER`. |
-| **Chain of Responsibility** | Comportamiento | [`app/patterns/assistant/interpreters.py`](app/patterns/assistant/interpreters.py) | `FallbackInterpreter`: si Gemini falla o no responde, el mensaje pasa a las reglas y Lumi sigue funcionando. |
+| **Chain of Responsibility** | Comportamiento | [`app/patterns/assistant/interpreters.py`](app/patterns/assistant/interpreters.py) | `chain_interpreters(...)` enlaza intérpretes con `InterpreterLink`: si Gemini falla o no responde, el mensaje pasa al siguiente eslabón (las reglas) y Lumi sigue funcionando. |
 | **Proxy de protección** | Estructural | [`app/patterns/proxies/catalog_admin_proxy.py`](app/patterns/proxies/catalog_admin_proxy.py) | `CatalogAdminProxy` tiene la misma interfaz que el servicio del catálogo: revisa que quien edita sea administrador y registra cada cambio antes de delegar. |
-| **Template Method** | Comportamiento | [`app/patterns/reports/report_exporters.py`](app/patterns/reports/report_exporters.py) | `ReportExporter.export()` fija los pasos de un reporte CSV (columnas, filas, formato, nombre) y cada reporte (`UsersReport`, `ProjectsReport`) completa los suyos. |
+| **Template Method** | Comportamiento | [`app/patterns/reports/report_exporters.py`](app/patterns/reports/report_exporters.py) | `ReportExporter.export()` fija los pasos de un reporte (columnas, filas, formato, nombre) y cada reporte (`UsersReport`, `ProjectsReport`) completa los suyos. |
+| **Bridge** | Estructural | [`app/patterns/reports/report_exporters.py`](app/patterns/reports/report_exporters.py) | El contenido del reporte (`ReportExporter`) y su formato (`CsvFormat`, `JsonFormat`) cambian por separado: un formato nuevo sirve para todos los reportes (`?format=json`). |
 | **Sanitizador de acciones** | Seguridad | [`app/patterns/assistant/action_sanitizer.py`](app/patterns/assistant/action_sanitizer.py) | Toda acción que propone la IA se valida contra el catálogo de la base de datos antes de llegar al usuario (estilos, materiales y muebles reales, acciones del editor solo dentro del editor). |
 
 ## Base de datos
@@ -173,7 +176,7 @@ Las tablas se crean con migraciones de **Alembic** ([`migrations/`](migrations))
 | `PATCH` | `/api/v1/admin/furniture/{id}` | Edita precio, medidas, categoría o visibilidad 👑 |
 | `GET` / `PATCH` | `/api/v1/admin/styles`, `/api/v1/admin/styles/{id}` | Estilos con su número de proyectos; edita nombre, luz o visibilidad 👑 |
 | `GET` / `PATCH` | `/api/v1/admin/addons`, `/api/v1/admin/addons/{id}` | Complementos de muebles; edita precio o visibilidad 👑 |
-| `GET` | `/api/v1/admin/reports/{usuarios\|proyectos}` | Descarga el reporte en CSV 👑 |
+| `GET` | `/api/v1/admin/reports/{usuarios\|proyectos}` | Descarga el reporte en CSV o JSON (`?format=json`) 👑 |
 
 🔐 = requiere `Authorization: Bearer <token>`. 👑 = requiere además una cuenta de administrador.
 

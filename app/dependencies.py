@@ -2,7 +2,7 @@ import uuid
 from typing import Annotated
 
 import jwt
-from fastapi import Depends, HTTPException, status
+from fastapi import Depends, HTTPException, Query, status
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 from sqlalchemy.orm import Session
 
@@ -12,13 +12,13 @@ from app.core.settings import get_settings
 from app.models import User, UserRole
 from app.patterns.ai.gemini_adapter import GeminiClient
 from app.patterns.assistant.interpreters import (
-    FallbackInterpreter,
     GeminiIntentInterpreter,
     IntentInterpreter,
     RuleBasedInterpreter,
+    chain_interpreters,
 )
 from app.patterns.proxies.catalog_admin_proxy import CatalogAdminProxy, CatalogAdminService
-from app.patterns.reports.report_exporters import ReportExporter, report_for
+from app.patterns.reports.report_exporters import REPORT_FORMATS, ReportExporter, ReportFormat, report_for
 from app.repositories import (
     AdminStatsRepository,
     ChatMessageRepository,
@@ -88,7 +88,7 @@ def get_interpreter() -> IntentInterpreter:
     if settings.ai_text_provider != "gemini" or not settings.gemini_api_key:
         return rules
     client = GeminiClient(settings.gemini_api_key, settings.gemini_api_base_url, settings.ai_timeout_seconds)
-    return FallbackInterpreter(
+    return chain_interpreters(
         GeminiIntentInterpreter(client, settings.gemini_text_model, settings.currency_code), rules
     )
 
@@ -164,3 +164,10 @@ def get_report(kind: str, db: DbSession) -> ReportExporter:
     if report is None:
         raise HTTPException(status.HTTP_404_NOT_FOUND, "Ese reporte no existe")
     return report
+
+
+def get_report_format(key: Annotated[str, Query(alias="format")] = "csv") -> ReportFormat:
+    fmt = REPORT_FORMATS.get(key)
+    if fmt is None:
+        raise HTTPException(status.HTTP_422_UNPROCESSABLE_CONTENT, "Ese formato de reporte no existe")
+    return fmt

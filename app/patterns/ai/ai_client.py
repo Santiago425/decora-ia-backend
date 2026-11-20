@@ -1,10 +1,8 @@
 from app.core.settings import get_settings
 from app.patterns.ai.ai_decorators import CachingImageEditor, FallbackImageEditor, LoggingImageEditor
 from app.patterns.ai.ai_provider import DesignAdvisor, DesignSuggestions, ImageEditor
-from app.patterns.ai.cloudflare_adapter import CloudflareImageEditor
-from app.patterns.ai.gemini_adapter import GeminiClient, GeminiDesignAdvisor, GeminiImageEditor
-from app.patterns.ai.huggingface_adapter import HuggingFaceImageEditor
-from app.patterns.ai.mock_adapter import MockDesignAdvisor, MockImageEditor
+from app.patterns.ai.mock_adapter import MockImageEditor
+from app.patterns.ai.provider_factories import factory_for
 from app.patterns.singleton import SingletonMeta
 
 
@@ -13,38 +11,12 @@ class AIClient(metaclass=SingletonMeta):
     def __init__(self) -> None:
         settings = get_settings()
         self.settings = settings
-        editor: ImageEditor = LoggingImageEditor(self._build_editor())
+        editor: ImageEditor = LoggingImageEditor(
+            factory_for(settings.ai_image_provider, settings).create_image_editor()
+        )
         if settings.ai_image_provider != "mock" and settings.ai_image_fallback == "mock":
             editor = FallbackImageEditor(editor, MockImageEditor())
         self.image_editor: ImageEditor = CachingImageEditor(editor, settings.ai_cache_size)
 
-    def _gemini(self) -> GeminiClient:
-        s = self.settings
-        return GeminiClient(s.gemini_api_key, s.gemini_api_base_url, s.ai_timeout_seconds)
-
-    def _build_editor(self) -> ImageEditor:
-        s = self.settings
-        match s.ai_image_provider:
-            case "gemini":
-                return GeminiImageEditor(self._gemini(), s.gemini_image_model)
-            case "cloudflare":
-                return CloudflareImageEditor(
-                    s.cloudflare_account_id,
-                    s.cloudflare_api_token,
-                    s.cloudflare_api_base_url,
-                    s.cloudflare_image_model,
-                    s.cloudflare_image_strength,
-                    s.cloudflare_image_side,
-                    s.ai_timeout_seconds,
-                )
-            case "huggingface":
-                return HuggingFaceImageEditor(
-                    s.huggingface_api_token, s.huggingface_provider, s.huggingface_image_model, s.ai_timeout_seconds
-                )
-            case _:
-                return MockImageEditor()
-
     def advisor(self, fallback: DesignSuggestions) -> DesignAdvisor:
-        if self.settings.ai_text_provider == "gemini":
-            return GeminiDesignAdvisor(self._gemini(), self.settings.gemini_text_model)
-        return MockDesignAdvisor(fallback)
+        return factory_for(self.settings.ai_text_provider, self.settings).create_design_advisor(fallback)

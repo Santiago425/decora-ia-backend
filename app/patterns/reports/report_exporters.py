@@ -1,5 +1,6 @@
 import csv
 import io
+import json
 from abc import ABC, abstractmethod
 from collections.abc import Iterable
 from datetime import datetime
@@ -9,21 +10,53 @@ from app.models import User
 from app.repositories import ProjectRepository, UserRepository
 
 
+# Bridge: what a report contains (ReportExporter) and how it is written (ReportFormat) vary separately,
+# so a new format works for every report and a new report works in every format.
+class ReportFormat(ABC):
+    key: str
+    extension: str
+    media_type: str
+
+    @abstractmethod
+    def render(self, columns: list[str], rows: list[list[str]]) -> str: ...
+
+
+class CsvFormat(ReportFormat):
+    key = "csv"
+    extension = "csv"
+    media_type = "text/csv; charset=utf-8"
+
+    def render(self, columns, rows):
+        buffer = io.StringIO()
+        writer = csv.writer(buffer)
+        writer.writerow(columns)
+        writer.writerows(rows)
+        return "\ufeff" + buffer.getvalue()
+
+
+class JsonFormat(ReportFormat):
+    key = "json"
+    extension = "json"
+    media_type = "application/json; charset=utf-8"
+
+    def render(self, columns, rows):
+        return json.dumps([dict(zip(columns, row, strict=True)) for row in rows], ensure_ascii=False, indent=2)
+
+
+REPORT_FORMATS: dict[str, ReportFormat] = {fmt.key: fmt for fmt in (CsvFormat(), JsonFormat())}
+
+
 # Template Method: export() fixes the steps (columns, rows, format, file name); each report fills in its own.
 class ReportExporter(ABC):
     slug: str
     title: str
 
-    def export(self) -> tuple[str, str]:
-        buffer = io.StringIO()
-        writer = csv.writer(buffer)
-        writer.writerow(self.columns())
-        for record in self.records():
-            writer.writerow([self.format_value(value) for value in self.to_row(record)])
-        return self.file_name(), "﻿" + buffer.getvalue()
+    def export(self, fmt: ReportFormat) -> tuple[str, str]:
+        rows = [[self.format_value(value) for value in self.to_row(record)] for record in self.records()]
+        return self.file_name(fmt), fmt.render(self.columns(), rows)
 
-    def file_name(self) -> str:
-        return f"habita-{self.slug}-{datetime.now().strftime('%Y%m%d')}.csv"
+    def file_name(self, fmt: ReportFormat) -> str:
+        return f"habita-{self.slug}-{datetime.now().strftime('%Y%m%d')}.{fmt.extension}"
 
     @staticmethod
     def format_value(value: Any) -> str:
