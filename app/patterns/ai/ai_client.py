@@ -1,5 +1,10 @@
 from app.core.settings import get_settings
-from app.patterns.ai.ai_decorators import CachingImageEditor, FallbackImageEditor, LoggingImageEditor
+from app.patterns.ai.ai_decorators import (
+    CachingImageEditor,
+    FallbackImageEditor,
+    LoggingImageEditor,
+    UnchangedImageGuard,
+)
 from app.patterns.ai.ai_provider import DesignAdvisor, DesignSuggestions, ImageEditor, StyleDescriber
 from app.patterns.ai.mock_adapter import MockImageEditor
 from app.patterns.ai.provider_factories import factory_for
@@ -14,9 +19,13 @@ class AIClient(metaclass=SingletonMeta):
         editor: ImageEditor = LoggingImageEditor(
             factory_for(settings.ai_image_provider, settings).create_image_editor()
         )
+        if settings.ai_image_provider != "mock":
+            editor = UnchangedImageGuard(editor, settings.ai_min_change)
+        # Only real results are cached: a backup copy must never be served again for the same request.
+        editor = CachingImageEditor(editor, settings.ai_cache_size)
         if settings.ai_image_provider != "mock" and settings.ai_image_fallback == "mock":
             editor = FallbackImageEditor(editor, MockImageEditor())
-        self.image_editor: ImageEditor = CachingImageEditor(editor, settings.ai_cache_size)
+        self.image_editor: ImageEditor = editor
 
     def advisor(self, fallback: DesignSuggestions) -> DesignAdvisor:
         return factory_for(self.settings.ai_text_provider, self.settings).create_design_advisor(fallback)

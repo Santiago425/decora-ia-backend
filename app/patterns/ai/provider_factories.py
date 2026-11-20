@@ -65,7 +65,12 @@ class HuggingFaceFactory(AIProviderFactory):
     def create_image_editor(self) -> ImageEditor:
         s = self.settings
         return HuggingFaceImageEditor(
-            s.huggingface_api_token, s.huggingface_provider, s.huggingface_image_model, s.ai_timeout_seconds
+            s.huggingface_api_token,
+            s.huggingface_provider,
+            s.huggingface_image_model,
+            s.ai_timeout_seconds,
+            retries=s.ai_retry_attempts,
+            retry_delay=s.ai_retry_delay_seconds,
         )
 
 

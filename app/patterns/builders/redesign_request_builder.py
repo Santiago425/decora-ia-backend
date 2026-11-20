@@ -33,12 +33,15 @@ class RedesignRequest:
         lines = [
             f"Redesign this {self.room_type.slug.replace('_', ' ')} photo in a {self.style.slug} interior design style "
             f"({self.style.description}).",
+            "Visibly change the furniture, cabinets, surfaces, finishes, colors and decor so the new style is "
+            "obvious at first sight; the result must not look like the original photo.",
             "Return a photorealistic image taken from the same camera angle, with natural light and real furniture.",
         ]
         if self.keep_structure:
             lines.append(
                 "Respect the real room: keep walls, windows, doors, fireplace, columns, ceiling and floor layout "
-                "in the same place and size. Do not move, add or remove any window or door, and keep walkways clear."
+                "in the same place and size, while their colors and finishes follow the new style. Do not move, "
+                "add or remove any window or door, and keep walkways clear."
             )
         if self.keep_items:
             lines.append(f"Keep these existing pieces exactly as they are, in the same place: {self.keep_items}.")
