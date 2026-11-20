@@ -14,12 +14,23 @@ def test_styles_come_from_the_database_with_palettes_and_materials(client: TestC
     assert nordic["materials"]
 
 
+def test_seed_includes_the_extended_style_collection(client: TestClient):
+    styles = {style["slug"]: style for style in client.get("/api/v1/catalog/styles").json()}
+    extended = ["mediterranean", "rustic", "tropical", "coastal", "art-deco"]
+    extended += ["mid-century", "farmhouse", "vintage", "contemporary", "luxury"]
+    for slug in extended:
+        assert styles[slug]["image_url"]
+        assert styles[slug]["description"]
+        assert styles[slug]["palettes"][0]["colors"]
+        assert len(styles[slug]["materials"]) == 4
+
+
 def test_new_style_in_database_appears_without_code_changes(client: TestClient):
     with Database().session() as session:
-        session.add(DesignStyle(slug="coastal", name="Costero", description="Azules y arena"))
+        session.add(DesignStyle(slug="wabi-sabi", name="Wabi-sabi", description="Belleza imperfecta"))
         session.commit()
     slugs = [style["slug"] for style in client.get("/api/v1/catalog/styles").json()]
-    assert "coastal" in slugs
+    assert "wabi-sabi" in slugs
 
 
 def test_furniture_can_be_filtered_by_category(client: TestClient):
