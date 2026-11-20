@@ -72,6 +72,8 @@ class Settings(BaseSettings):
 
     budget_economic_max: float = 3_000_000
     budget_standard_max: float = 12_000_000
+    shopping_budget_warning_ratio: float = Field(default=0.9, gt=0, le=1)
+    shopping_max_purchased: int = 300
 
     room_default_width: float = 5.0
     room_default_length: float = 4.0

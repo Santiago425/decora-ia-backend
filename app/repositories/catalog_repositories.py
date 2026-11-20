@@ -114,6 +114,12 @@ class FurnitureRepository(BaseRepository[FurnitureItem]):
         query = select(FurnitureItem.id, FurnitureItem.price).where(FurnitureItem.id.in_(ids))
         return {item_id: float(price) for item_id, price in self.session.execute(query)}
 
+    def by_ids(self, ids: set[int]) -> dict[int, FurnitureItem]:
+        if not ids:
+            return {}
+        query = select(FurnitureItem).where(FurnitureItem.id.in_(ids)).options(selectinload(FurnitureItem.category))
+        return {item.id: item for item in self.session.scalars(query)}
+
 
 class MaterialRepository(BaseRepository[Material]):
     model = Material

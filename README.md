@@ -66,6 +66,7 @@ Los routers nunca tocan la base de datos: reciben los servicios por **inyección
 | **Memento** | Comportamiento | [`app/patterns/mementos/scene_memento.py`](app/patterns/mementos/scene_memento.py) | Guarda versiones de la escena y vuelve a una de ellas sin exponer cómo se almacenan; el repositorio de versiones hace de cuidador y conserva las últimas `SCENE_VERSIONS_LIMIT`. |
 | **Prototype** | Creacional | [`app/patterns/prototypes/project_prototype.py`](app/patterns/prototypes/project_prototype.py) | Duplicar un proyecto copia su escena completa con identificadores nuevos. |
 | **Visitor** | Comportamiento | [`app/patterns/visitors/scene_visitors.py`](app/patterns/visitors/scene_visitors.py) | Cada nodo de la escena (`RoomElement`, `GroupElement`, `ItemElement`) llama con `accept()` al método que le toca; así el presupuesto y el conteo de muebles viven fuera de los datos y usan los precios de la base de datos. |
+| **Composite** | Estructural | [`app/patterns/composites/shopping_list.py`](app/patterns/composites/shopping_list.py) | La lista de compras es un árbol: `ShoppingSection` (muebles, complementos, acabados, ideas del rediseño con sus subsecciones) y `ShoppingLine` responden igual a `total()` y `purchased_total()`, así la lista entera, una sección o una línea se suman de la misma forma. `ShoppingVisitor` cuenta las piezas de la escena y `ShoppingListReport` la exporta a CSV con el mismo Bridge de los reportes. |
 | **Iterator** | Comportamiento | [`app/patterns/visitors/scene_visitors.py`](app/patterns/visitors/scene_visitors.py) | `SceneIterator` recorre habitación, grupos y muebles en profundidad sin que quien lo usa sepa cómo se guardan los hijos. |
 | **Strategy** | Comportamiento | [`app/patterns/assistant/interpreters.py`](app/patterns/assistant/interpreters.py) | Lumi entiende el mensaje con Gemini (`GeminiIntentInterpreter`) o con reglas en español (`RuleBasedInterpreter`); se elige con `AI_TEXT_PROVIDER`. |
 | **Chain of Responsibility** | Comportamiento | [`app/patterns/assistant/interpreters.py`](app/patterns/assistant/interpreters.py) | `chain_interpreters(...)` enlaza intérpretes con `InterpreterLink`: si Gemini falla o no responde, el mensaje pasa al siguiente eslabón (las reglas) y Lumi sigue funcionando. |
@@ -179,6 +180,10 @@ Las tablas se crean con migraciones de **Alembic** ([`migrations/`](migrations))
 | `GET` / `POST` | `/api/v1/projects/{id}/versions` | Lista o guarda versiones de la escena 🔐 |
 | `GET` | `/api/v1/projects/{id}/versions/{version_id}` | Escena de una versión 🔐 |
 | `POST` | `/api/v1/projects/{id}/versions/{version_id}/restore` | Vuelve a una versión 🔐 |
+| `GET` | `/api/v1/projects/{id}/shopping-list?include_redesign=` | Lista de compras con cantidades, precios del catálogo, total y estado frente al presupuesto 🔐 |
+| `PUT` | `/api/v1/projects/{id}/shopping-list/budget` | Fija o borra el presupuesto del proyecto (`amount`) 🔐 |
+| `PUT` | `/api/v1/projects/{id}/shopping-list/purchased` | Marca las líneas ya compradas (`keys`) 🔐 |
+| `GET` | `/api/v1/projects/{id}/shopping-list/export` | Descarga la lista en CSV o JSON (`?format=json`) 🔐 |
 | `GET` | `/api/v1/assistant/messages` | Conversación con Lumi 🔐 |
 | `POST` | `/api/v1/assistant/messages` | Envía un mensaje a Lumi (`message`, `page`, `project_id`) y recibe la respuesta con sus acciones 🔐 |
 | `DELETE` | `/api/v1/assistant/messages` | Borra la conversación 🔐 |
