@@ -28,13 +28,25 @@ def get_shopping_list(
 
 
 @router.put("/{project_id}/shopping-list/budget", response_model=ShoppingListOut)
-def set_budget(project_id: uuid.UUID, data: BudgetLimitUpdate, user: CurrentUser, service: Service):
-    return handle(lambda: service.set_budget(user, project_id, data.amount))
+def set_budget(
+    project_id: uuid.UUID,
+    data: BudgetLimitUpdate,
+    user: CurrentUser,
+    service: Service,
+    include_redesign: IncludeRedesign = False,
+):
+    return handle(lambda: service.set_budget(user, project_id, data.amount, include_redesign))
 
 
 @router.put("/{project_id}/shopping-list/purchased", response_model=ShoppingListOut)
-def set_purchased(project_id: uuid.UUID, data: PurchasedUpdate, user: CurrentUser, service: Service):
-    return handle(lambda: service.set_purchased(user, project_id, data.keys))
+def set_purchased(
+    project_id: uuid.UUID,
+    data: PurchasedUpdate,
+    user: CurrentUser,
+    service: Service,
+    include_redesign: IncludeRedesign = False,
+):
+    return handle(lambda: service.set_purchased(user, project_id, data.keys, include_redesign))
 
 
 @router.get("/{project_id}/shopping-list/export", response_class=Response)

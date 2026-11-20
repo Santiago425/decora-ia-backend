@@ -38,17 +38,21 @@ class ShoppingListService:
         root = self.build(project, include_redesign)
         return self._to_out(project, root, include_redesign)
 
-    def set_budget(self, user: User, project_id: uuid.UUID, amount: Decimal | None) -> ShoppingListOut:
+    def set_budget(
+        self, user: User, project_id: uuid.UUID, amount: Decimal | None, include_redesign: bool = False
+    ) -> ShoppingListOut:
         project = self.owned(user, project_id)
         project.budget_limit = amount if amount else None
         self.projects.session.commit()
-        return self.get(user, project_id)
+        return self.get(user, project_id, include_redesign)
 
-    def set_purchased(self, user: User, project_id: uuid.UUID, keys: list[str]) -> ShoppingListOut:
+    def set_purchased(
+        self, user: User, project_id: uuid.UUID, keys: list[str], include_redesign: bool = False
+    ) -> ShoppingListOut:
         project = self.owned(user, project_id)
         project.purchased_items = list(dict.fromkeys(keys))[: self.settings.shopping_max_purchased]
         self.projects.session.commit()
-        return self.get(user, project_id)
+        return self.get(user, project_id, include_redesign)
 
     def build(self, project: Project, include_redesign: bool = False) -> ShoppingSection:
         purchased = set(project.purchased_items or [])
