@@ -142,8 +142,9 @@ Las tablas se crean con migraciones de **Alembic** ([`migrations/`](migrations))
 | `GET` | `/api/v1/auth/me` | Datos de la sesión 🔐 |
 | `GET` | `/api/v1/dashboard` | Resumen del usuario: proyectos, rediseños, estilo favorito, presupuesto, actividad y últimos proyectos 🔐 |
 | `POST` | `/api/v1/redesigns` | Rediseña una foto (multipart: `image`, `room_type`, `style`, `palette`, `budget`, `keep_structure`) 🔐 |
+| `GET` | `/api/v1/redesigns?project_id=` | Historial de versiones de un proyecto, de la más nueva a la más antigua 🔐 |
 | `GET` | `/api/v1/redesigns/{id}` | Consulta un rediseño 🔐 |
-| `POST` | `/api/v1/redesigns/{id}/variations` | Genera otra versión con la misma foto 🔐 |
+| `POST` | `/api/v1/redesigns/{id}/variations` | Genera otra versión con la misma foto; el cuerpo opcional cambia `style`, `palette`, `budget` o `keep_structure` 🔐 |
 | `POST` | `/api/v1/redesigns/{id}/retry` | Reintenta un rediseño que falló 🔐 |
 | `GET` | `/api/v1/files/{id}` | Imagen guardada en la base de datos |
 | `GET` | `/api/v1/catalog/styles` | Estilos con sus paletas y materiales |

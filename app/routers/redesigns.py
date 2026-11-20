@@ -1,7 +1,7 @@
 import uuid
 from typing import Annotated
 
-from fastapi import APIRouter, Depends, File, Form, HTTPException, Request, UploadFile, status
+from fastapi import APIRouter, Body, Depends, File, Form, HTTPException, Query, Request, UploadFile, status
 from sqlalchemy.orm import Session
 
 from app.core.database import get_db
@@ -16,7 +16,7 @@ from app.patterns.facades.redesign_facade import RedesignFacade, RedesignNotFoun
 from app.patterns.storage.storage_adapter import create_storage
 from app.patterns.strategies.budget_strategies import select_budget_strategy
 from app.patterns.validators.image_validators import ImageValidationError
-from app.schemas.redesign import NamedRef, RedesignResponse
+from app.schemas.redesign import NamedRef, RedesignResponse, VariationRequest
 
 router = APIRouter(prefix="/redesigns", tags=["Redesigns"])
 settings = get_settings()
@@ -85,6 +85,14 @@ def create_redesign(
         raise HTTPException(status.HTTP_404_NOT_FOUND, "No encontramos ese proyecto") from None
 
 
+@router.get("", response_model=list[RedesignResponse])
+def list_redesigns(project_id: Annotated[uuid.UUID, Query()], user: CurrentUser, facade: Facade):
+    try:
+        return [to_response(redesign) for redesign in facade.list_for_project(user, project_id)]
+    except RedesignNotFound:
+        raise HTTPException(status.HTTP_404_NOT_FOUND, "No encontramos ese proyecto") from None
+
+
 @router.get("/{redesign_id}", response_model=RedesignResponse)
 def get_redesign(redesign_id: uuid.UUID, user: CurrentUser, facade: Facade):
     try:
@@ -95,11 +103,26 @@ def get_redesign(redesign_id: uuid.UUID, user: CurrentUser, facade: Facade):
 
 @router.post("/{redesign_id}/variations", response_model=RedesignResponse, status_code=status.HTTP_201_CREATED)
 @limiter.limit(settings.redesign_rate_limit)
-def create_variation(request: Request, redesign_id: uuid.UUID, user: CurrentUser, facade: Facade):
+def create_variation(
+    request: Request,
+    redesign_id: uuid.UUID,
+    user: CurrentUser,
+    facade: Facade,
+    options: Annotated[VariationRequest | None, Body()] = None,
+):
+    changes = options.model_dump(exclude_unset=True) if options else {}
+    if changes.get("style") is None:
+        changes.pop("style", None)
+    if changes.get("keep_structure") is None:
+        changes.pop("keep_structure", None)
+    if "palette" in changes and changes["palette"] is None:
+        changes["palette"] = []
     try:
-        return to_response(facade.create_variation(user, redesign_id))
+        return to_response(facade.create_variation(user, redesign_id, changes))
     except RedesignNotFound:
         raise HTTPException(status.HTTP_404_NOT_FOUND, "No encontramos ese rediseño") from None
+    except RedesignRequestError as error:
+        raise HTTPException(status.HTTP_422_UNPROCESSABLE_CONTENT, str(error)) from None
 
 
 @router.post("/{redesign_id}/retry", response_model=RedesignResponse)

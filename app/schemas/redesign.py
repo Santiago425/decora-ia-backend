@@ -2,7 +2,7 @@ import uuid
 from datetime import datetime
 from decimal import Decimal
 
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 from app.models import RedesignStatus
 
@@ -29,3 +29,10 @@ class RedesignResponse(BaseModel):
     estimated_total: Decimal
     error_message: str | None
     created_at: datetime
+
+
+class VariationRequest(BaseModel):
+    style: str | None = Field(default=None, min_length=1, max_length=40)
+    palette: list[str] | None = Field(default=None, max_length=8)
+    budget: float | None = Field(default=None, ge=0, le=10_000_000_000)
+    keep_structure: bool | None = None

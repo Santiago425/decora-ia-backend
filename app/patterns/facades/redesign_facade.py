@@ -8,7 +8,7 @@ from PIL import Image
 from sqlalchemy.orm import Session
 
 from app.core.settings import get_settings
-from app.models import Project, ProjectStatus, Redesign, User
+from app.models import DesignStyle, Project, ProjectStatus, Redesign, RoomType, User
 from app.patterns.ai.ai_client import AIClient
 from app.patterns.ai.ai_provider import AIError, DesignSuggestions, ImageData, SuggestedColor, SuggestedItem
 from app.patterns.builders.redesign_request_builder import RedesignRequest, RedesignRequestBuilder
@@ -77,19 +77,40 @@ class RedesignFacade:
         self.session.add(redesign)
         return self._run(redesign, request)
 
-    def create_variation(self, user: User, redesign_id: uuid.UUID) -> Redesign:
+    def create_variation(self, user: User, redesign_id: uuid.UUID, changes: dict | None = None) -> Redesign:
+        """Generates another version from the same photo, optionally with a different style, palette or budget."""
         source = self._owned(user, redesign_id)
-        request = self._request_from(source, variation=len(source.project.redesigns))
+        changes = changes or {}
+        style = self.styles.get_by_slug(changes["style"]) if "style" in changes else source.style
+        budget = changes["budget"] if "budget" in changes else self._budget(source)
+        palette = changes.get("palette", source.palette or [])
+        keep_structure = changes.get("keep_structure", source.keep_structure)
+        request = self._build_request(
+            self.storage.load(source.original_image_url),
+            source.project.room_type,
+            style,
+            palette,
+            budget,
+            keep_structure,
+            variation=len(source.project.redesigns),
+        )
         variation = Redesign(
             project=source.project,
-            style_id=source.style_id,
+            style_id=request.style.id,
             original_image_url=source.original_image_url,
-            palette=source.palette,
-            budget=source.budget,
-            keep_structure=source.keep_structure,
+            palette=list(request.palette),
+            budget=Decimal(str(budget)) if budget is not None else None,
+            keep_structure=keep_structure,
         )
+        source.project.style_id = request.style.id
         self.session.add(variation)
         return self._run(variation, request)
+
+    def list_for_project(self, user: User, project_id: uuid.UUID) -> list[Redesign]:
+        project = self.projects.get_owned(project_id, user.id)
+        if project is None:
+            raise RedesignNotFound
+        return list(project.redesigns)
 
     def retry(self, user: User, redesign_id: uuid.UUID) -> Redesign:
         redesign = self._owned(user, redesign_id)
@@ -151,19 +172,41 @@ class RedesignFacade:
         )
 
     def _request_from(self, redesign: Redesign, variation: int) -> RedesignRequest:
-        project = redesign.project
-        budget = float(redesign.budget) if redesign.budget is not None else None
+        return self._build_request(
+            self.storage.load(redesign.original_image_url),
+            redesign.project.room_type,
+            redesign.style,
+            redesign.palette or [],
+            self._budget(redesign),
+            redesign.keep_structure,
+            variation,
+        )
+
+    def _build_request(
+        self,
+        photo: ImageData,
+        room_type: RoomType | None,
+        style: DesignStyle | None,
+        palette: list[str],
+        budget: float | None,
+        keep_structure: bool,
+        variation: int = 0,
+    ) -> RedesignRequest:
         return (
             RedesignRequestBuilder(self.settings.currency_code)
-            .with_photo(self.storage.load(redesign.original_image_url))
-            .for_room(project.room_type)
-            .in_style(redesign.style)
-            .with_palette(redesign.palette)
+            .with_photo(photo)
+            .for_room(room_type)
+            .in_style(style)
+            .with_palette(palette)
             .with_budget(budget, self._strategy(budget))
-            .keeping_structure(redesign.keep_structure)
+            .keeping_structure(keep_structure)
             .as_variation(variation)
             .build()
         )
+
+    @staticmethod
+    def _budget(redesign: Redesign) -> float | None:
+        return float(redesign.budget) if redesign.budget is not None else None
 
     def _project_for(self, user: User, project_id: uuid.UUID | None, request: RedesignRequest) -> Project:
         if project_id:
