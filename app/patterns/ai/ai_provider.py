@@ -64,12 +64,15 @@ class StyleDescription(BaseModel):
     def image_prompt(self, keep_structure: bool, keep_items: str | None = None) -> str:
         lines = [
             f"Restyle this room photo to match this interior design inspiration: {self.prompt}",
+            "Visibly change the furniture, finishes, colors and decor to that style; the result must not look like "
+            "the original photo.",
             "Return a photorealistic image taken from the same camera angle, with natural light and real furniture.",
         ]
         if keep_structure:
             lines.append(
                 "Respect the real room: keep walls, windows, doors, ceiling and floor layout in the same place and "
-                "size. Do not move, add or remove any window or door."
+                "size, while their colors and finishes follow the new style. Do not move, add or remove any window "
+                "or door."
             )
         if keep_items:
             lines.append(f"Keep these existing pieces exactly as they are, in the same place: {keep_items}.")

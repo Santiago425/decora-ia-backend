@@ -1,7 +1,10 @@
 import hashlib
+import io
 import logging
 import time
 from collections import OrderedDict
+
+from PIL import Image, ImageChops, ImageOps, ImageStat
 
 from app.patterns.ai.ai_provider import AIError, ImageData, ImageEditor
 
@@ -25,6 +28,33 @@ class LoggingImageEditor(ImageEditorDecorator):
             return super().edit(image, prompt)
         finally:
             logger.info("ai.edit provider=%s took=%.1fs", self.name, time.perf_counter() - start)
+
+
+class UnchangedImageGuard(ImageEditorDecorator):
+    """Reports an error when the model returns the same photo, instead of saving it as a finished design."""
+
+    sample_side = 64
+
+    def __init__(self, inner: ImageEditor, min_change: float) -> None:
+        super().__init__(inner)
+        self.min_change = min_change
+
+    def edit(self, image: ImageData, prompt: str) -> ImageData:
+        result = super().edit(image, prompt)
+        change = self.difference(image, result)
+        if change < self.min_change:
+            logger.warning("ai.unchanged provider=%s change=%.2f", self.name, change)
+            raise AIError("La IA devolvió la foto sin cambios. Prueba de nuevo o describe el cambio con más detalle")
+        return result
+
+    def difference(self, before: ImageData, after: ImageData) -> float:
+        """Average pixel difference (0-255) between two photos, compared at the same small size."""
+        size = (self.sample_side, self.sample_side)
+        first, second = (
+            ImageOps.exif_transpose(Image.open(io.BytesIO(item.data))).convert("RGB").resize(size)
+            for item in (before, after)
+        )
+        return sum(ImageStat.Stat(ImageChops.difference(first, second)).mean) / 3
 
 
 class CachingImageEditor(ImageEditorDecorator):

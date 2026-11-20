@@ -2,9 +2,10 @@ import base64
 import io
 
 import pytest
+from huggingface_hub.errors import HfHubHTTPError
 from PIL import Image
 
-from app.patterns.ai.ai_decorators import FallbackImageEditor
+from app.patterns.ai.ai_decorators import CachingImageEditor, FallbackImageEditor, UnchangedImageGuard
 from app.patterns.ai.ai_provider import AIError, ImageData, ImageEditor
 from app.patterns.ai.cloudflare_adapter import CloudflareImageEditor
 from app.patterns.ai.huggingface_adapter import HuggingFaceImageEditor
@@ -74,3 +75,69 @@ def test_cloudflare_error_raises_ai_error(monkeypatch):
     editor = CloudflareImageEditor("acc", "token", "https://api.test/v4", "@cf/model", 0.6, 768, 30)
     with pytest.raises(AIError):
         editor.edit(_photo(), "boho bedroom")
+
+
+class CopyEditor(ImageEditor):
+    name = "copy"
+
+    def edit(self, image: ImageData, prompt: str) -> ImageData:
+        return image
+
+
+def test_unchanged_result_is_reported_as_error():
+    with pytest.raises(AIError, match="sin cambios"):
+        UnchangedImageGuard(CopyEditor(), 2.0).edit(_photo(), "nordic living room")
+
+
+def test_changed_result_passes_the_guard():
+    result = UnchangedImageGuard(MockImageEditor(), 2.0).edit(_photo(), "nordic living room")
+    assert result.content_type == "image/jpeg"
+
+
+class FakeHttpError(HfHubHTTPError):
+    def __init__(self, status_code: int) -> None:
+        Exception.__init__(self, f"HTTP {status_code}")
+        self.response = type("Response", (), {"status_code": status_code})()
+
+
+def test_huggingface_retries_when_provider_is_busy(monkeypatch):
+    editor = HuggingFaceImageEditor("hf_test", "auto", "model", 30, retries=1, retry_delay=0)
+    calls = []
+
+    def flaky(*args, **kwargs):
+        calls.append(1)
+        if len(calls) == 1:
+            raise FakeHttpError(503)
+        return Image.new("RGB", (64, 64), "#2f5d50")
+
+    monkeypatch.setattr(editor.client, "image_to_image", flaky)
+    assert editor.edit(_photo(), "boho bedroom").content_type == "image/jpeg"
+    assert len(calls) == 2
+
+
+def test_huggingface_explains_missing_credits_without_retrying(monkeypatch):
+    editor = HuggingFaceImageEditor("hf_test", "auto", "model", 30, retries=2, retry_delay=0)
+    calls = []
+
+    def no_credits(*args, **kwargs):
+        calls.append(1)
+        raise FakeHttpError(402)
+
+    monkeypatch.setattr(editor.client, "image_to_image", no_credits)
+    with pytest.raises(AIError, match="créditos"):
+        editor.edit(_photo(), "boho bedroom")
+    assert len(calls) == 1
+
+
+def test_backup_copy_is_not_cached():
+    calls = []
+
+    class CountingBroken(BrokenEditor):
+        def edit(self, image: ImageData, prompt: str) -> ImageData:
+            calls.append(1)
+            return super().edit(image, prompt)
+
+    editor = FallbackImageEditor(CachingImageEditor(CountingBroken(), 4), MockImageEditor())
+    editor.edit(_photo(), "nordic")
+    editor.edit(_photo(), "nordic")
+    assert len(calls) == 2

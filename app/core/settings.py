@@ -48,8 +48,14 @@ class Settings(BaseSettings):
 
     ai_text_provider: Literal["gemini", "mock"] = "mock"
     ai_image_provider: Literal["gemini", "cloudflare", "huggingface", "mock"] = "mock"
-    ai_image_fallback: Literal["mock", "none"] = "mock"
+    # "none" shows the user a clear error when the image provider fails; "mock" returns a tinted copy (demo only).
+    ai_image_fallback: Literal["mock", "none"] = "none"
     ai_timeout_seconds: float = 90
+    # Extra attempts when the image provider is busy or times out.
+    ai_retry_attempts: int = Field(default=1, ge=0, le=3)
+    ai_retry_delay_seconds: float = Field(default=2, ge=0)
+    # Average pixel difference (0-255) below which a generated image counts as an unchanged copy of the photo.
+    ai_min_change: float = Field(default=2.0, ge=0)
     ai_cache_size: int = 32
     redesign_rate_limit: str = "6/minute"
 
