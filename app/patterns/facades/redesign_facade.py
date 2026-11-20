@@ -8,15 +8,22 @@ from PIL import Image
 from sqlalchemy.orm import Session
 
 from app.core.settings import get_settings
-from app.models import DesignStyle, Project, ProjectStatus, Redesign, RoomType, User
+from app.models import DesignStyle, Project, ProjectStatus, Redesign, RedesignStatus, RoomType, User
 from app.patterns.ai.ai_client import AIClient
 from app.patterns.ai.ai_provider import AIError, DesignSuggestions, ImageData, SuggestedColor, SuggestedItem
 from app.patterns.builders.redesign_request_builder import RedesignRequest, RedesignRequestBuilder
 from app.patterns.states.redesign_states import RedesignProcess
 from app.patterns.storage.storage_adapter import StorageAdapter
 from app.patterns.strategies.budget_strategies import BudgetStrategy, select_budget_strategy
+from app.patterns.strategies.edit_strategies import EditRequestError, EditStrategy, select_edit_strategy
 from app.patterns.validators.image_validators import UploadedImage, build_image_validation_chain
-from app.repositories import FurnitureRepository, ProjectRepository, RoomTypeRepository, StyleRepository
+from app.repositories import (
+    FurnitureRepository,
+    MaterialRepository,
+    ProjectRepository,
+    RoomTypeRepository,
+    StyleRepository,
+)
 
 MAX_SUGGESTED_ITEMS = 5
 
@@ -33,6 +40,7 @@ class RedesignOptions:
     budget: float | None
     keep_structure: bool
     project_id: uuid.UUID | None = None
+    keep_items: str | None = None
 
 
 # Facade: one call hides validation, storage, the AI, suggestions, budget and project bookkeeping.
@@ -46,6 +54,7 @@ class RedesignFacade:
         self.styles = StyleRepository(session)
         self.room_types = RoomTypeRepository(session)
         self.furniture = FurnitureRepository(session)
+        self.materials = MaterialRepository(session)
 
     def create_redesign(
         self, user: User, photo: bytes, declared_type: str | None, options: RedesignOptions
@@ -63,6 +72,7 @@ class RedesignFacade:
             .with_palette(options.palette)
             .with_budget(options.budget, strategy)
             .keeping_structure(options.keep_structure)
+            .keeping_items(options.keep_items)
             .build()
         )
         project = self._project_for(user, options.project_id, request)
@@ -73,6 +83,7 @@ class RedesignFacade:
             palette=list(request.palette),
             budget=Decimal(str(options.budget)) if options.budget is not None else None,
             keep_structure=options.keep_structure,
+            keep_items=request.keep_items,
         )
         self.session.add(redesign)
         return self._run(redesign, request)
@@ -85,6 +96,7 @@ class RedesignFacade:
         budget = changes["budget"] if "budget" in changes else self._budget(source)
         palette = changes.get("palette", source.palette or [])
         keep_structure = changes.get("keep_structure", source.keep_structure)
+        keep_items = changes.get("keep_items", source.keep_items)
         request = self._build_request(
             self.storage.load(source.original_image_url),
             source.project.room_type,
@@ -92,6 +104,7 @@ class RedesignFacade:
             palette,
             budget,
             keep_structure,
+            keep_items,
             variation=len(source.project.redesigns),
         )
         variation = Redesign(
@@ -101,10 +114,32 @@ class RedesignFacade:
             palette=list(request.palette),
             budget=Decimal(str(budget)) if budget is not None else None,
             keep_structure=keep_structure,
+            keep_items=request.keep_items,
         )
         source.project.style_id = request.style.id
         self.session.add(variation)
         return self._run(variation, request)
+
+    def apply_edit(self, user: User, redesign_id: uuid.UUID, tool: str, raw_values: dict[str, str]) -> Redesign:
+        """Edits one part of a finished version (walls, floor, an object) and saves it as a new version."""
+        source = self._owned(user, redesign_id)
+        if source.status != RedesignStatus.READY or not source.result_image_url:
+            raise EditRequestError("Solo puedes editar una versión terminada")
+        strategy = select_edit_strategy(tool)
+        values = self._resolve(strategy, strategy.clean(raw_values))
+        edited = Redesign(
+            project=source.project,
+            style_id=source.style_id,
+            original_image_url=source.result_image_url,
+            palette=list(source.palette or []),
+            budget=source.budget,
+            keep_structure=source.keep_structure,
+            keep_items=source.keep_items,
+            edit_tool=strategy.key,
+            suggestions=source.suggestions,
+        )
+        self.session.add(edited)
+        return self._run_edit(edited, strategy.prompt(values, source.keep_items))
 
     def list_for_project(self, user: User, project_id: uuid.UUID) -> list[Redesign]:
         project = self.projects.get_owned(project_id, user.id)
@@ -114,6 +149,8 @@ class RedesignFacade:
 
     def retry(self, user: User, redesign_id: uuid.UUID) -> Redesign:
         redesign = self._owned(user, redesign_id)
+        if redesign.edit_tool:
+            return self._run_edit(redesign, redesign.prompt)
         return self._run(redesign, self._request_from(redesign, variation=0))
 
     def get(self, user: User, redesign_id: uuid.UUID) -> Redesign:
@@ -138,6 +175,32 @@ class RedesignFacade:
         self.session.commit()
         self.session.refresh(redesign)
         return redesign
+
+    def _run_edit(self, redesign: Redesign, prompt: str) -> Redesign:
+        process = RedesignProcess(redesign)
+        process.start_processing()
+        redesign.prompt = prompt
+        self.session.flush()
+        try:
+            result = self.ai.image_editor.edit(self.storage.load(redesign.original_image_url), prompt)
+            process.complete(self.storage.save(result.data, result.content_type))
+        except AIError as error:
+            process.fail(error.user_message)
+        self.session.commit()
+        self.session.refresh(redesign)
+        return redesign
+
+    def _resolve(self, strategy: EditStrategy, values: dict[str, str]) -> dict[str, str]:
+        resolved = dict(values)
+        for edit_field in strategy.fields:
+            if edit_field.kind != "material":
+                continue
+            options = {m.slug: m for m in self.materials.list_by_surface(edit_field.surface)}
+            material = options.get(values[edit_field.key])
+            if material is None:
+                raise EditRequestError("Elige un material del catálogo")
+            resolved[edit_field.key] = f"{material.name} ({material.color_hex})"
+        return resolved
 
     def _suggestions(self, request: RedesignRequest) -> DesignSuggestions:
         fallback = self._catalog_suggestions(request)
@@ -179,6 +242,7 @@ class RedesignFacade:
             redesign.palette or [],
             self._budget(redesign),
             redesign.keep_structure,
+            redesign.keep_items,
             variation,
         )
 
@@ -190,6 +254,7 @@ class RedesignFacade:
         palette: list[str],
         budget: float | None,
         keep_structure: bool,
+        keep_items: str | None = None,
         variation: int = 0,
     ) -> RedesignRequest:
         return (
@@ -200,6 +265,7 @@ class RedesignFacade:
             .with_palette(palette)
             .with_budget(budget, self._strategy(budget))
             .keeping_structure(keep_structure)
+            .keeping_items(keep_items)
             .as_variation(variation)
             .build()
         )

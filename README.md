@@ -58,6 +58,7 @@ Los routers nunca tocan la base de datos: reciben los servicios por **inyección
 | **Facade** | Estructural | [`app/patterns/facades/redesign_facade.py`](app/patterns/facades/redesign_facade.py) | `create_redesign()` valida la foto, la guarda, llama a la IA, calcula sugerencias y presupuesto y registra el proyecto en una sola llamada. |
 | **Chain of Responsibility** | Comportamiento | [`app/patterns/validators/image_validators.py`](app/patterns/validators/image_validators.py) | Formato → tamaño → resolución → contenido: cada validador pasa la foto al siguiente o la rechaza con un mensaje claro. |
 | **Strategy** | Comportamiento | [`app/patterns/strategies/budget_strategies.py`](app/patterns/strategies/budget_strategies.py) | Presupuesto económico, medio o premium: cada estrategia elige productos distintos sin pasarse del presupuesto. |
+| **Strategy** | Comportamiento | [`app/patterns/strategies/edit_strategies.py`](app/patterns/strategies/edit_strategies.py) | Ediciones puntuales sobre la foto: pintar paredes, cambiar piso, borrar un objeto o cambiar un mueble. Cada estrategia valida sus campos y redacta una instrucción precisa que no toca el resto del cuarto. |
 | **State** | Comportamiento | [`app/patterns/states/redesign_states.py`](app/patterns/states/redesign_states.py) | Subiendo → procesando → listo / error: cada estado decide a cuál se puede pasar (un error se puede reintentar). |
 | **State** | Comportamiento | [`app/patterns/states/project_states.py`](app/patterns/states/project_states.py) | Borrador → en diseño → terminado: editar un borrador lo pasa a diseño y un proyecto terminado no se puede editar hasta reabrirlo. |
 | **Builder** + director | Creacional | [`app/patterns/builders/room_builder.py`](app/patterns/builders/room_builder.py) | `RoomBuilder` arma la escena 3D (medidas, paredes, piso, luz, muebles) y `StarterLayoutDirector` coloca los muebles sugeridos según el tipo de habitación. |
@@ -152,7 +153,9 @@ Las tablas se crean con migraciones de **Alembic** ([`migrations/`](migrations))
 | `POST` | `/api/v1/redesigns` | Rediseña una foto (multipart: `image`, `room_type`, `style`, `palette`, `budget`, `keep_structure`) 🔐 |
 | `GET` | `/api/v1/redesigns?project_id=` | Historial de versiones de un proyecto, de la más nueva a la más antigua 🔐 |
 | `GET` | `/api/v1/redesigns/{id}` | Consulta un rediseño 🔐 |
-| `POST` | `/api/v1/redesigns/{id}/variations` | Genera otra versión con la misma foto; el cuerpo opcional cambia `style`, `palette`, `budget` o `keep_structure` 🔐 |
+| `POST` | `/api/v1/redesigns/{id}/variations` | Genera otra versión con la misma foto; el cuerpo opcional cambia `style`, `palette`, `budget`, `keep_structure` o `keep_items` 🔐 |
+| `GET` | `/api/v1/redesigns/edit-tools` | Herramientas de edición puntual y sus campos (los pisos salen del catálogo) 🔐 |
+| `POST` | `/api/v1/redesigns/{id}/edits` | Edita una parte de una versión terminada (`wall_paint`, `floor_swap`, `remove_object`, `replace_furniture`) y la guarda como versión nueva 🔐 |
 | `POST` | `/api/v1/redesigns/{id}/retry` | Reintenta un rediseño que falló 🔐 |
 | `GET` | `/api/v1/files/{id}` | Imagen guardada en la base de datos |
 | `GET` | `/api/v1/catalog/styles` | Estilos con sus paletas y materiales |
@@ -240,7 +243,7 @@ docker run -p 8000:8000 --env-file .env habita-backend
 
 ## Calidad
 
-- **101 pruebas** con pytest: autenticación y roles, catálogo, rediseño con IA simulada, cadena de validación de imágenes, estrategias de presupuesto, estados, proyectos 3D con versiones, Lumi (reglas, sanitizador de acciones y respaldo cuando falla la IA) y panel de administración.
+- **123 pruebas** con pytest: autenticación y roles, catálogo, rediseño con IA simulada, cadena de validación de imágenes, estrategias de presupuesto, estados, proyectos 3D con versiones, Lumi (reglas, sanitizador de acciones y respaldo cuando falla la IA) y panel de administración.
 - **Integración continua** con GitHub Actions: en cada push se instalan dependencias, se corren las pruebas y se construye la imagen de Docker.
 - Despliegue automático en **Render** desde `main`; las migraciones de Alembic se aplican al arrancar el contenedor.
 
