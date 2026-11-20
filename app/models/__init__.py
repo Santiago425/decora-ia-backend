@@ -5,6 +5,7 @@ from app.models.catalog import (
     FurnitureAddon,
     FurnitureCategory,
     FurnitureItem,
+    InspirationPhoto,
     Material,
     RoomType,
 )
@@ -20,6 +21,7 @@ __all__ = [
     "FurnitureAddon",
     "FurnitureCategory",
     "FurnitureItem",
+    "InspirationPhoto",
     "Material",
     "Project",
     "ProjectStatus",

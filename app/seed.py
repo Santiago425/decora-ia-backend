@@ -13,6 +13,7 @@ from app.models import (
     DesignStyle,
     FurnitureAddon,
     FurnitureItem,
+    InspirationPhoto,
     Material,
     Project,
     ProjectStatus,
@@ -25,6 +26,7 @@ from app.models import (
 from app.repositories import (
     FurnitureAddonRepository,
     FurnitureCategoryRepository,
+    InspirationPhotoRepository,
     MaterialRepository,
     ProjectRepository,
     RoomTypeRepository,
@@ -38,13 +40,19 @@ SEED_DIR = Path(__file__).parent / "seed_data"
 def seed_catalog(session: Session, data: dict) -> None:
     room_types = RoomTypeRepository(session)
     for item in data["room_types"]:
-        if not room_types.get_by_slug(item["slug"]):
+        room_type = room_types.get_by_slug(item["slug"])
+        if room_type is None:
             session.add(RoomType(**item))
+        elif not room_type.cover_image_url:
+            room_type.cover_image_url = item.get("cover_image_url")
 
     materials = MaterialRepository(session)
     for item in data["materials"]:
-        if not materials.get_by_slug(item["slug"]):
+        material = materials.get_by_slug(item["slug"])
+        if material is None:
             session.add(Material(**{**item, "price_per_unit": Decimal(str(item["price_per_unit"]))}))
+        elif not material.texture_url:
+            material.texture_url = item.get("texture_url")
     session.flush()
 
     styles = StyleRepository(session)
@@ -76,6 +84,21 @@ def seed_catalog(session: Session, data: dict) -> None:
     for item in data["furniture_addons"]:
         if not addons.get_by_slug(item["slug"]):
             session.add(FurnitureAddon(**{**item, "price": Decimal(str(item["price"]))}))
+    session.flush()
+
+    if not InspirationPhotoRepository(session).count():
+        for order, item in enumerate(data["inspiration_photos"]):
+            style = styles.get_by_slug(item["style"]) if item["style"] else None
+            room_type = room_types.get_by_slug(item["room_type"]) if item["room_type"] else None
+            fields = {k: v for k, v in item.items() if k not in ("style", "room_type")}
+            session.add(
+                InspirationPhoto(
+                    **fields,
+                    sort_order=order,
+                    style_id=style.id if style else None,
+                    room_type_id=room_type.id if room_type else None,
+                )
+            )
 
 
 def seed_demo_accounts(session: Session) -> None:

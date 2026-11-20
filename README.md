@@ -74,7 +74,7 @@ Los routers nunca tocan la base de datos: reciben los servicios por **inyección
 
 ## Base de datos
 
-Todas las opciones de la app (estilos, tipos de habitación, categorías y catálogo de muebles, complementos, materiales y paletas) viven en la base de datos: para agregar un estilo nuevo basta con insertarlo y aparece en la app sin tocar código.
+Todas las opciones de la app (estilos, tipos de habitación, categorías y catálogo de muebles, complementos, materiales, paletas y la galería de inspiración, con las fotos de portada de estilos y habitaciones) viven en la base de datos: para agregar un estilo nuevo basta con insertarlo y aparece en la app sin tocar código.
 
 ```mermaid
 erDiagram
@@ -88,7 +88,15 @@ erDiagram
     projects ||--o{ scene_versions : saves
     design_styles ||--o{ redesigns : uses
     furniture_categories ||--o{ furniture_items : groups
+    design_styles ||--o{ inspiration_photos : inspires
+    room_types ||--o{ inspiration_photos : shows
 
+    inspiration_photos { int id PK
+        string title
+        string image_url
+        string author_name
+        int style_id FK
+        int room_type_id FK }
     scene_versions { int id PK
         uuid project_id FK
         string label
@@ -148,12 +156,13 @@ Las tablas se crean con migraciones de **Alembic** ([`migrations/`](migrations))
 | `POST` | `/api/v1/redesigns/{id}/retry` | Reintenta un rediseño que falló 🔐 |
 | `GET` | `/api/v1/files/{id}` | Imagen guardada en la base de datos |
 | `GET` | `/api/v1/catalog/styles` | Estilos con sus paletas y materiales |
-| `GET` | `/api/v1/catalog/room-types` | Tipos de habitación |
+| `GET` | `/api/v1/catalog/room-types` | Tipos de habitación con su foto de portada |
 | `GET` | `/api/v1/catalog/furniture-categories` | Categorías de muebles |
 | `GET` | `/api/v1/catalog/furniture?category=` | Catálogo de muebles |
-| `GET` | `/api/v1/catalog/materials?surface=` | Materiales de pared, piso y muebles |
+| `GET` | `/api/v1/catalog/materials?surface=` | Materiales de pared, piso y muebles (con miniatura de textura) |
 | `GET` | `/api/v1/catalog/palettes` | Paletas de colores |
 | `GET` | `/api/v1/catalog/addons` | Complementos de muebles (cojines, patas de latón, luz LED…) |
+| `GET` | `/api/v1/catalog/inspiration` | Galería de inspiración: fotos de interiores con autor, estilo y habitación |
 | `GET` | `/api/v1/projects` | Proyectos del usuario 🔐 |
 | `POST` | `/api/v1/projects` | Crea un proyecto con su habitación 3D (`name`, `room_type`, `style`, `furnished`) 🔐 |
 | `GET` | `/api/v1/projects/{id}` | Proyecto con su escena 3D 🔐 |
@@ -175,7 +184,8 @@ Las tablas se crean con migraciones de **Alembic** ([`migrations/`](migrations))
 | `PATCH` | `/api/v1/admin/users/{id}` | Cambia rol o activa / desactiva una cuenta 👑 |
 | `GET` / `POST` | `/api/v1/admin/furniture` | Lista muebles por páginas con filtros (`search`, `category`, `active`, `page`) o agrega uno 👑 |
 | `PATCH` | `/api/v1/admin/furniture/{id}` | Edita precio, medidas, categoría o visibilidad 👑 |
-| `GET` / `PATCH` | `/api/v1/admin/styles`, `/api/v1/admin/styles/{id}` | Estilos con su número de proyectos; edita nombre, luz o visibilidad 👑 |
+| `GET` / `PATCH` | `/api/v1/admin/styles`, `/api/v1/admin/styles/{id}` | Estilos con su número de proyectos; edita nombre, foto de portada, luz o visibilidad 👑 |
+| `GET` / `PATCH` | `/api/v1/admin/room-types`, `/api/v1/admin/room-types/{id}` | Tipos de habitación; edita nombre, foto de portada o visibilidad 👑 |
 | `GET` / `PATCH` | `/api/v1/admin/addons`, `/api/v1/admin/addons/{id}` | Complementos de muebles; edita precio o visibilidad 👑 |
 | `GET` | `/api/v1/admin/reports/{usuarios\|proyectos}` | Descarga el reporte en CSV o JSON (`?format=json`) 👑 |
 

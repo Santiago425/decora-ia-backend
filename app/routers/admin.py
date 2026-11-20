@@ -12,12 +12,14 @@ from app.schemas.admin import (
     AdminAddon,
     AdminFurniture,
     AdminFurniturePage,
+    AdminRoomType,
     AdminStats,
     AdminStyle,
     AdminUserPage,
     AdminUserUpdate,
     FurnitureCreate,
     FurnitureUpdate,
+    RoomTypeUpdate,
     StyleUpdate,
 )
 from app.schemas.admin import AdminUser as AdminUserResponse
@@ -87,6 +89,16 @@ def list_styles(admin: AdminUser, service: Service):
 @router.patch("/styles/{style_id}", response_model=AdminStyle)
 def update_style(style_id: int, data: StyleUpdate, catalog: Catalog):
     return handle(lambda: catalog.update_style(style_id, data))
+
+
+@router.get("/room-types", response_model=list[AdminRoomType])
+def list_room_types(admin: AdminUser, service: Service):
+    return service.list_room_types()
+
+
+@router.patch("/room-types/{room_type_id}", response_model=AdminRoomType)
+def update_room_type(room_type_id: int, data: RoomTypeUpdate, catalog: Catalog):
+    return handle(lambda: catalog.update_room_type(room_type_id, data))
 
 
 @router.get("/addons", response_model=list[AdminAddon])

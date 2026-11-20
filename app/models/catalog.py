@@ -52,6 +52,7 @@ class Material(Base):
     roughness: Mapped[float] = mapped_column(Float, default=0.8)
     metalness: Mapped[float] = mapped_column(Float, default=0.0)
     price_per_unit: Mapped[Decimal] = mapped_column(Numeric(12, 2), default=0)
+    texture_url: Mapped[str | None] = mapped_column(String(500))
 
 
 class RoomType(Base):
@@ -61,6 +62,7 @@ class RoomType(Base):
     slug: Mapped[str] = mapped_column(String(40), unique=True, index=True)
     name: Mapped[str] = mapped_column(String(60))
     icon: Mapped[str] = mapped_column(String(40), default="home")
+    cover_image_url: Mapped[str | None] = mapped_column(String(500))
     sort_order: Mapped[int] = mapped_column(Integer, default=0)
     is_active: Mapped[bool] = mapped_column(Boolean, default=True)
 
@@ -108,3 +110,20 @@ class FurnitureAddon(Base):
     color_hex: Mapped[str | None] = mapped_column(String(7))
     categories: Mapped[list[str]] = mapped_column(JSON, default=list)
     is_active: Mapped[bool] = mapped_column(Boolean, default=True)
+
+
+class InspirationPhoto(Base):
+    __tablename__ = "inspiration_photos"
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    title: Mapped[str] = mapped_column(String(80))
+    image_url: Mapped[str] = mapped_column(String(500))
+    author_name: Mapped[str] = mapped_column(String(80), default="")
+    source_url: Mapped[str | None] = mapped_column(String(500))
+    style_id: Mapped[int | None] = mapped_column(ForeignKey("design_styles.id", ondelete="SET NULL"))
+    room_type_id: Mapped[int | None] = mapped_column(ForeignKey("room_types.id", ondelete="SET NULL"))
+    sort_order: Mapped[int] = mapped_column(Integer, default=0)
+    is_active: Mapped[bool] = mapped_column(Boolean, default=True)
+
+    style: Mapped[DesignStyle | None] = relationship()
+    room_type: Mapped[RoomType | None] = relationship()

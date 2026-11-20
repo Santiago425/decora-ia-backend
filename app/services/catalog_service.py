@@ -2,6 +2,7 @@ from app.repositories import (
     FurnitureAddonRepository,
     FurnitureCategoryRepository,
     FurnitureRepository,
+    InspirationPhotoRepository,
     MaterialRepository,
     PaletteRepository,
     RoomTypeRepository,
@@ -19,6 +20,7 @@ class CatalogService:
         materials: MaterialRepository,
         palettes: PaletteRepository,
         addons: FurnitureAddonRepository,
+        inspiration: InspirationPhotoRepository,
     ) -> None:
         self.styles = styles
         self.room_types = room_types
@@ -27,6 +29,7 @@ class CatalogService:
         self.materials = materials
         self.palettes = palettes
         self.addons = addons
+        self.inspiration = inspiration
 
     def list_styles(self):
         return self.styles.list_active()
@@ -48,3 +51,6 @@ class CatalogService:
 
     def list_addons(self):
         return self.addons.list_active()
+
+    def list_inspiration(self):
+        return self.inspiration.list_active()

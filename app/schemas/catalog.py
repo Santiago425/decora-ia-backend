@@ -23,6 +23,7 @@ class MaterialResponse(ORMModel):
     roughness: float
     metalness: float
     price_per_unit: Decimal
+    texture_url: str | None = None
 
 
 class StyleResponse(ORMModel):
@@ -42,6 +43,22 @@ class RoomTypeResponse(ORMModel):
     slug: str
     name: str
     icon: str
+    cover_image_url: str | None = None
+
+
+class CatalogRef(ORMModel):
+    slug: str
+    name: str
+
+
+class InspirationPhotoResponse(ORMModel):
+    id: int
+    title: str
+    image_url: str
+    author_name: str
+    source_url: str | None
+    style: CatalogRef | None
+    room_type: CatalogRef | None
 
 
 class FurnitureCategoryResponse(ORMModel):

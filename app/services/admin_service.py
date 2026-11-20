@@ -7,6 +7,7 @@ from app.repositories import (
     AdminStatsRepository,
     FurnitureAddonRepository,
     FurnitureRepository,
+    RoomTypeRepository,
     StyleRepository,
     UserRepository,
 )
@@ -43,6 +44,7 @@ class AdminService:
         furniture: FurnitureRepository,
         styles: StyleRepository,
         addons: FurnitureAddonRepository,
+        room_types: RoomTypeRepository,
         settings: Settings,
     ) -> None:
         self.stats_repo = stats
@@ -50,6 +52,7 @@ class AdminService:
         self.furniture = furniture
         self.styles = styles
         self.addons = addons
+        self.room_types = room_types
         self.settings = settings
 
     def stats(self) -> AdminStats:
@@ -122,3 +125,6 @@ class AdminService:
 
     def list_addons(self):
         return self.addons.list_all()
+
+    def list_room_types(self):
+        return self.room_types.list_all()
