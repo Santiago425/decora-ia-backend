@@ -1,15 +1,15 @@
 from abc import ABC, abstractmethod
 
 from app.core.settings import Settings
-from app.patterns.ai.ai_provider import DesignAdvisor, DesignSuggestions, ImageEditor
+from app.patterns.ai.ai_provider import DesignAdvisor, DesignSuggestions, ImageEditor, StyleDescriber
 from app.patterns.ai.cloudflare_adapter import CloudflareImageEditor
-from app.patterns.ai.gemini_adapter import GeminiClient, GeminiDesignAdvisor, GeminiImageEditor
+from app.patterns.ai.gemini_adapter import GeminiClient, GeminiDesignAdvisor, GeminiImageEditor, GeminiStyleDescriber
 from app.patterns.ai.huggingface_adapter import HuggingFaceImageEditor
-from app.patterns.ai.mock_adapter import MockDesignAdvisor, MockImageEditor
+from app.patterns.ai.mock_adapter import MockDesignAdvisor, MockImageEditor, MockStyleDescriber
 
 
-# Abstract Factory: each provider builds its own family of AI products (image editor and design advisor)
-# configured from the same settings; a provider without text support falls back to the local advisor.
+# Abstract Factory: each provider builds its own family of AI products (image editor, design advisor and style
+# describer) configured from the same settings; a provider without text support falls back to the local ones.
 class AIProviderFactory(ABC):
     key: str
 
@@ -21,6 +21,9 @@ class AIProviderFactory(ABC):
 
     def create_design_advisor(self, fallback: DesignSuggestions) -> DesignAdvisor:
         return MockDesignAdvisor(fallback)
+
+    def create_style_describer(self) -> StyleDescriber:
+        return MockStyleDescriber()
 
 
 class GeminiFactory(AIProviderFactory):
@@ -35,6 +38,9 @@ class GeminiFactory(AIProviderFactory):
 
     def create_design_advisor(self, fallback: DesignSuggestions) -> DesignAdvisor:
         return GeminiDesignAdvisor(self._client(), self.settings.gemini_text_model)
+
+    def create_style_describer(self) -> StyleDescriber:
+        return GeminiStyleDescriber(self._client(), self.settings.gemini_text_model)
 
 
 class CloudflareFactory(AIProviderFactory):

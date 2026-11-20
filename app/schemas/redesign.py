@@ -27,6 +27,8 @@ class RedesignResponse(BaseModel):
     keep_structure: bool
     keep_items: str | None
     edit_tool: NamedRef | None
+    inspiration_image_url: str | None = None
+    inspiration_name: str | None = None
     suggestions: dict
     estimated_total: Decimal
     error_message: str | None

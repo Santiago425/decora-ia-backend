@@ -62,6 +62,8 @@ def to_response(redesign: Redesign) -> RedesignResponse:
         keep_structure=redesign.keep_structure,
         keep_items=redesign.keep_items,
         edit_tool=NamedRef(slug=tool.key, name=tool.label) if tool else None,
+        inspiration_image_url=redesign.inspiration_image_url,
+        inspiration_name=redesign.inspiration_name,
         suggestions=redesign.suggestions or {},
         estimated_total=project.estimated_budget,
         error_message=redesign.error_message,
@@ -174,6 +176,27 @@ def apply_edit(request: Request, redesign_id: uuid.UUID, user: CurrentUser, faca
         raise HTTPException(status.HTTP_404_NOT_FOUND, "No encontramos ese rediseño") from None
     except EditRequestError as error:
         raise HTTPException(status.HTTP_422_UNPROCESSABLE_CONTENT, str(error)) from None
+
+
+@router.post("/{redesign_id}/inspiration", response_model=RedesignResponse, status_code=status.HTTP_201_CREATED)
+@limiter.limit(settings.redesign_rate_limit)
+def apply_inspiration(
+    request: Request,
+    redesign_id: uuid.UUID,
+    user: CurrentUser,
+    facade: Facade,
+    image: Annotated[UploadFile, File()],
+):
+    max_bytes = int(settings.max_upload_mb * 1024 * 1024)
+    photo = image.file.read(max_bytes + 1)
+    try:
+        return to_response(facade.apply_inspiration(user, redesign_id, photo, image.content_type))
+    except RedesignNotFound:
+        raise HTTPException(status.HTTP_404_NOT_FOUND, "No encontramos ese rediseño") from None
+    except ImageValidationError as error:
+        raise HTTPException(status.HTTP_422_UNPROCESSABLE_CONTENT, str(error)) from None
+    except AIError as error:
+        raise HTTPException(status.HTTP_503_SERVICE_UNAVAILABLE, error.user_message) from None
 
 
 @router.post("/{redesign_id}/retry", response_model=RedesignResponse)

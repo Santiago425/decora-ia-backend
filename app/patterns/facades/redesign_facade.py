@@ -141,6 +141,38 @@ class RedesignFacade:
         self.session.add(edited)
         return self._run_edit(edited, strategy.prompt(values, source.keep_items))
 
+    def apply_inspiration(
+        self, user: User, redesign_id: uuid.UUID, photo: bytes, declared_type: str | None
+    ) -> Redesign:
+        """Reads the style of an inspiration photo with the text model and applies it to the room photo."""
+        source = self._owned(user, redesign_id)
+        inspiration = self._normalize(
+            build_image_validation_chain().validate(UploadedImage(photo, declared_type)).image
+        )
+        description = self.ai.style_describer().describe(inspiration)
+        suggestions = dict(source.suggestions or {})
+        if description.summary:
+            suggestions["summary"] = description.summary
+        if description.colors:
+            suggestions["colors"] = [
+                SuggestedColor(name=f"Tono {n}", hex=color).model_dump()
+                for n, color in enumerate(description.colors, start=1)
+            ]
+        restyled = Redesign(
+            project=source.project,
+            style_id=source.style_id,
+            original_image_url=source.original_image_url,
+            palette=list(description.colors),
+            budget=source.budget,
+            keep_structure=source.keep_structure,
+            keep_items=source.keep_items,
+            suggestions=suggestions,
+            inspiration_image_url=self.storage.save(inspiration.data, inspiration.content_type),
+            inspiration_name=description.name or None,
+        )
+        self.session.add(restyled)
+        return self._run_edit(restyled, description.image_prompt(source.keep_structure, source.keep_items))
+
     def list_for_project(self, user: User, project_id: uuid.UUID) -> list[Redesign]:
         project = self.projects.get_owned(project_id, user.id)
         if project is None:
@@ -149,7 +181,7 @@ class RedesignFacade:
 
     def retry(self, user: User, redesign_id: uuid.UUID) -> Redesign:
         redesign = self._owned(user, redesign_id)
-        if redesign.edit_tool:
+        if redesign.edit_tool or redesign.inspiration_image_url:
             return self._run_edit(redesign, redesign.prompt)
         return self._run(redesign, self._request_from(redesign, variation=0))
 

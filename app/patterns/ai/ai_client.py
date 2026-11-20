@@ -1,6 +1,6 @@
 from app.core.settings import get_settings
 from app.patterns.ai.ai_decorators import CachingImageEditor, FallbackImageEditor, LoggingImageEditor
-from app.patterns.ai.ai_provider import DesignAdvisor, DesignSuggestions, ImageEditor
+from app.patterns.ai.ai_provider import DesignAdvisor, DesignSuggestions, ImageEditor, StyleDescriber
 from app.patterns.ai.mock_adapter import MockImageEditor
 from app.patterns.ai.provider_factories import factory_for
 from app.patterns.singleton import SingletonMeta
@@ -20,3 +20,6 @@ class AIClient(metaclass=SingletonMeta):
 
     def advisor(self, fallback: DesignSuggestions) -> DesignAdvisor:
         return factory_for(self.settings.ai_text_provider, self.settings).create_design_advisor(fallback)
+
+    def style_describer(self) -> StyleDescriber:
+        return factory_for(self.settings.ai_text_provider, self.settings).create_style_describer()

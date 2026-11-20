@@ -53,6 +53,7 @@ Los routers nunca tocan la base de datos: reciben los servicios por **inyección
 | **Abstract Factory** | Creacional | [`app/patterns/ai/provider_factories.py`](app/patterns/ai/provider_factories.py) | Cada proveedor (`GeminiFactory`, `CloudflareFactory`, `HuggingFaceFactory`, `MockFactory`) crea su familia de productos de IA: editor de imágenes y asesor de diseño. Agregar un proveedor es agregar una fábrica. |
 | **Builder** | Creacional | [`app/patterns/builders/redesign_request_builder.py`](app/patterns/builders/redesign_request_builder.py) | Arma paso a paso la petición a la IA (foto, habitación, estilo, paleta, presupuesto, conservar estructura) y la valida al final. |
 | **Adapter** | Estructural | [`app/patterns/ai/`](app/patterns/ai) | `GeminiImageEditor`, `CloudflareImageEditor`, `HuggingFaceImageEditor` y `MockImageEditor` traducen cada API a la misma interfaz; el proveedor se cambia con `AI_IMAGE_PROVIDER` / `AI_TEXT_PROVIDER`. |
+| **Adapter** | Estructural | [`app/patterns/ai/gemini_adapter.py`](app/patterns/ai/gemini_adapter.py) | Estilo desde una foto de inspiración: `GeminiStyleDescriber` (o `MockStyleDescriber` sin conexión) adapta la respuesta de Gemini a la interfaz `StyleDescriber`, que devuelve el estilo como texto; ese texto se convierte en la instrucción para el editor de imágenes (FLUX Kontext). Se elige con `AI_TEXT_PROVIDER`. |
 | **Adapter** | Estructural | [`app/patterns/storage/storage_adapter.py`](app/patterns/storage/storage_adapter.py) | Guardar fotos en disco (desarrollo) o en la base de datos en la nube (producción) con la misma interfaz (`STORAGE_PROVIDER`). |
 | **Decorator** | Estructural | [`app/patterns/ai/ai_decorators.py`](app/patterns/ai/ai_decorators.py) | Añade caché, registro de tiempos y respaldo (`FallbackImageEditor` usa el editor local si el proveedor falla) a cualquier proveedor de IA sin modificarlo. |
 | **Facade** | Estructural | [`app/patterns/facades/redesign_facade.py`](app/patterns/facades/redesign_facade.py) | `create_redesign()` valida la foto, la guarda, llama a la IA, calcula sugerencias y presupuesto y registra el proyecto en una sola llamada. |
@@ -156,6 +157,7 @@ Las tablas se crean con migraciones de **Alembic** ([`migrations/`](migrations))
 | `POST` | `/api/v1/redesigns/{id}/variations` | Genera otra versión con la misma foto; el cuerpo opcional cambia `style`, `palette`, `budget`, `keep_structure` o `keep_items` 🔐 |
 | `GET` | `/api/v1/redesigns/edit-tools` | Herramientas de edición puntual y sus campos (los pisos salen del catálogo) 🔐 |
 | `POST` | `/api/v1/redesigns/{id}/edits` | Edita una parte de una versión terminada (`wall_paint`, `floor_swap`, `remove_object`, `replace_furniture`) y la guarda como versión nueva 🔐 |
+| `POST` | `/api/v1/redesigns/{id}/inspiration` | Lee el estilo de una foto de inspiración (multipart: `image`) y lo aplica a la foto del espacio como versión nueva 🔐 |
 | `POST` | `/api/v1/redesigns/{id}/retry` | Reintenta un rediseño que falló 🔐 |
 | `GET` | `/api/v1/files/{id}` | Imagen guardada en la base de datos |
 | `GET` | `/api/v1/catalog/styles` | Estilos con sus paletas y materiales |
