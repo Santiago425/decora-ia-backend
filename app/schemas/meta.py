@@ -10,10 +10,22 @@ class DemoAccount(BaseModel):
     password: str
 
 
-class AppInfo(BaseModel):
+class ProviderOption(BaseModel):
+    key: str
+    label: str
+    capabilities: list[str]
+    active_for: list[str]
+
+
+class PublicMeta(BaseModel):
     app_name: str
     assistant_name: str
     environment: str
-    api_prefix: str
+    currency_code: str
     providers: ProviderInfo
+    available_providers: list[ProviderOption]
     demo_accounts: list[DemoAccount]
+
+
+class AppInfo(PublicMeta):
+    api_prefix: str

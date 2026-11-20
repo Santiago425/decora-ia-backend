@@ -1,8 +1,13 @@
+import logging
 from functools import lru_cache
-from typing import Annotated
+from typing import Annotated, Literal
 
-from pydantic import Field, field_validator
+from pydantic import Field, field_validator, model_validator
 from pydantic_settings import BaseSettings, NoDecode, SettingsConfigDict
+
+logger = logging.getLogger("habita.settings")
+
+INSECURE_SECRET_PREFIXES = ("change-me", "changeme", "secret", "test-secret")
 
 
 class Settings(BaseSettings):
@@ -34,20 +39,21 @@ class Settings(BaseSettings):
 
     currency_code: str = "COP"
 
-    storage_provider: str = "local"
+    storage_provider: Literal["local", "database"] = "local"
     media_dir: str = "media"
     media_url_path: str = "/media"
     max_upload_mb: float = 8
     min_image_side: int = 256
     max_image_side: int = 1536
 
-    ai_text_provider: str = "mock"
-    ai_image_provider: str = "mock"
-    ai_image_fallback: str = "mock"
+    ai_text_provider: Literal["gemini", "mock"] = "mock"
+    ai_image_provider: Literal["gemini", "cloudflare", "huggingface", "mock"] = "mock"
+    ai_image_fallback: Literal["mock", "none"] = "mock"
     ai_timeout_seconds: float = 90
     ai_cache_size: int = 32
     redesign_rate_limit: str = "6/minute"
 
+    # Public endpoints and model names have working defaults on purpose; override them from the .env.
     gemini_api_key: str = ""
     gemini_api_base_url: str = "https://generativelanguage.googleapis.com/v1beta"
     gemini_text_model: str = "gemini-3.5-flash-lite"
@@ -96,6 +102,37 @@ class Settings(BaseSettings):
             if value.startswith(prefix):
                 return "postgresql+psycopg://" + value[len(prefix) :]
         return value
+
+    @model_validator(mode="after")
+    def check_safe_configuration(self) -> "Settings":
+        if self.is_production and self.jwt_secret.lower().startswith(INSECURE_SECRET_PREFIXES):
+            raise ValueError("JWT_SECRET is the example value: set a long random secret before running in production")
+        for problem in self.provider_problems():
+            logger.warning("settings %s", problem)
+        return self
+
+    def provider_problems(self) -> list[str]:
+        required = {
+            "gemini": {"GEMINI_API_KEY": self.gemini_api_key},
+            "cloudflare": {
+                "CLOUDFLARE_ACCOUNT_ID": self.cloudflare_account_id,
+                "CLOUDFLARE_API_TOKEN": self.cloudflare_api_token,
+            },
+            "huggingface": {"HUGGINGFACE_API_TOKEN": self.huggingface_api_token},
+        }
+        problems = []
+        for role, provider in (
+            ("AI_TEXT_PROVIDER", self.ai_text_provider),
+            ("AI_IMAGE_PROVIDER", self.ai_image_provider),
+        ):
+            missing = [name for name, value in required.get(provider, {}).items() if not value]
+            if missing:
+                problems.append(f"{role}={provider} needs {', '.join(missing)}")
+        return problems
+
+    @property
+    def is_production(self) -> bool:
+        return self.app_env == "production"
 
     @property
     def is_sqlite(self) -> bool:
