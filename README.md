@@ -164,6 +164,7 @@ Las tablas se crean con migraciones de **Alembic** ([`migrations/`](migrations))
 | `GET` | `/api/v1/assistant/messages` | Conversación con Lumi 🔐 |
 | `POST` | `/api/v1/assistant/messages` | Envía un mensaje a Lumi (`message`, `page`, `project_id`) y recibe la respuesta con sus acciones 🔐 |
 | `DELETE` | `/api/v1/assistant/messages` | Borra la conversación 🔐 |
+| `GET` | `/api/v1/meta/public` | Marca, proveedores de IA activos y disponibles, y cuentas de prueba si `SHOW_DEMO_ACCOUNTS=true` (para el login y la Documentación) |
 | `GET` | `/api/v1/meta/info` | Nombre de la app, proveedores de IA y cuentas de prueba (para la sección Documentación) 🔐 |
 | `GET` | `/api/v1/admin/stats` | Totales, actividad por día, estados, estilos más usados y proveedores 👑 |
 | `GET` | `/api/v1/admin/users` | Usuarios con búsqueda y páginas (`search`, `page`) 👑 |
@@ -225,7 +226,7 @@ docker run -p 8000:8000 --env-file .env habita-backend
 
 ## Calidad
 
-- **92 pruebas** con pytest: autenticación y roles, catálogo, rediseño con IA simulada, cadena de validación de imágenes, estrategias de presupuesto, estados, proyectos 3D con versiones, Lumi (reglas, sanitizador de acciones y respaldo cuando falla la IA) y panel de administración.
+- **99 pruebas** con pytest: autenticación y roles, catálogo, rediseño con IA simulada, cadena de validación de imágenes, estrategias de presupuesto, estados, proyectos 3D con versiones, Lumi (reglas, sanitizador de acciones y respaldo cuando falla la IA) y panel de administración.
 - **Integración continua** con GitHub Actions: en cada push se instalan dependencias, se corren las pruebas y se construye la imagen de Docker.
 - Despliegue automático en **Render** desde `main`; las migraciones de Alembic se aplican al arrancar el contenedor.
 

@@ -51,6 +51,7 @@ class StyleCount(BaseModel):
 class ProviderInfo(BaseModel):
     text: str
     image: str
+    image_fallback: str
     storage: str
 
 

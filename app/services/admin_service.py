@@ -17,9 +17,9 @@ from app.schemas.admin import (
     AdminUserPage,
     AdminUserUpdate,
     DailyPoint,
-    ProviderInfo,
     StyleCount,
 )
+from app.services.meta_service import active_providers
 
 
 class AdminError(Exception):
@@ -71,11 +71,7 @@ class AdminService:
             redesigns_by_status=self.stats_repo.redesigns_by_status(),
             top_styles=[StyleCount(slug=s, name=n, count=c) for s, n, c in self.stats_repo.style_usage(limit=6)],
             daily=daily,
-            providers=ProviderInfo(
-                text=self.settings.ai_text_provider,
-                image=self.settings.ai_image_provider,
-                storage=self.settings.storage_provider,
-            ),
+            providers=active_providers(self.settings),
             days=days,
         )
 
