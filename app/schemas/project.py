@@ -63,6 +63,10 @@ class ProjectCreate(BaseModel):
     room_type: Slug
     style: Slug
     furnished: bool = True
+    # Optional room size in meters; whatever is left out falls back to the ROOM_DEFAULT_* settings.
+    width: float | None = Field(default=None, ge=1.5, le=20)
+    length: float | None = Field(default=None, ge=1.5, le=20)
+    height: float | None = Field(default=None, ge=2, le=5)
 
 
 class ProjectUpdate(BaseModel):

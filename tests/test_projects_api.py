@@ -37,6 +37,22 @@ def test_new_project_starts_with_a_furnished_room(project: dict):
     assert float(project["estimated_budget"]) > 0
 
 
+def test_new_project_uses_the_chosen_room_size(client, designer):
+    body = {"name": "Baño pequeño", "room_type": "living_room", "style": "nordic", "width": 3.2, "length": 2.5}
+    response = client.post("/api/v1/projects", json=body, headers=designer)
+    assert response.status_code == 201
+    room = response.json()["scene"]["room"]
+    assert (room["width"], room["length"]) == (3.2, 2.5)
+    assert room["height"] > 0
+    for node in response.json()["scene"]["nodes"]:
+        assert abs(node["position"][0]) <= 1.6 and abs(node["position"][1]) <= 1.25
+
+
+def test_new_project_rejects_an_impossible_room_size(client, designer):
+    body = {"name": "Cuarto", "room_type": "living_room", "style": "nordic", "width": 50}
+    assert client.post("/api/v1/projects", json=body, headers=designer).status_code == 422
+
+
 def test_saving_the_scene_recalculates_the_budget_and_moves_to_design(client, designer, project):
     scene = project["scene"]
     sofa = next(node for node in scene["nodes"] if node["shape"] == "sofa")
