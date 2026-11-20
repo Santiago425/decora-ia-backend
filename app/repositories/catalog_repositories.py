@@ -1,3 +1,5 @@
+import uuid
+
 from sqlalchemy import func, select
 from sqlalchemy.orm import selectinload
 
@@ -7,6 +9,7 @@ from app.models import (
     DesignStyle,
     FurnitureAddon,
     FurnitureCategory,
+    FurnitureFavorite,
     FurnitureItem,
     InspirationPhoto,
     Material,
@@ -145,6 +148,27 @@ class PaletteRepository(BaseRepository[ColorPalette]):
 
     def list_ordered(self) -> list[ColorPalette]:
         return list(self.session.scalars(select(ColorPalette).order_by(ColorPalette.name)))
+
+
+class FurnitureFavoriteRepository(BaseRepository[FurnitureFavorite]):
+    model = FurnitureFavorite
+
+    def item_ids(self, user_id: uuid.UUID) -> list[int]:
+        query = (
+            select(FurnitureFavorite.furniture_item_id)
+            .where(FurnitureFavorite.user_id == user_id)
+            .order_by(FurnitureFavorite.created_at.desc())
+        )
+        return list(self.session.scalars(query))
+
+    def mark(self, user_id: uuid.UUID, item_id: int) -> None:
+        if self.session.get(FurnitureFavorite, (user_id, item_id)) is None:
+            self.add(FurnitureFavorite(user_id=user_id, furniture_item_id=item_id))
+
+    def unmark(self, user_id: uuid.UUID, item_id: int) -> None:
+        favorite = self.session.get(FurnitureFavorite, (user_id, item_id))
+        if favorite is not None:
+            self.delete(favorite)
 
 
 class FurnitureAddonRepository(BaseRepository[FurnitureAddon]):
