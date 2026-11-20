@@ -8,6 +8,7 @@ class DemoAccount(BaseModel):
     name: str
     email: str
     password: str
+    greeting: str = ""
 
 
 class ProviderOption(BaseModel):

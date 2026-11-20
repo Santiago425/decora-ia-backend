@@ -121,6 +121,7 @@ def seed_demo_accounts(session: Session) -> None:
     ]
     for email, name, role in accounts:
         user = users.get_by_email(email) or User(email=email.lower(), full_name=name)
+        user.full_name = name
         user.role = role
         user.is_active = True
         user.password_hash = PasswordHasher.hash(settings.demo_password)
