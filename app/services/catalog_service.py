@@ -1,7 +1,10 @@
+import uuid
+
 from app.repositories import (
     DaylightPresetRepository,
     FurnitureAddonRepository,
     FurnitureCategoryRepository,
+    FurnitureFavoriteRepository,
     FurnitureRepository,
     InspirationPhotoRepository,
     MaterialRepository,
@@ -9,6 +12,10 @@ from app.repositories import (
     RoomTypeRepository,
     StyleRepository,
 )
+
+
+class FurnitureNotFound(Exception):
+    pass
 
 
 class CatalogService:
@@ -23,6 +30,7 @@ class CatalogService:
         addons: FurnitureAddonRepository,
         inspiration: InspirationPhotoRepository,
         daylight: DaylightPresetRepository,
+        favorites: FurnitureFavoriteRepository | None = None,
     ) -> None:
         self.styles = styles
         self.room_types = room_types
@@ -33,6 +41,7 @@ class CatalogService:
         self.addons = addons
         self.inspiration = inspiration
         self.daylight = daylight
+        self.favorites = favorites
 
     def list_styles(self):
         return self.styles.list_active()
@@ -60,3 +69,15 @@ class CatalogService:
 
     def list_daylight(self):
         return self.daylight.list_active()
+
+    def list_favorites(self, user_id: uuid.UUID) -> list[int]:
+        return self.favorites.item_ids(user_id)
+
+    def set_favorite(self, user_id: uuid.UUID, item_id: int, favorite: bool) -> None:
+        item = self.furniture.get(item_id)
+        if item is None or not item.is_active:
+            raise FurnitureNotFound
+        if favorite:
+            self.favorites.mark(user_id, item_id)
+        else:
+            self.favorites.unmark(user_id, item_id)

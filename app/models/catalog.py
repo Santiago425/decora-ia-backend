@@ -1,9 +1,25 @@
+import uuid
+from datetime import datetime
 from decimal import Decimal
 
-from sqlalchemy import JSON, Boolean, Column, Float, ForeignKey, Integer, Numeric, String, Table, Text, text, true
+from sqlalchemy import (
+    JSON,
+    Boolean,
+    Column,
+    DateTime,
+    Float,
+    ForeignKey,
+    Integer,
+    Numeric,
+    String,
+    Table,
+    Text,
+    text,
+    true,
+)
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
-from app.models.base import Base
+from app.models.base import Base, utc_now
 
 style_materials = Table(
     "style_materials",
@@ -102,6 +118,18 @@ class FurnitureItem(Base):
     is_active: Mapped[bool] = mapped_column(Boolean, default=True)
 
     category: Mapped[FurnitureCategory] = relationship(back_populates="items")
+
+
+class FurnitureFavorite(Base):
+    """A piece of furniture a user marked to find again quickly in the editor catalog."""
+
+    __tablename__ = "furniture_favorites"
+
+    user_id: Mapped[uuid.UUID] = mapped_column(ForeignKey("users.id", ondelete="CASCADE"), primary_key=True)
+    furniture_item_id: Mapped[int] = mapped_column(
+        ForeignKey("furniture_items.id", ondelete="CASCADE"), primary_key=True
+    )
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utc_now)
 
 
 class FurnitureAddon(Base):
