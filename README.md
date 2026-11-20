@@ -6,26 +6,59 @@
 
 Proyecto final de **Patrones de Diseño**
 
+[**Abrir la app**](https://decora-ia-frontend.vercel.app) · [API (Swagger)](https://decora-ia-backend.onrender.com/api/v1/docs) · [Frontend](https://github.com/Santiago425/decora-ia-frontend)
+
 ![Python](https://img.shields.io/badge/Python-3.13-3776AB?logo=python&logoColor=white)
 ![FastAPI](https://img.shields.io/badge/FastAPI-0.162-009688?logo=fastapi&logoColor=white)
 ![SQLAlchemy](https://img.shields.io/badge/SQLAlchemy-2-D71F00)
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-Neon-4169E1?logo=postgresql&logoColor=white)
+![pytest](https://img.shields.io/badge/pytest-155_pruebas-0A9EDC?logo=pytest&logoColor=white)
+![Ruff](https://img.shields.io/badge/lint-Ruff-D7FF64?logo=ruff&logoColor=black)
 ![Docker](https://img.shields.io/badge/Docker-ready-2496ED?logo=docker&logoColor=white)
 ![CI](https://github.com/Santiago425/decora-ia-backend/actions/workflows/ci.yml/badge.svg)
 
 </div>
 
+![Rediseño real de una sala: antes y después](https://raw.githubusercontent.com/Santiago425/decora-ia-frontend/main/docs/screenshots/rediseno.jpg)
+
+## Contenido
+
+- [¿En qué consiste?](#en-qué-consiste)
+- [Así se ve](#así-se-ve)
+- [Arquitectura por capas](#arquitectura-por-capas)
+- [Inteligencia artificial](#inteligencia-artificial)
+- [Patrones aplicados](#patrones-aplicados)
+- [Base de datos](#base-de-datos)
+- [Endpoints](#endpoints)
+- [Cuentas de prueba](#cuentas-de-prueba)
+- [Seguridad](#seguridad)
+- [Calidad](#calidad)
+- [Ejecutar en local](#ejecutar-en-local)
+- [Variables de entorno](#variables-de-entorno)
+- [Estructura](#estructura)
+- [Equipo](#equipo)
+
 ## ¿En qué consiste?
 
 **Habita** permite tomar o subir una foto de un espacio, elegir un estilo y ver cómo quedaría rediseñado por la IA, armar el espacio en un editor 3D con muebles del catálogo, calcular un presupuesto y guardar proyectos. **Lumi**, la asistente, guía al usuario por voz o texto.
 
-Este repositorio es el **backend**: API REST con FastAPI, base de datos PostgreSQL y conexión con la IA (Google Gemini, intercambiable desde el `.env`).
+Este repositorio es el **backend**: API REST con FastAPI, base de datos PostgreSQL en Neon y conexión con la IA: **FLUX.1 Kontext** (Hugging Face) para la imagen y **Google Gemini** para el texto, los dos intercambiables desde el `.env`.
 
 | Componente | Repositorio | Producción |
 |---|---|---|
 | Frontend | [decora-ia-frontend](https://github.com/Santiago425/decora-ia-frontend) | https://decora-ia-frontend.vercel.app |
 | Backend | [decora-ia-backend](https://github.com/Santiago425/decora-ia-backend) | https://decora-ia-backend.onrender.com/api/v1/hello |
 | Documentación de la API | Swagger UI | https://decora-ia-backend.onrender.com/api/v1/docs |
+
+## Así se ve
+
+Capturas de la app desplegada, que consume esta API. Hay más en el [README del frontend](https://github.com/Santiago425/decora-ia-frontend#capturas).
+
+| Rediseño con IA (`POST /redesigns`)                                                                                   | Editor 3D (`/projects/{id}/scene`)                                                                                   |
+| --------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------- |
+| ![Rediseño](https://raw.githubusercontent.com/Santiago425/decora-ia-frontend/main/docs/screenshots/ediciones-puntuales.jpg) | ![Editor 3D](https://raw.githubusercontent.com/Santiago425/decora-ia-frontend/main/docs/screenshots/editor-3d.jpg)       |
+| **Lista de compras (Composite + Visitor)**                                                                            | **Panel de administración (Proxy, Template Method, Bridge)**                                                         |
+| ![Lista de compras](https://raw.githubusercontent.com/Santiago425/decora-ia-frontend/main/docs/screenshots/compras.jpg) | ![Administración](https://raw.githubusercontent.com/Santiago425/decora-ia-frontend/main/docs/screenshots/admin.jpg) |
 
 ## Arquitectura por capas
 
@@ -39,7 +72,42 @@ flowchart LR
     D[dependencies<br/>Depends] -.inyecta.- R
 ```
 
-Los routers nunca tocan la base de datos: reciben los servicios por **inyección de dependencias** (`Depends` de FastAPI) y los servicios trabajan solo con repositorios.
+Los routers nunca tocan la base de datos: reciben los servicios por **inyección de dependencias** (`Depends` de FastAPI) y los servicios trabajan solo con repositorios. Los patrones viven en [`app/patterns/`](app/patterns), separados por familia.
+
+Así viaja un rediseño por las capas:
+
+```mermaid
+sequenceDiagram
+    participant F as Frontend
+    participant R as routers/redesigns
+    participant FA as RedesignFacade
+    participant V as Cadena de validadores
+    participant S as StorageAdapter
+    participant AI as AIClient (FLUX Kontext + Gemini)
+    participant DB as Repositorios
+    F->>R: POST /redesigns (foto, habitación, estilo)
+    R->>FA: create_redesign()
+    FA->>V: formato → tamaño → resolución → contenido
+    FA->>S: guarda la foto original
+    FA->>AI: RedesignRequestBuilder arma la instrucción
+    AI-->>FA: imagen nueva + sugerencias
+    FA->>DB: proyecto, rediseño y presupuesto (Strategy)
+    FA-->>R: rediseño listo (State)
+    R-->>F: 201 con antes, después y sugerencias
+```
+
+## Inteligencia artificial
+
+| Tarea                                | Proveedor en producción                               | Patrones                             |
+| ------------------------------------ | ----------------------------------------------------- | ------------------------------------ |
+| Foto rediseñada y ediciones puntuales | **FLUX.1 Kontext** en Hugging Face Inference Providers | Abstract Factory, Adapter, Decorator |
+| Sugerencias, colores y materiales    | **Google Gemini**                                     | Adapter                              |
+| Estilo desde una foto de inspiración | Gemini describe la foto y FLUX la aplica              | Adapter                              |
+| Lumi                                 | Gemini, con reglas en español de respaldo             | Strategy, Chain of Responsibility    |
+
+- El proveedor se cambia con `AI_IMAGE_PROVIDER` y `AI_TEXT_PROVIDER` (`huggingface`, `gemini`, `cloudflare` o `mock`) sin tocar código.
+- **Errores honestos:** con `AI_IMAGE_FALLBACK=none` (valor por defecto), si el proveedor falla o devuelve la misma foto (`UnchangedImageGuard`), el rediseño queda en estado de error con el mensaje real y se puede reintentar. `AI_IMAGE_FALLBACK=mock` solo sirve para demos sin conexión.
+- Sin claves, todo funciona con el proveedor `mock`, que es el que usan las pruebas.
 
 ## Patrones aplicados
 
@@ -160,6 +228,7 @@ Las tablas se crean con migraciones de **Alembic** ([`migrations/`](migrations))
 | `POST` | `/api/v1/redesigns/{id}/edits` | Edita una parte de una versión terminada (`wall_paint`, `floor_swap`, `remove_object`, `replace_furniture`) y la guarda como versión nueva 🔐 |
 | `POST` | `/api/v1/redesigns/{id}/inspiration` | Lee el estilo de una foto de inspiración (multipart: `image`) y lo aplica a la foto del espacio como versión nueva 🔐 |
 | `POST` | `/api/v1/redesigns/{id}/retry` | Reintenta un rediseño que falló 🔐 |
+| `DELETE` | `/api/v1/redesigns/{id}` | Elimina una versión del rediseño (no la última del proyecto) 🔐 |
 | `GET` | `/api/v1/files/{id}` | Imagen guardada en la base de datos |
 | `GET` | `/api/v1/catalog/styles` | Estilos con sus paletas y materiales |
 | `GET` | `/api/v1/catalog/room-types` | Tipos de habitación con su foto de portada |
@@ -170,7 +239,7 @@ Las tablas se crean con migraciones de **Alembic** ([`migrations/`](migrations))
 | `GET` | `/api/v1/catalog/addons` | Complementos de muebles (cojines, patas de latón, luz LED…) |
 | `GET` | `/api/v1/catalog/inspiration` | Galería de inspiración: fotos de interiores con autor, estilo y habitación |
 | `GET` | `/api/v1/projects` | Proyectos del usuario 🔐 |
-| `POST` | `/api/v1/projects` | Crea un proyecto con su habitación 3D (`name`, `room_type`, `style`, `furnished`) 🔐 |
+| `POST` | `/api/v1/projects` | Crea un proyecto con su habitación 3D (`name`, `room_type`, `style`, `furnished` y medidas opcionales `width`, `length`, `height`) 🔐 |
 | `GET` | `/api/v1/projects/{id}` | Proyecto con su escena 3D 🔐 |
 | `PATCH` | `/api/v1/projects/{id}` | Cambia nombre, estilo o tipo de habitación 🔐 |
 | `DELETE` | `/api/v1/projects/{id}` | Elimina un proyecto 🔐 |
@@ -250,8 +319,9 @@ docker run -p 8000:8000 --env-file .env habita-backend
 
 ## Calidad
 
-- **123 pruebas** con pytest: autenticación y roles, catálogo, rediseño con IA simulada, cadena de validación de imágenes, estrategias de presupuesto, estados, proyectos 3D con versiones, Lumi (reglas, sanitizador de acciones y respaldo cuando falla la IA) y panel de administración.
-- **Integración continua** con GitHub Actions: en cada push se instalan dependencias, se corren las pruebas y se construye la imagen de Docker.
+- **155 pruebas** con pytest: autenticación y roles, catálogo, rediseño con IA simulada, ediciones puntuales, estilo desde una foto, errores del proveedor de imágenes, cadena de validación de imágenes, estrategias de presupuesto, estados, proyectos 3D con medidas y versiones, lista de compras, Lumi (reglas, sanitizador de acciones y respaldo cuando falla la IA), panel de administración y reportes.
+- **Ruff** como linter y formateador (`ruff check .` y `ruff format --check .`).
+- **Integración continua** con GitHub Actions: en cada push y pull request se instalan dependencias, se corren Ruff y las pruebas, se construye la imagen de Docker y se valida el `docker-compose.yml`.
 - Despliegue automático en **Render** desde `main`; las migraciones de Alembic se aplican al arrancar el contenedor.
 
 ## Variables de entorno
@@ -291,7 +361,7 @@ app/
 ├── schemas/         Entrada y salida (Pydantic)
 ├── repositories/    Acceso a datos (Repository)
 ├── services/        Lógica de negocio
-├── patterns/        Patrones: ai, assistant, builders, facades, mementos, prototypes, proxies, reports, states, storage, strategies, validators, visitors
+├── patterns/        Patrones: ai, assistant, builders, composites, facades, mementos, prototypes, proxies, reports, states, storage, strategies, validators, visitors
 ├── routers/         Endpoints REST
 ├── seed_data/       Catálogo inicial en JSON
 ├── dependencies.py  Inyección de dependencias
