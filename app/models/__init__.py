@@ -10,7 +10,7 @@ from app.models.catalog import (
     Material,
     RoomType,
 )
-from app.models.project import ChatMessage, Project, ProjectStatus, Redesign, RedesignStatus, SceneVersion
+from app.models.project import ChatMessage, Project, ProjectStatus, Redesign, RedesignStatus, SceneRender, SceneVersion
 from app.models.stored_file import StoredFile
 from app.models.user import User, UserRole
 
@@ -30,6 +30,7 @@ __all__ = [
     "Redesign",
     "RedesignStatus",
     "RoomType",
+    "SceneRender",
     "SceneVersion",
     "StoredFile",
     "User",
