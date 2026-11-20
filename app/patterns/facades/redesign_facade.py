@@ -32,6 +32,10 @@ class RedesignNotFound(Exception):
     pass
 
 
+class LastRedesignError(Exception):
+    pass
+
+
 @dataclass
 class RedesignOptions:
     room_type: str
@@ -187,6 +191,14 @@ class RedesignFacade:
 
     def get(self, user: User, redesign_id: uuid.UUID) -> Redesign:
         return self._owned(user, redesign_id)
+
+    def delete(self, user: User, redesign_id: uuid.UUID) -> None:
+        """Removes one version; a project keeps at least one. Stored photos stay, later edits may use them."""
+        redesign = self._owned(user, redesign_id)
+        if len(redesign.project.redesigns) <= 1:
+            raise LastRedesignError
+        self.session.delete(redesign)
+        self.session.commit()
 
     def _run(self, redesign: Redesign, request: RedesignRequest) -> Redesign:
         process = RedesignProcess(redesign)

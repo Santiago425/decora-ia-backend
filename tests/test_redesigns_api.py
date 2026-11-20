@@ -204,3 +204,25 @@ def test_targeted_edit_validates_tool_and_fields(client: TestClient, user_token,
     ]
     for payload in cases:
         assert client.post(url, headers=auth(user_token), json=payload).status_code == 422
+
+
+def test_a_version_can_be_deleted_but_not_the_last_one(client: TestClient, user_token, photo):
+    other_token = client.post(
+        "/api/v1/auth/register", json={"full_name": "Otra", "email": "borra@example.com", "password": "secreta123"}
+    ).json()["access_token"]
+    first = create(client, user_token, photo).json()
+    edited = client.post(
+        f"/api/v1/redesigns/{first['id']}/edits",
+        headers=auth(user_token),
+        json={"tool": "wall_paint", "values": {"color": "#a9b49a"}},
+    ).json()
+
+    assert client.delete(f"/api/v1/redesigns/{first['id']}", headers=auth(other_token)).status_code == 404
+    assert client.delete(f"/api/v1/redesigns/{first['id']}", headers=auth(user_token)).status_code == 204
+
+    history = client.get("/api/v1/redesigns", params={"project_id": first["project_id"]}, headers=auth(user_token))
+    assert [item["id"] for item in history.json()] == [edited["id"]]
+    assert client.get(f"/api/v1/redesigns/{edited['id']}", headers=auth(user_token)).json()["result_image_url"]
+
+    last = client.delete(f"/api/v1/redesigns/{edited['id']}", headers=auth(user_token))
+    assert last.status_code == 409
