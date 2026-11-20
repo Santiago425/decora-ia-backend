@@ -25,6 +25,7 @@ from app.repositories import (
     DaylightPresetRepository,
     FurnitureAddonRepository,
     FurnitureCategoryRepository,
+    FurnitureFavoriteRepository,
     FurnitureRepository,
     InspirationPhotoRepository,
     MaterialRepository,
@@ -67,6 +68,7 @@ def get_catalog_service(db: DbSession) -> CatalogService:
         FurnitureAddonRepository(db),
         InspirationPhotoRepository(db),
         DaylightPresetRepository(db),
+        FurnitureFavoriteRepository(db),
     )
 
 
