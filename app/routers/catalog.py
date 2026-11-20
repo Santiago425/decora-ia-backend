@@ -4,6 +4,7 @@ from fastapi import APIRouter, Depends, Query
 
 from app.dependencies import get_catalog_service
 from app.schemas.catalog import (
+    DaylightPresetResponse,
     FurnitureAddonResponse,
     FurnitureCategoryResponse,
     FurnitureItemResponse,
@@ -57,3 +58,8 @@ def list_addons(service: Service):
 @router.get("/inspiration", response_model=list[InspirationPhotoResponse])
 def list_inspiration(service: Service):
     return service.list_inspiration()
+
+
+@router.get("/daylight", response_model=list[DaylightPresetResponse])
+def list_daylight(service: Service):
+    return service.list_daylight()

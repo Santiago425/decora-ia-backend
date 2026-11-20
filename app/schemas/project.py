@@ -25,6 +25,8 @@ class SceneRoom(BaseModel):
 class SceneLighting(BaseModel):
     color: HexColor
     intensity: float = Field(ge=0, le=3)
+    # Slug of a daylight preset (morning, afternoon, night); empty keeps the plain studio light.
+    time_of_day: Slug | None = None
 
 
 class SceneItem(BaseModel):

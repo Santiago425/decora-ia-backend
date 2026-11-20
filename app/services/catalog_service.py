@@ -1,4 +1,5 @@
 from app.repositories import (
+    DaylightPresetRepository,
     FurnitureAddonRepository,
     FurnitureCategoryRepository,
     FurnitureRepository,
@@ -21,6 +22,7 @@ class CatalogService:
         palettes: PaletteRepository,
         addons: FurnitureAddonRepository,
         inspiration: InspirationPhotoRepository,
+        daylight: DaylightPresetRepository,
     ) -> None:
         self.styles = styles
         self.room_types = room_types
@@ -30,6 +32,7 @@ class CatalogService:
         self.palettes = palettes
         self.addons = addons
         self.inspiration = inspiration
+        self.daylight = daylight
 
     def list_styles(self):
         return self.styles.list_active()
@@ -54,3 +57,6 @@ class CatalogService:
 
     def list_inspiration(self):
         return self.inspiration.list_active()
+
+    def list_daylight(self):
+        return self.daylight.list_active()

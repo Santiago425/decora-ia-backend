@@ -92,3 +92,19 @@ class FurnitureAddonResponse(ORMModel):
     visual: str
     color_hex: str | None
     categories: list[str]
+
+
+class DaylightPresetResponse(ORMModel):
+    id: int
+    slug: str
+    name: str
+    description: str
+    sun_color: str
+    sun_intensity: float
+    sun_elevation: float
+    sun_azimuth: float
+    ambient_color: str
+    ambient_intensity: float
+    sky_color: str
+    window_intensity: float
+    lamp_intensity: float

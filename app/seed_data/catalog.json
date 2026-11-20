@@ -976,6 +976,34 @@
         "living_room",
         "bedroom"
       ]
+    },
+    {
+      "slug": "door",
+      "name": "Puertas",
+      "icon": "door",
+      "shape": "door",
+      "room_types": [
+        "living_room",
+        "bedroom",
+        "kitchen",
+        "dining_room",
+        "office",
+        "bathroom"
+      ]
+    },
+    {
+      "slug": "window",
+      "name": "Ventanas",
+      "icon": "window",
+      "shape": "window",
+      "room_types": [
+        "living_room",
+        "bedroom",
+        "kitchen",
+        "dining_room",
+        "office",
+        "bathroom"
+      ]
     }
   ],
   "furniture_items": [
@@ -1408,6 +1436,66 @@
       "depth": 0.4,
       "height": 0.45,
       "default_color": "#232323"
+    },
+    {
+      "category": "door",
+      "name": "Puerta de roble claro",
+      "description": "Puerta batiente de madera maciza con manija negra.",
+      "price": 650000,
+      "width": 0.9,
+      "depth": 0.1,
+      "height": 2.1,
+      "default_color": "#c8a27a"
+    },
+    {
+      "category": "door",
+      "name": "Puerta blanca lacada",
+      "description": "Puerta lisa lacada en blanco, ideal para baños y cuartos.",
+      "price": 520000,
+      "width": 0.8,
+      "depth": 0.1,
+      "height": 2.05,
+      "default_color": "#f2efe9"
+    },
+    {
+      "category": "door",
+      "name": "Puerta doble de nogal",
+      "description": "Dos hojas de nogal para salas y comedores amplios.",
+      "price": 1250000,
+      "width": 1.4,
+      "depth": 0.1,
+      "height": 2.1,
+      "default_color": "#7a5536"
+    },
+    {
+      "category": "window",
+      "name": "Ventana corrediza",
+      "description": "Marco de aluminio blanco con dos hojas de vidrio.",
+      "price": 480000,
+      "width": 1.2,
+      "depth": 0.12,
+      "height": 1.1,
+      "default_color": "#f4f4f1"
+    },
+    {
+      "category": "window",
+      "name": "Ventanal panorámico",
+      "description": "Gran ventana de marco negro que llena el cuarto de luz.",
+      "price": 890000,
+      "width": 2.0,
+      "depth": 0.12,
+      "height": 1.4,
+      "default_color": "#2d2d2d"
+    },
+    {
+      "category": "window",
+      "name": "Ventana pequeña",
+      "description": "Ventana compacta para baños y cocinas.",
+      "price": 260000,
+      "width": 0.6,
+      "depth": 0.12,
+      "height": 0.6,
+      "default_color": "#ffffff"
     }
   ],
   "furniture_addons": [
@@ -1641,6 +1729,56 @@
       "source_url": "https://unsplash.com/photos/industrial-loft-with-dining-area-s95oB2n9jng",
       "style": "industrial",
       "room_type": "living_room"
+    }
+  ],
+  "daylight_presets": [
+    {
+      "slug": "morning",
+      "name": "Mañana",
+      "description": "Sol bajo y fresco que entra por el oriente.",
+      "sun_color": "#ffe0b5",
+      "sun_intensity": 1.7,
+      "sun_elevation": 24,
+      "sun_azimuth": 65,
+      "ambient_color": "#dce8f5",
+      "ambient_intensity": 0.95,
+      "sky_color": "#cfe4f8",
+      "window_intensity": 7,
+      "lamp_intensity": 0,
+      "prompt": "soft morning daylight entering through the windows, fresh and bright",
+      "sort_order": 1
+    },
+    {
+      "slug": "afternoon",
+      "name": "Tarde",
+      "description": "Luz dorada con sombras largas desde el occidente.",
+      "sun_color": "#ffbf80",
+      "sun_intensity": 1.4,
+      "sun_elevation": 16,
+      "sun_azimuth": 250,
+      "ambient_color": "#f2d8bd",
+      "ambient_intensity": 0.8,
+      "sky_color": "#f6c48f",
+      "window_intensity": 6,
+      "lamp_intensity": 0.6,
+      "prompt": "warm golden hour afternoon sunlight with long soft shadows",
+      "sort_order": 2
+    },
+    {
+      "slug": "night",
+      "name": "Noche",
+      "description": "Afuera está oscuro y las lámparas dan una luz cálida.",
+      "sun_color": "#9db0e8",
+      "sun_intensity": 0.2,
+      "sun_elevation": 45,
+      "sun_azimuth": 200,
+      "ambient_color": "#2b3554",
+      "ambient_intensity": 0.35,
+      "sky_color": "#18213a",
+      "window_intensity": 0.8,
+      "lamp_intensity": 4,
+      "prompt": "evening at night, every lamp switched on with warm cozy light, dark blue sky behind the windows",
+      "sort_order": 3
     }
   ]
 }

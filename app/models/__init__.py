@@ -1,6 +1,7 @@
 from app.models.base import Base
 from app.models.catalog import (
     ColorPalette,
+    DaylightPreset,
     DesignStyle,
     FurnitureAddon,
     FurnitureCategory,
@@ -17,6 +18,7 @@ __all__ = [
     "Base",
     "ChatMessage",
     "ColorPalette",
+    "DaylightPreset",
     "DesignStyle",
     "FurnitureAddon",
     "FurnitureCategory",
