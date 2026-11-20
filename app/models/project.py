@@ -37,6 +37,8 @@ class Project(TimestampMixin, Base):
     status: Mapped[ProjectStatus] = mapped_column(_enum(ProjectStatus), default=ProjectStatus.DRAFT)
     estimated_budget: Mapped[Decimal] = mapped_column(Numeric(14, 2), default=0)
     scene: Mapped[dict | None] = mapped_column(JSON)
+    budget_limit: Mapped[Decimal | None] = mapped_column(Numeric(14, 2))
+    purchased_items: Mapped[list[str] | None] = mapped_column(JSON, default=list)
 
     owner: Mapped["User"] = relationship(back_populates="projects")  # noqa: F821
     style: Mapped["DesignStyle | None"] = relationship()  # noqa: F821

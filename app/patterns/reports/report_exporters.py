@@ -7,6 +7,7 @@ from datetime import datetime
 from typing import Any, ClassVar
 
 from app.models import User
+from app.patterns.composites.shopping_list import ShoppingLine, ShoppingSection
 from app.repositories import ProjectRepository, UserRepository
 
 
@@ -121,6 +122,49 @@ class ProjectsReport(ReportExporter):
             project.estimated_budget,
             len(project.redesigns),
             project.updated_at,
+        ]
+
+
+class ShoppingListReport(ReportExporter):
+    slug = "lista-de-compras"
+    title = "Lista de compras"
+
+    def __init__(self, shopping_list: ShoppingSection, currency: str) -> None:
+        self.shopping_list = shopping_list
+        self.currency = currency
+
+    def columns(self) -> list[str]:
+        price = f"Precio unitario ({self.currency})"
+        return [
+            "Sección",
+            "Producto",
+            "Detalle",
+            "Cantidad",
+            "Unidad",
+            price,
+            f"Subtotal ({self.currency})",
+            "Comprado",
+        ]
+
+    def records(self) -> Iterable[tuple[str, ShoppingLine | None]]:
+        for section in self.shopping_list.children:
+            for line in section.lines():
+                yield section.title, line
+        yield "Total", None
+
+    def to_row(self, record: tuple[str, ShoppingLine | None]) -> list[Any]:
+        section, line = record
+        if line is None:
+            return [section, "", "", "", "", "", self.shopping_list.total(), ""]
+        return [
+            section,
+            line.title,
+            line.detail,
+            line.quantity,
+            line.unit,
+            line.unit_price,
+            line.total(),
+            line.purchased,
         ]
 
 

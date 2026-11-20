@@ -41,6 +41,7 @@ from app.services.auth_service import AuthService
 from app.services.catalog_service import CatalogService
 from app.services.dashboard_service import DashboardService
 from app.services.project_service import ProjectService
+from app.services.shopping_list_service import ShoppingListService
 
 DbSession = Annotated[Session, Depends(get_db)]
 bearer_scheme = HTTPBearer(auto_error=False)
@@ -69,6 +70,16 @@ def get_catalog_service(db: DbSession) -> CatalogService:
 
 def get_dashboard_service(db: DbSession) -> DashboardService:
     return DashboardService(ProjectRepository(db), RedesignRepository(db))
+
+
+def get_shopping_list_service(db: DbSession) -> ShoppingListService:
+    return ShoppingListService(
+        ProjectRepository(db),
+        FurnitureRepository(db),
+        MaterialRepository(db),
+        FurnitureAddonRepository(db),
+        get_settings(),
+    )
 
 
 def get_project_service(db: DbSession) -> ProjectService:
