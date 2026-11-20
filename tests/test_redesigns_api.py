@@ -48,6 +48,36 @@ def test_full_redesign_flow_with_mock_ai(client: TestClient, user_token, photo):
     assert variation["id"] != body["id"]
 
 
+def test_variation_can_change_style_palette_and_budget(client: TestClient, user_token, photo):
+    first = create(client, user_token, photo).json()
+    url = f"/api/v1/redesigns/{first['id']}/variations"
+    second = client.post(
+        url, headers=auth(user_token), json={"style": "nordic", "palette": ["#ffffff"], "budget": 90000000}
+    ).json()
+    assert second["status"] == "ready"
+    assert second["style"]["slug"] == "nordic"
+    assert second["palette"] == ["#ffffff"]
+    assert second["budget_tier"] == "premium"
+    assert second["original_image_url"] == first["original_image_url"]
+    assert second["keep_structure"] is True
+
+    history = client.get("/api/v1/redesigns", params={"project_id": first["project_id"]}, headers=auth(user_token))
+    assert [item["id"] for item in history.json()] == [second["id"], first["id"]]
+    projects = client.get("/api/v1/projects", headers=auth(user_token)).json()
+    assert next(p for p in projects if p["id"] == first["project_id"])["style_name"] == "Nórdico"
+
+    assert client.post(url, headers=auth(user_token), json={"style": "gothic"}).status_code == 422
+
+
+def test_redesign_history_is_private(client: TestClient, user_token, photo):
+    project_id = create(client, user_token, photo).json()["project_id"]
+    other = client.post(
+        "/api/v1/auth/register", json={"full_name": "Otra", "email": "otra@example.com", "password": "secreta123"}
+    ).json()["access_token"]
+    response = client.get("/api/v1/redesigns", params={"project_id": project_id}, headers=auth(other))
+    assert response.status_code == 404
+
+
 def test_invalid_image_and_options_are_rejected(client: TestClient, user_token, photo):
     assert create(client, user_token, b"not an image").status_code == 422
     response = create(client, user_token, photo, style="gothic")
