@@ -1,5 +1,6 @@
 from app.repositories.admin_repository import AdminStatsRepository
 from app.repositories.catalog_repositories import (
+    DaylightPresetRepository,
     FurnitureAddonRepository,
     FurnitureCategoryRepository,
     FurnitureRepository,
@@ -20,6 +21,7 @@ from app.repositories.user_repository import UserRepository
 __all__ = [
     "AdminStatsRepository",
     "ChatMessageRepository",
+    "DaylightPresetRepository",
     "FurnitureAddonRepository",
     "FurnitureCategoryRepository",
     "FurnitureRepository",

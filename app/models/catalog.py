@@ -127,3 +127,27 @@ class InspirationPhoto(Base):
 
     style: Mapped[DesignStyle | None] = relationship()
     room_type: Mapped[RoomType | None] = relationship()
+
+
+class DaylightPreset(Base):
+    """A time of day for the 3D editor: where the sun is, its color, and how bright windows and lamps are."""
+
+    __tablename__ = "daylight_presets"
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    slug: Mapped[str] = mapped_column(String(40), unique=True, index=True)
+    name: Mapped[str] = mapped_column(String(60))
+    description: Mapped[str] = mapped_column(String(200), default="")
+    sun_color: Mapped[str] = mapped_column(String(7))
+    sun_intensity: Mapped[float] = mapped_column(Float)
+    sun_elevation: Mapped[float] = mapped_column(Float)
+    sun_azimuth: Mapped[float] = mapped_column(Float)
+    ambient_color: Mapped[str] = mapped_column(String(7))
+    ambient_intensity: Mapped[float] = mapped_column(Float)
+    sky_color: Mapped[str] = mapped_column(String(7))
+    window_intensity: Mapped[float] = mapped_column(Float, default=0)
+    lamp_intensity: Mapped[float] = mapped_column(Float, default=0)
+    # English description of the light, added to the prompt when a 3D view is turned into a photo.
+    prompt: Mapped[str] = mapped_column(String(300), default="")
+    sort_order: Mapped[int] = mapped_column(Integer, default=0)
+    is_active: Mapped[bool] = mapped_column(Boolean, default=True)

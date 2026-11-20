@@ -22,6 +22,7 @@ from app.patterns.reports.report_exporters import REPORT_FORMATS, ReportExporter
 from app.repositories import (
     AdminStatsRepository,
     ChatMessageRepository,
+    DaylightPresetRepository,
     FurnitureAddonRepository,
     FurnitureCategoryRepository,
     FurnitureRepository,
@@ -65,6 +66,7 @@ def get_catalog_service(db: DbSession) -> CatalogService:
         PaletteRepository(db),
         FurnitureAddonRepository(db),
         InspirationPhotoRepository(db),
+        DaylightPresetRepository(db),
     )
 
 

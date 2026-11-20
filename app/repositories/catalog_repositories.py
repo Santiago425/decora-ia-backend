@@ -3,6 +3,7 @@ from sqlalchemy.orm import selectinload
 
 from app.models import (
     ColorPalette,
+    DaylightPreset,
     DesignStyle,
     FurnitureAddon,
     FurnitureCategory,
@@ -177,3 +178,18 @@ class InspirationPhotoRepository(BaseRepository[InspirationPhoto]):
             .order_by(InspirationPhoto.sort_order, InspirationPhoto.id)
         )
         return list(self.session.scalars(query))
+
+
+class DaylightPresetRepository(BaseRepository[DaylightPreset]):
+    model = DaylightPreset
+
+    def list_active(self) -> list[DaylightPreset]:
+        query = (
+            select(DaylightPreset)
+            .where(DaylightPreset.is_active.is_(True))
+            .order_by(DaylightPreset.sort_order, DaylightPreset.id)
+        )
+        return list(self.session.scalars(query))
+
+    def get_by_slug(self, slug: str) -> DaylightPreset | None:
+        return self.session.scalar(select(DaylightPreset).where(DaylightPreset.slug == slug))

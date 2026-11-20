@@ -10,6 +10,7 @@ from app.core.security import PasswordHasher
 from app.core.settings import get_settings
 from app.models import (
     ColorPalette,
+    DaylightPreset,
     DesignStyle,
     FurnitureAddon,
     FurnitureItem,
@@ -24,6 +25,7 @@ from app.models import (
     UserRole,
 )
 from app.repositories import (
+    DaylightPresetRepository,
     FurnitureAddonRepository,
     FurnitureCategoryRepository,
     InspirationPhotoRepository,
@@ -85,6 +87,11 @@ def seed_catalog(session: Session, data: dict) -> None:
         if not addons.get_by_slug(item["slug"]):
             session.add(FurnitureAddon(**{**item, "price": Decimal(str(item["price"]))}))
     session.flush()
+
+    daylight = DaylightPresetRepository(session)
+    for item in data.get("daylight_presets", []):
+        if not daylight.get_by_slug(item["slug"]):
+            session.add(DaylightPreset(**item))
 
     if not InspirationPhotoRepository(session).count():
         for order, item in enumerate(data["inspiration_photos"]):
