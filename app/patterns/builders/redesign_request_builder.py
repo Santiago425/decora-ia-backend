@@ -9,6 +9,7 @@ from app.patterns.strategies.budget_strategies import BudgetStrategy
 
 HEX_COLOR = re.compile(r"^#[0-9a-fA-F]{6}$")
 MAX_COLORS = 6
+MAX_KEEP_ITEMS = 200
 
 
 class RedesignRequestError(ValueError):
@@ -23,6 +24,7 @@ class RedesignRequest:
     palette: tuple[str, ...]
     budget: float | None
     keep_structure: bool
+    keep_items: str | None
     budget_strategy: BudgetStrategy
     currency: str
     variation: int
@@ -34,7 +36,12 @@ class RedesignRequest:
             "Return a photorealistic image taken from the same camera angle, with natural light and real furniture.",
         ]
         if self.keep_structure:
-            lines.append("Keep the room structure exactly the same: walls, windows, doors, ceiling and floor layout.")
+            lines.append(
+                "Respect the real room: keep walls, windows, doors, fireplace, columns, ceiling and floor layout "
+                "in the same place and size. Do not move, add or remove any window or door, and keep walkways clear."
+            )
+        if self.keep_items:
+            lines.append(f"Keep these existing pieces exactly as they are, in the same place: {self.keep_items}.")
         if self.palette:
             lines.append(f"Use this color palette: {', '.join(self.palette)}.")
         materials = ", ".join(material.name for material in self.style.materials)
@@ -68,6 +75,7 @@ class RedesignRequestBuilder:
         self._palette: list[str] = []
         self._budget: float | None = None
         self._keep_structure = True
+        self._keep_items: str | None = None
         self._strategy: BudgetStrategy | None = None
         self._variation = 0
 
@@ -96,6 +104,10 @@ class RedesignRequestBuilder:
         self._keep_structure = keep
         return self
 
+    def keeping_items(self, items: str | None) -> RedesignRequestBuilder:
+        self._keep_items = " ".join((items or "").split()) or None
+        return self
+
     def as_variation(self, number: int) -> RedesignRequestBuilder:
         self._variation = number
         return self
@@ -111,6 +123,8 @@ class RedesignRequestBuilder:
             raise RedesignRequestError(f"La paleta admite hasta {MAX_COLORS} colores en formato #RRGGBB")
         if self._budget is not None and self._budget < 0:
             raise RedesignRequestError("El presupuesto no puede ser negativo")
+        if self._keep_items and len(self._keep_items) > MAX_KEEP_ITEMS:
+            raise RedesignRequestError(f"Lo que quieres conservar admite hasta {MAX_KEEP_ITEMS} caracteres")
         if self._strategy is None:
             raise RedesignRequestError("Falta la estrategia de presupuesto")
         return RedesignRequest(
@@ -120,6 +134,7 @@ class RedesignRequestBuilder:
             palette=tuple(c.lower() for c in self._palette),
             budget=self._budget,
             keep_structure=self._keep_structure,
+            keep_items=self._keep_items,
             budget_strategy=self._strategy,
             currency=self._currency,
             variation=self._variation,

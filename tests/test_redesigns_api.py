@@ -160,3 +160,47 @@ def test_gemini_adapter_translates_the_api_format(monkeypatch):
 def test_gemini_requires_an_api_key():
     with pytest.raises(AIError, match="GEMINI_API_KEY"):
         GeminiClient("", "https://example.test", 5)
+
+
+def test_edit_tools_are_listed_with_catalog_floors(client: TestClient, user_token):
+    tools = {tool["key"]: tool for tool in client.get("/api/v1/redesigns/edit-tools", headers=auth(user_token)).json()}
+    assert set(tools) == {"wall_paint", "floor_swap", "remove_object", "replace_furniture"}
+    floors = tools["floor_swap"]["fields"][0]["options"]
+    assert floors and all(option["slug"].startswith("floor_") for option in floors)
+
+
+def test_targeted_edit_creates_a_new_version_from_the_result(client: TestClient, user_token, photo):
+    first = create(client, user_token, photo, keep_items="el sillón de terciopelo").json()
+    assert first["keep_items"] == "el sillón de terciopelo"
+    url = f"/api/v1/redesigns/{first['id']}/edits"
+
+    painted = client.post(url, headers=auth(user_token), json={"tool": "wall_paint", "values": {"color": "#A9B49A"}})
+    assert painted.status_code == 201
+    body = painted.json()
+    assert body["status"] == "ready"
+    assert body["edit_tool"] == {"slug": "wall_paint", "name": "Pintar paredes"}
+    assert body["original_image_url"] == first["result_image_url"]
+    assert body["suggestions"] == first["suggestions"]
+    assert body["keep_items"] == "el sillón de terciopelo"
+
+    floor = client.post(
+        f"/api/v1/redesigns/{body['id']}/edits",
+        headers=auth(user_token),
+        json={"tool": "floor_swap", "values": {"material": "floor_walnut"}},
+    )
+    assert floor.status_code == 201
+
+    history = client.get("/api/v1/redesigns", params={"project_id": first["project_id"]}, headers=auth(user_token))
+    assert len(history.json()) == 3
+
+
+def test_targeted_edit_validates_tool_and_fields(client: TestClient, user_token, photo):
+    url = f"/api/v1/redesigns/{create(client, user_token, photo).json()['id']}/edits"
+    cases = [
+        {"tool": "teleport", "values": {}},
+        {"tool": "wall_paint", "values": {"color": "verde"}},
+        {"tool": "floor_swap", "values": {"material": "wall_lime"}},
+        {"tool": "replace_furniture", "values": {"target": "el sofá"}},
+    ]
+    for payload in cases:
+        assert client.post(url, headers=auth(user_token), json=payload).status_code == 422

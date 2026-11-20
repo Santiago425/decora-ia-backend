@@ -59,6 +59,8 @@ class Redesign(Base):
     palette: Mapped[list[str]] = mapped_column(JSON, default=list)
     budget: Mapped[Decimal | None] = mapped_column(Numeric(14, 2))
     keep_structure: Mapped[bool] = mapped_column(Boolean, default=True)
+    keep_items: Mapped[str | None] = mapped_column(String(200))
+    edit_tool: Mapped[str | None] = mapped_column(String(30))
     suggestions: Mapped[list[dict]] = mapped_column(JSON, default=list)
     status: Mapped[RedesignStatus] = mapped_column(_enum(RedesignStatus), default=RedesignStatus.UPLOADING)
     error_message: Mapped[str | None] = mapped_column(String(300))

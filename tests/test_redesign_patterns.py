@@ -33,7 +33,7 @@ def test_builder_creates_a_complete_request(catalog):
     )
     assert request.palette == ("#aabbcc", "#112233")
     prompt = request.image_prompt()
-    assert "nordic" in prompt and "Keep the room structure" in prompt and "#aabbcc" in prompt
+    assert "nordic" in prompt and "Respect the real room" in prompt and "#aabbcc" in prompt
     assert "2,000,000 COP" in request.advice_prompt()
 
 
@@ -106,3 +106,26 @@ def test_budget_strategy_stays_within_the_budget():
     picks = STRATEGIES["premium"].pick(catalog, 5, budget=1000)
     assert [item.name for item in picks] == ["sofa", "lamp"]
     assert sum(item.price for item in picks) <= 1000
+
+
+def test_edit_strategies_build_precise_instructions():
+    from app.patterns.strategies.edit_strategies import EditRequestError, select_edit_strategy
+
+    paint = select_edit_strategy("wall_paint")
+    prompt = paint.prompt(paint.clean({"color": "#2F5D50"}), keep_items="la chimenea")
+    assert "#2f5d50" in prompt and "Change nothing else" in prompt and "la chimenea" in prompt
+
+    replace = select_edit_strategy("replace_furniture")
+    values = replace.clean({"target": "  el sofá   gris ", "replacement": "un sofá de lino"})
+    assert values["target"] == "el sofá gris"
+    assert "same position and scale" in replace.prompt(values)
+
+    with pytest.raises(EditRequestError):
+        select_edit_strategy("unknown")
+
+
+def test_builder_respects_the_real_room_and_pieces_to_keep(catalog):
+    request = builder(catalog).with_budget(None, STRATEGIES["economic"]).keeping_items("  el sillón   verde ").build()
+    prompt = request.image_prompt()
+    assert "Do not move, add or remove any window or door" in prompt
+    assert "el sillón verde" in prompt
