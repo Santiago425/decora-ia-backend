@@ -488,6 +488,276 @@
           ]
         }
       ]
+    },
+    {
+      "slug": "mediterranean",
+      "name": "Mediterráneo",
+      "sort_order": 8,
+      "description": "Paredes encaladas, arcos, barro cocido y toques azul mar.",
+      "image_url": "https://images.unsplash.com/photo-1788398882568-62c336043c72?auto=format&fit=crop&w=1200&q=80",
+      "lighting_color": "#fff3dc",
+      "lighting_intensity": 1.15,
+      "materials": [
+        "wall_bone_white",
+        "floor_terracotta_tile",
+        "rattan",
+        "fabric_sand_linen"
+      ],
+      "palettes": [
+        {
+          "name": "Costa blanca",
+          "colors": [
+            "#f7f3ec",
+            "#e3c9a8",
+            "#c96f4a",
+            "#2f6f9f",
+            "#1e3a5f"
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "rustic",
+      "name": "Rústico",
+      "sort_order": 9,
+      "description": "Vigas de madera, piedra a la vista y textiles cálidos de campo.",
+      "image_url": "https://images.unsplash.com/photo-1787625380403-8c21fb2b3f8a?auto=format&fit=crop&w=1200&q=80",
+      "lighting_color": "#ffd9a8",
+      "lighting_intensity": 0.85,
+      "materials": [
+        "wall_warm_sand",
+        "floor_walnut",
+        "leather_cognac",
+        "wood_ash"
+      ],
+      "palettes": [
+        {
+          "name": "Cabaña de montaña",
+          "colors": [
+            "#efe4d2",
+            "#b9956b",
+            "#7a5236",
+            "#4b3a2a",
+            "#2d2a26"
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "tropical",
+      "name": "Tropical",
+      "sort_order": 10,
+      "description": "Plantas exuberantes, ratán, madera clara y verdes vivos.",
+      "image_url": "https://images.unsplash.com/photo-1684662863663-d25e39fc4c10?auto=format&fit=crop&w=1200&q=80",
+      "lighting_color": "#fff0d0",
+      "lighting_intensity": 1.1,
+      "materials": [
+        "wall_sage_green",
+        "floor_bamboo",
+        "rattan",
+        "fabric_sand_linen"
+      ],
+      "palettes": [
+        {
+          "name": "Selva",
+          "colors": [
+            "#f4efe3",
+            "#cfe0b8",
+            "#6f9e5b",
+            "#2f5d3a",
+            "#c98a4b"
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "coastal",
+      "name": "Costero",
+      "sort_order": 11,
+      "description": "Blancos, azules suaves, lino y madera clara, como una casa de playa.",
+      "image_url": "https://images.unsplash.com/photo-1600493504591-aa1849716b36?auto=format&fit=crop&w=1200&q=80",
+      "lighting_color": "#f7fbff",
+      "lighting_intensity": 1.2,
+      "materials": [
+        "wall_bone_white",
+        "floor_light_oak",
+        "fabric_sand_linen",
+        "white_lacquer"
+      ],
+      "palettes": [
+        {
+          "name": "Brisa marina",
+          "colors": [
+            "#ffffff",
+            "#eae4d9",
+            "#a8c6d9",
+            "#5a8bb0",
+            "#24496b"
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "art-deco",
+      "name": "Art déco",
+      "sort_order": 12,
+      "description": "Formas geométricas, terciopelo, latón dorado y contrastes elegantes de los años veinte.",
+      "image_url": "https://images.unsplash.com/photo-1779219505918-970ca739ac78?auto=format&fit=crop&w=1200&q=80",
+      "lighting_color": "#ffe4b5",
+      "lighting_intensity": 0.9,
+      "materials": [
+        "wall_stone_grey",
+        "floor_walnut",
+        "velvet_forest",
+        "brass"
+      ],
+      "palettes": [
+        {
+          "name": "Gran salón",
+          "colors": [
+            "#efe7d6",
+            "#c9a45c",
+            "#1f4d45",
+            "#2b2b33",
+            "#111111"
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "mid-century",
+      "name": "Mid-century",
+      "sort_order": 13,
+      "description": "Muebles de los años 50 con patas finas, nogal y tonos mostaza y verde.",
+      "image_url": "https://images.unsplash.com/photo-1679959340084-d81bd3f03388?auto=format&fit=crop&w=1200&q=80",
+      "lighting_color": "#ffecc8",
+      "lighting_intensity": 1.0,
+      "materials": [
+        "wall_bone_white",
+        "floor_walnut",
+        "leather_cognac",
+        "wood_ash"
+      ],
+      "palettes": [
+        {
+          "name": "Retro cálido",
+          "colors": [
+            "#f3ede2",
+            "#d9a441",
+            "#c5683a",
+            "#4f6b4a",
+            "#3b2a20"
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "farmhouse",
+      "name": "Campestre",
+      "sort_order": 14,
+      "description": "Casa de campo moderna: madera recuperada, blancos rotos y hierro negro.",
+      "image_url": "https://images.unsplash.com/photo-1631724604275-af3bbb5c904d?auto=format&fit=crop&w=1200&q=80",
+      "lighting_color": "#fff1dc",
+      "lighting_intensity": 1.05,
+      "materials": [
+        "wall_bone_white",
+        "floor_light_oak",
+        "wood_ash",
+        "metal_matte_black"
+      ],
+      "palettes": [
+        {
+          "name": "Granja",
+          "colors": [
+            "#f6f2ea",
+            "#dcd3c3",
+            "#a89f8c",
+            "#5c5346",
+            "#2a2a28"
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "vintage",
+      "name": "Vintage",
+      "sort_order": 15,
+      "description": "Piezas con historia, estampados, cuero envejecido y lámparas de época.",
+      "image_url": "https://images.unsplash.com/photo-1632120377007-c2adc3017b1e?auto=format&fit=crop&w=1200&q=80",
+      "lighting_color": "#ffdcab",
+      "lighting_intensity": 0.9,
+      "materials": [
+        "wall_warm_sand",
+        "floor_walnut",
+        "leather_cognac",
+        "velvet_forest"
+      ],
+      "palettes": [
+        {
+          "name": "Desván de época",
+          "colors": [
+            "#efe2c8",
+            "#c9a27e",
+            "#9b4f3a",
+            "#556b4f",
+            "#3a2f2a"
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "contemporary",
+      "name": "Contemporáneo",
+      "sort_order": 16,
+      "description": "Ventanales, tonos neutros, formas suaves y acabados de tendencia.",
+      "image_url": "https://images.unsplash.com/photo-1757524503555-b62633f47670?auto=format&fit=crop&w=1200&q=80",
+      "lighting_color": "#fff5e8",
+      "lighting_intensity": 1.1,
+      "materials": [
+        "wall_warm_sand",
+        "floor_microcement",
+        "fabric_sand_linen",
+        "metal_matte_black"
+      ],
+      "palettes": [
+        {
+          "name": "Neutro actual",
+          "colors": [
+            "#f2efea",
+            "#d8d1c6",
+            "#b0a595",
+            "#6e665c",
+            "#2c2a28"
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "luxury",
+      "name": "Lujo",
+      "sort_order": 17,
+      "description": "Mármol, terciopelo, dorados y luz cálida de hotel cinco estrellas.",
+      "image_url": "https://images.unsplash.com/photo-1598928506311-c55ded91a20c?auto=format&fit=crop&w=1200&q=80",
+      "lighting_color": "#ffe8c0",
+      "lighting_intensity": 0.95,
+      "materials": [
+        "wall_stone_grey",
+        "floor_white_porcelain",
+        "velvet_forest",
+        "brass"
+      ],
+      "palettes": [
+        {
+          "name": "Noche dorada",
+          "colors": [
+            "#f5f1ea",
+            "#d8c3a0",
+            "#b8924a",
+            "#3d3a36",
+            "#151515"
+          ]
+        }
+      ]
     }
   ],
   "furniture_categories": [
