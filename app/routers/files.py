@@ -16,5 +16,8 @@ def read_file(file_id: uuid.UUID, db: DbSession) -> Response:
     return Response(
         stored.data,
         media_type=stored.content_type,
-        headers={"Cache-Control": "public, max-age=31536000, immutable", "Cross-Origin-Resource-Policy": "cross-origin"},
+        headers={
+            "Cache-Control": "public, max-age=31536000, immutable",
+            "Cross-Origin-Resource-Policy": "cross-origin",
+        },
     )

@@ -33,7 +33,9 @@ def sanitize(interpretation: Interpretation, context: AssistantContext, vocabula
                 style = _known(params.get("style"), vocabulary.styles) or next(iter(vocabulary.styles), None)
                 if room and style:
                     name = str(params.get("name") or f"{vocabulary.room_types[room]} {vocabulary.styles[style]}")[:120]
-                    clean.append(AssistantAction(type="create_project", params={"room_type": room, "style": style, "name": name}))
+                    clean.append(
+                        AssistantAction(type="create_project", params={"room_type": room, "style": style, "name": name})
+                    )
             case "start_redesign":
                 result = {
                     "room_type": _known(params.get("room_type"), vocabulary.room_types),
@@ -50,7 +52,9 @@ def sanitize(interpretation: Interpretation, context: AssistantContext, vocabula
                 if item is None and _known(params.get("category"), vocabulary.categories):
                     item = vocabulary.cheapest_in(params["category"])
                 if item:
-                    clean.append(AssistantAction(type="add_furniture", params={"furniture_id": item.id, "name": item.name}))
+                    clean.append(
+                        AssistantAction(type="add_furniture", params={"furniture_id": item.id, "name": item.name})
+                    )
             case "change_style":
                 if _known(params.get("style"), vocabulary.styles):
                     clean.append(AssistantAction(type="change_style", params={"style": params["style"]}))

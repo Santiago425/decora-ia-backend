@@ -73,8 +73,9 @@ class RuleBasedInterpreter(IntentInterpreter):
         if _has(text, r"\breha(z|cer|ce)\b"):
             return self._editor(context, "redo", "Volví a aplicar el cambio.")
 
-        if _has(text, r"\b(crea|crear|creame|nuevo|nueva|empezar|empieza|arma)\b") and _has(
-            text, r"\b(proyecto|diseno|habitacion|espacio)\b"
+        if (
+            _has(text, r"\b(crea|crear|creame|nuevo|nueva|empezar|empieza|arma)\b")
+            and _has(text, r"\b(proyecto|diseno|habitacion|espacio)\b")
         ) or (room and _has(text, r"\b(crea|crear|creame|nuevo|nueva)\b")):
             return Interpretation(
                 reply="Creé tu proyecto y te llevo al editor 3D para que empieces a diseñar.",
@@ -104,7 +105,9 @@ class RuleBasedInterpreter(IntentInterpreter):
             for page, words in PAGE_WORDS.items():
                 if any(contains_word(text, word) for word in words):
                     return Interpretation(
-                        reply="¡Vamos!", intent="navigate", actions=[AssistantAction(type="navigate", params={"to": page})]
+                        reply="¡Vamos!",
+                        intent="navigate",
+                        actions=[AssistantAction(type="navigate", params={"to": page})],
                     )
 
         if _has(text, r"recomiend", r"\bidea", r"consejo", r"sugier", r"que estilo"):
@@ -122,7 +125,10 @@ class RuleBasedInterpreter(IntentInterpreter):
             category = _match(text, vocabulary.categories)
             if item_name or category:
                 params = {"furniture_id": int(item_name)} if item_name else {"category": category}
-                action, reply = AssistantAction(type="add_furniture", params=params), "Agregué el mueble a tu habitación."
+                action, reply = (
+                    AssistantAction(type="add_furniture", params=params),
+                    "Agregué el mueble a tu habitación.",
+                )
         if not action and _has(text, r"\bpared", r"\bmuro"):
             material = _match_by_words(text, vocabulary.walls)
             if material:
@@ -137,11 +143,20 @@ class RuleBasedInterpreter(IntentInterpreter):
             action = AssistantAction(type="change_style", params={"style": style})
             reply = f"Apliqué el estilo {vocabulary.styles[style]}: luz, paredes y piso combinan ahora."
         if not action and _has(text, r"mas luz", r"\bilumina", r"mas clar", r"mas brillante"):
-            action, reply = AssistantAction(type="set_lighting", params={"delta": 0.25}), "Subí la luz de la habitación."
+            action, reply = (
+                AssistantAction(type="set_lighting", params={"delta": 0.25}),
+                "Subí la luz de la habitación.",
+            )
         if not action and _has(text, r"menos luz", r"mas oscur", r"\btenue"):
-            action, reply = AssistantAction(type="set_lighting", params={"delta": -0.25}), "Bajé la luz para un ambiente más cálido."
+            action, reply = (
+                AssistantAction(type="set_lighting", params={"delta": -0.25}),
+                "Bajé la luz para un ambiente más cálido.",
+            )
         if not action and _has(text, r"\b(gira|girar|rota|rotar|voltea)\b"):
-            action, reply = AssistantAction(type="rotate_selected", params={"degrees": 90}), "Giré el mueble seleccionado."
+            action, reply = (
+                AssistantAction(type="rotate_selected", params={"degrees": 90}),
+                "Giré el mueble seleccionado.",
+            )
         if not action and _has(text, r"\b(elimina|eliminar|quita|quitar|borra|borrar|saca)\b"):
             action, reply = AssistantAction(type="remove_selected"), "Quité el mueble seleccionado."
         if not action and _has(text, r"\b(duplica|duplicar|copia|otro igual)\b"):
@@ -158,7 +173,9 @@ class RuleBasedInterpreter(IntentInterpreter):
 
     def _editor(self, context: AssistantContext, action: str, reply: str) -> Interpretation:
         if not context.in_editor:
-            return Interpretation(reply="Puedo deshacer y rehacer cambios cuando estás en el editor 3D.", intent="needs_editor")
+            return Interpretation(
+                reply="Puedo deshacer y rehacer cambios cuando estás en el editor 3D.", intent="needs_editor"
+            )
         return Interpretation(reply=reply, intent=action, actions=[AssistantAction(type=action)])
 
     def _recommend(self, vocabulary: Vocabulary, room: str | None) -> Interpretation:
@@ -177,7 +194,9 @@ class RuleBasedInterpreter(IntentInterpreter):
     @staticmethod
     def _help(context: AssistantContext) -> str:
         if context.in_editor:
-            return "Pídeme cosas como «agrega una planta», «paredes verde salvia», «estilo japandi», «más luz» o «deshaz»."
+            return (
+                "Pídeme cosas como «agrega una planta», «paredes verde salvia», «estilo japandi», «más luz» o «deshaz»."
+            )
         return "Puedo crear un proyecto («crea una sala nórdica»), llevarte a rediseñar una foto, recomendarte estilos o decirte tu presupuesto."
 
 
@@ -219,7 +238,9 @@ class GeminiIntentInterpreter(IntentInterpreter):
         prompt = PROMPT.format(
             name=context.assistant_name,
             pages=list(PAGES),
-            editor_actions=EDITOR_ACTIONS_PROMPT if context.in_editor else "(editor actions are only available inside the 3D editor)",
+            editor_actions=EDITOR_ACTIONS_PROMPT
+            if context.in_editor
+            else "(editor actions are only available inside the 3D editor)",
             styles=vocabulary.styles,
             room_types=vocabulary.room_types,
             furniture=[(item.id, item.name, item.category) for item in vocabulary.furniture],
@@ -233,7 +254,9 @@ class GeminiIntentInterpreter(IntentInterpreter):
             history="\n".join(f"{sender}: {text}" for sender, text in context.history) or "(empty)",
             message=message,
         )
-        parts = self.client.generate(self.model, [{"text": prompt}], {"responseMimeType": "application/json", "temperature": 0.4})
+        parts = self.client.generate(
+            self.model, [{"text": prompt}], {"responseMimeType": "application/json", "temperature": 0.4}
+        )
         text = "".join(part.get("text", "") for part in parts)
         try:
             return Interpretation.model_validate(json.loads(text))

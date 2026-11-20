@@ -19,13 +19,7 @@ class UserRepository(BaseRepository[User]):
         project_count = (
             select(func.count(Project.id)).where(Project.user_id == User.id).correlate(User).scalar_subquery()
         )
-        query = (
-            select(User, project_count)
-            .where(*filters)
-            .order_by(User.created_at.desc())
-            .limit(limit)
-            .offset(offset)
-        )
+        query = select(User, project_count).where(*filters).order_by(User.created_at.desc()).limit(limit).offset(offset)
         return [(user, count) for user, count in self.session.execute(query)], total
 
     def count_by_role(self) -> dict[str, int]:

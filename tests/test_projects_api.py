@@ -11,7 +11,9 @@ def designer(client: TestClient) -> dict:
     import uuid
 
     email = f"designer-{uuid.uuid4().hex[:8]}@example.com"
-    session = client.post("/api/v1/auth/register", json={"full_name": "Diseñadora", "email": email, "password": "secreta123"})
+    session = client.post(
+        "/api/v1/auth/register", json={"full_name": "Diseñadora", "email": email, "password": "secreta123"}
+    )
     return auth(session.json()["access_token"])
 
 

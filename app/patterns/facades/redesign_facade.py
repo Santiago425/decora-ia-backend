@@ -47,7 +47,9 @@ class RedesignFacade:
         self.room_types = RoomTypeRepository(session)
         self.furniture = FurnitureRepository(session)
 
-    def create_redesign(self, user: User, photo: bytes, declared_type: str | None, options: RedesignOptions) -> Redesign:
+    def create_redesign(
+        self, user: User, photo: bytes, declared_type: str | None, options: RedesignOptions
+    ) -> Redesign:
         upload = build_image_validation_chain().validate(UploadedImage(photo, declared_type))
         image = self._normalize(upload.image)
         style = self.styles.get_by_slug(options.style)
@@ -136,10 +138,16 @@ class RedesignFacade:
             furniture=[SuggestedItem(name=i.name, description=i.description, price=float(i.price)) for i in picks],
             colors=[SuggestedColor(name=f"Tono {n}", hex=c) for n, c in enumerate(colors[:5], start=1)],
             materials=[
-                SuggestedItem(name=m.name, description=f"Para {self._surface(m.surface)}", price=float(m.price_per_unit))
+                SuggestedItem(
+                    name=m.name, description=f"Para {self._surface(m.surface)}", price=float(m.price_per_unit)
+                )
                 for m in style.materials
             ],
-            lighting=[SuggestedItem(name="Luz cálida regulable", description="Lámparas de luz cálida para un ambiente acogedor")],
+            lighting=[
+                SuggestedItem(
+                    name="Luz cálida regulable", description="Lámparas de luz cálida para un ambiente acogedor"
+                )
+            ],
         )
 
     def _request_from(self, redesign: Redesign, variation: int) -> RedesignRequest:

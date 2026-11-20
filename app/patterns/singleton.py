@@ -1,10 +1,10 @@
 from threading import Lock
-from typing import Any
+from typing import Any, ClassVar
 
 
 # Singleton: every class using this metaclass has exactly one instance per process.
 class SingletonMeta(type):
-    _instances: dict[type, Any] = {}
+    _instances: ClassVar[dict[type, Any]] = {}
     _lock = Lock()
 
     def __call__(cls, *args, **kwargs):

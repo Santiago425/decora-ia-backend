@@ -88,7 +88,9 @@ def get_interpreter() -> IntentInterpreter:
     if settings.ai_text_provider != "gemini" or not settings.gemini_api_key:
         return rules
     client = GeminiClient(settings.gemini_api_key, settings.gemini_api_base_url, settings.ai_timeout_seconds)
-    return FallbackInterpreter(GeminiIntentInterpreter(client, settings.gemini_text_model, settings.currency_code), rules)
+    return FallbackInterpreter(
+        GeminiIntentInterpreter(client, settings.gemini_text_model, settings.currency_code), rules
+    )
 
 
 def get_assistant_service(

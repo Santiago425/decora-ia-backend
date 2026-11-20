@@ -47,7 +47,7 @@ class SceneGroup(BaseModel):
     kind: Literal["group"]
     id: str = Field(min_length=1, max_length=40)
     name: str = Field(min_length=1, max_length=80)
-    children: list[Annotated[Union[SceneItem, "SceneGroup"], Field(discriminator="kind")]]  # noqa: UP007 = Field(default_factory=list)
+    children: list[Annotated[Union[SceneItem, "SceneGroup"], Field(discriminator="kind")]]
 
 
 class SceneData(BaseModel):
