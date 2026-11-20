@@ -262,7 +262,7 @@ class RedesignFacade:
         style = request.style
         colors = list(request.palette) or (style.palettes[0].colors if style.palettes else [])
         return DesignSuggestions(
-            summary=f"Una propuesta {style.name.lower()} para tu {request.room_type.name.lower()}: {style.description}",
+            summary=f"Una propuesta de estilo {style.name.lower()} para tu {request.room_type.name.lower()}: {style.description}",
             furniture=[SuggestedItem(name=i.name, description=i.description, price=float(i.price)) for i in picks],
             colors=[SuggestedColor(name=f"Tono {n}", hex=c) for n, c in enumerate(colors[:5], start=1)],
             materials=[
@@ -326,7 +326,7 @@ class RedesignFacade:
             return project
         project = Project(
             owner=user,
-            name=f"{request.room_type.name} {request.style.name.lower()}",
+            name=f"{request.room_type.name} estilo {request.style.name.lower()}",
             room_type_id=request.room_type.id,
             style_id=request.style.id,
         )

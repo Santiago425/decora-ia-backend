@@ -33,6 +33,7 @@ def test_full_redesign_flow_with_mock_ai(client: TestClient, user_token, photo):
     body = response.json()
     assert body["status"] == "ready"
     assert body["style"] == {"slug": "industrial", "name": "Industrial"}
+    assert body["project_name"] == f"{body['room_type']['name']} estilo industrial"
     assert body["budget_tier"] == "economic"
     assert body["palette"] == ["#2b2b2b", "#c9c3b8"]
     assert body["suggestions"]["furniture"]
