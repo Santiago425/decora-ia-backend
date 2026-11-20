@@ -7,6 +7,7 @@ from app.schemas.catalog import (
     FurnitureAddonResponse,
     FurnitureCategoryResponse,
     FurnitureItemResponse,
+    InspirationPhotoResponse,
     MaterialResponse,
     PaletteResponse,
     RoomTypeResponse,
@@ -51,3 +52,8 @@ def list_palettes(service: Service):
 @router.get("/addons", response_model=list[FurnitureAddonResponse])
 def list_addons(service: Service):
     return service.list_addons()
+
+
+@router.get("/inspiration", response_model=list[InspirationPhotoResponse])
+def list_inspiration(service: Service):
+    return service.list_inspiration()

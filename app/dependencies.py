@@ -25,6 +25,7 @@ from app.repositories import (
     FurnitureAddonRepository,
     FurnitureCategoryRepository,
     FurnitureRepository,
+    InspirationPhotoRepository,
     MaterialRepository,
     PaletteRepository,
     ProjectRepository,
@@ -62,6 +63,7 @@ def get_catalog_service(db: DbSession) -> CatalogService:
         MaterialRepository(db),
         PaletteRepository(db),
         FurnitureAddonRepository(db),
+        InspirationPhotoRepository(db),
     )
 
 
@@ -148,13 +150,18 @@ def get_admin_service(db: DbSession) -> AdminService:
         FurnitureRepository(db),
         StyleRepository(db),
         FurnitureAddonRepository(db),
+        RoomTypeRepository(db),
         get_settings(),
     )
 
 
 def get_catalog_admin(db: DbSession, user: CurrentUser) -> CatalogAdminProxy:
     real = CatalogAdminService(
-        FurnitureRepository(db), FurnitureCategoryRepository(db), StyleRepository(db), FurnitureAddonRepository(db)
+        FurnitureRepository(db),
+        FurnitureCategoryRepository(db),
+        StyleRepository(db),
+        FurnitureAddonRepository(db),
+        RoomTypeRepository(db),
     )
     return CatalogAdminProxy(real, user)
 

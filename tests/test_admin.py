@@ -168,3 +168,20 @@ def test_furniture_list_is_paginated_and_filtered(client: TestClient):
     empty = client.get("/api/v1/admin/furniture", params={"page": 999}, headers=headers).json()
     assert empty["items"] == []
     assert empty["total"] == first["total"]
+
+
+def test_room_type_cover_can_be_changed_from_the_admin(client: TestClient, user_token: str):
+    headers = admin_headers(client)
+    room_type = client.get("/api/v1/admin/room-types", headers=headers).json()[0]
+    assert room_type["cover_image_url"]
+    url = "https://images.example.com/new-cover.jpg"
+    response = client.patch(
+        f"/api/v1/admin/room-types/{room_type['id']}", json={"cover_image_url": url}, headers=headers
+    )
+    assert response.json()["cover_image_url"] == url
+    public = next(r for r in client.get("/api/v1/catalog/room-types").json() if r["id"] == room_type["id"])
+    assert public["cover_image_url"] == url
+    blocked = client.patch(
+        f"/api/v1/admin/room-types/{room_type['id']}", json={"name": "Hack"}, headers=user_headers(user_token)
+    )
+    assert blocked.status_code == 403

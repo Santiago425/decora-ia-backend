@@ -1,9 +1,15 @@
 import logging
 from typing import Protocol
 
-from app.models import DesignStyle, FurnitureAddon, FurnitureItem, User, UserRole
-from app.repositories import FurnitureAddonRepository, FurnitureCategoryRepository, FurnitureRepository, StyleRepository
-from app.schemas.admin import AddonUpdate, FurnitureCreate, FurnitureUpdate, StyleUpdate
+from app.models import DesignStyle, FurnitureAddon, FurnitureItem, RoomType, User, UserRole
+from app.repositories import (
+    FurnitureAddonRepository,
+    FurnitureCategoryRepository,
+    FurnitureRepository,
+    RoomTypeRepository,
+    StyleRepository,
+)
+from app.schemas.admin import AddonUpdate, FurnitureCreate, FurnitureUpdate, RoomTypeUpdate, StyleUpdate
 
 logger = logging.getLogger("habita.admin")
 
@@ -20,6 +26,7 @@ class CatalogAdmin(Protocol):
     def update_furniture(self, furniture_id: int, data: FurnitureUpdate) -> FurnitureItem: ...
     def update_style(self, style_id: int, data: StyleUpdate) -> DesignStyle: ...
     def update_addon(self, addon_id: int, data: AddonUpdate) -> FurnitureAddon: ...
+    def update_room_type(self, room_type_id: int, data: RoomTypeUpdate) -> RoomType: ...
 
 
 class CatalogAdminService:
@@ -29,11 +36,13 @@ class CatalogAdminService:
         categories: FurnitureCategoryRepository,
         styles: StyleRepository,
         addons: FurnitureAddonRepository,
+        room_types: RoomTypeRepository,
     ) -> None:
         self.furniture = furniture
         self.categories = categories
         self.styles = styles
         self.addons = addons
+        self.room_types = room_types
 
     def create_furniture(self, data: FurnitureCreate) -> FurnitureItem:
         values = data.model_dump(exclude={"category"})
@@ -71,6 +80,14 @@ class CatalogAdminService:
             setattr(addon, field, value)
         return self.addons.save(addon)
 
+    def update_room_type(self, room_type_id: int, data: RoomTypeUpdate) -> RoomType:
+        room_type = self.room_types.get(room_type_id)
+        if room_type is None:
+            raise CatalogAdminError("Ese tipo de habitación no existe", 404)
+        for field, value in data.model_dump(exclude_unset=True).items():
+            setattr(room_type, field, value or None if field == "cover_image_url" else value)
+        return self.room_types.save(room_type)
+
     def _category_id(self, slug: str) -> int:
         category = self.categories.get_by_slug(slug)
         if category is None:
@@ -107,6 +124,12 @@ class CatalogAdminProxy:
         addon = self._real.update_addon(addon_id, data)
         self._audit("update_addon", addon_id, data.model_dump(exclude_unset=True))
         return addon
+
+    def update_room_type(self, room_type_id: int, data: RoomTypeUpdate) -> RoomType:
+        self._authorize()
+        room_type = self._real.update_room_type(room_type_id, data)
+        self._audit("update_room_type", room_type_id, data.model_dump(exclude_unset=True))
+        return room_type
 
     def _authorize(self) -> None:
         if self._actor.role != UserRole.ADMIN or not self._actor.is_active:

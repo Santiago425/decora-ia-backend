@@ -7,6 +7,7 @@ from app.models import (
     FurnitureAddon,
     FurnitureCategory,
     FurnitureItem,
+    InspirationPhoto,
     Material,
     Project,
     RoomType,
@@ -52,6 +53,9 @@ class RoomTypeRepository(BaseRepository[RoomType]):
 
     def get_by_slug(self, slug: str) -> RoomType | None:
         return self.session.scalar(select(RoomType).where(RoomType.slug == slug))
+
+    def list_all(self) -> list[RoomType]:
+        return list(self.session.scalars(select(RoomType).order_by(RoomType.sort_order, RoomType.name)))
 
 
 class FurnitureCategoryRepository(BaseRepository[FurnitureCategory]):
@@ -154,3 +158,16 @@ class FurnitureAddonRepository(BaseRepository[FurnitureAddon]):
             slug: float(price)
             for slug, price in self.session.execute(select(FurnitureAddon.slug, FurnitureAddon.price))
         }
+
+
+class InspirationPhotoRepository(BaseRepository[InspirationPhoto]):
+    model = InspirationPhoto
+
+    def list_active(self) -> list[InspirationPhoto]:
+        query = (
+            select(InspirationPhoto)
+            .where(InspirationPhoto.is_active.is_(True))
+            .options(selectinload(InspirationPhoto.style), selectinload(InspirationPhoto.room_type))
+            .order_by(InspirationPhoto.sort_order, InspirationPhoto.id)
+        )
+        return list(self.session.scalars(query))

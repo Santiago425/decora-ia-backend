@@ -4,37 +4,43 @@
       "slug": "living_room",
       "name": "Sala",
       "icon": "sofa",
-      "sort_order": 1
+      "sort_order": 1,
+      "cover_image_url": "https://images.unsplash.com/photo-1583847268964-b28dc8f51f92?auto=format&fit=crop&w=1600&q=75"
     },
     {
       "slug": "bedroom",
       "name": "Dormitorio",
       "icon": "bed-double",
-      "sort_order": 2
+      "sort_order": 2,
+      "cover_image_url": "https://images.unsplash.com/photo-1699869653495-fe26f4c70b3e?auto=format&fit=crop&w=1600&q=75"
     },
     {
       "slug": "kitchen",
       "name": "Cocina",
       "icon": "cooking-pot",
-      "sort_order": 3
+      "sort_order": 3,
+      "cover_image_url": "https://images.unsplash.com/photo-1764526624453-db32c24eca55?auto=format&fit=crop&w=1600&q=75"
     },
     {
       "slug": "dining_room",
       "name": "Comedor",
       "icon": "utensils",
-      "sort_order": 4
+      "sort_order": 4,
+      "cover_image_url": "https://images.unsplash.com/photo-1772442364639-20fe5e5438a1?auto=format&fit=crop&w=1600&q=75"
     },
     {
       "slug": "office",
       "name": "Oficina",
       "icon": "monitor",
-      "sort_order": 5
+      "sort_order": 5,
+      "cover_image_url": "https://images.unsplash.com/photo-1762983870490-63e5ba07105b?auto=format&fit=crop&w=1600&q=75"
     },
     {
       "slug": "bathroom",
       "name": "Baño",
       "icon": "bath",
-      "sort_order": 6
+      "sort_order": 6,
+      "cover_image_url": "https://images.unsplash.com/photo-1754574741164-a41418029cfb?auto=format&fit=crop&w=1600&q=75"
     }
   ],
   "materials": [
@@ -45,7 +51,8 @@
       "color_hex": "#f2ede4",
       "roughness": 0.9,
       "metalness": 0,
-      "price_per_unit": 18000
+      "price_per_unit": 18000,
+      "texture_url": "https://images.unsplash.com/photo-1604147706283-d7119b5b822c?auto=format&fit=crop&w=600&q=75"
     },
     {
       "slug": "wall_sage_green",
@@ -72,7 +79,8 @@
       "color_hex": "#9b9a96",
       "roughness": 0.85,
       "metalness": 0,
-      "price_per_unit": 20000
+      "price_per_unit": 20000,
+      "texture_url": "https://images.unsplash.com/photo-1762087483788-08334b128216?auto=format&fit=crop&w=600&q=75"
     },
     {
       "slug": "wall_exposed_brick",
@@ -90,7 +98,8 @@
       "color_hex": "#e3d3bb",
       "roughness": 0.9,
       "metalness": 0,
-      "price_per_unit": 20000
+      "price_per_unit": 20000,
+      "texture_url": "https://images.unsplash.com/photo-1788204996840-9d6b6f48b683?auto=format&fit=crop&w=600&q=75"
     },
     {
       "slug": "floor_light_oak",
@@ -99,7 +108,8 @@
       "color_hex": "#d2b48c",
       "roughness": 0.7,
       "metalness": 0,
-      "price_per_unit": 120000
+      "price_per_unit": 120000,
+      "texture_url": "https://images.unsplash.com/photo-1768591189203-8c05a55a36f5?auto=format&fit=crop&w=600&q=75"
     },
     {
       "slug": "floor_walnut",
@@ -108,7 +118,8 @@
       "color_hex": "#6b4a32",
       "roughness": 0.65,
       "metalness": 0,
-      "price_per_unit": 160000
+      "price_per_unit": 160000,
+      "texture_url": "https://images.unsplash.com/photo-1644931551533-02906718127f?auto=format&fit=crop&w=600&q=75"
     },
     {
       "slug": "floor_microcement",
@@ -117,7 +128,8 @@
       "color_hex": "#b8b3ab",
       "roughness": 0.6,
       "metalness": 0,
-      "price_per_unit": 140000
+      "price_per_unit": 140000,
+      "texture_url": "https://images.unsplash.com/photo-1617713965103-9fda56c89fad?auto=format&fit=crop&w=600&q=75"
     },
     {
       "slug": "floor_white_porcelain",
@@ -126,7 +138,8 @@
       "color_hex": "#ecebe7",
       "roughness": 0.25,
       "metalness": 0,
-      "price_per_unit": 95000
+      "price_per_unit": 95000,
+      "texture_url": "https://images.unsplash.com/photo-1566041510394-cf7c8fe21800?auto=format&fit=crop&w=600&q=75"
     },
     {
       "slug": "floor_terracotta_tile",
@@ -144,7 +157,8 @@
       "color_hex": "#c9a96e",
       "roughness": 0.7,
       "metalness": 0,
-      "price_per_unit": 130000
+      "price_per_unit": 130000,
+      "texture_url": "https://images.unsplash.com/photo-1776278515712-9d5753884f5f?auto=format&fit=crop&w=600&q=75"
     },
     {
       "slug": "fabric_sand_linen",
@@ -153,7 +167,8 @@
       "color_hex": "#d8c8ae",
       "roughness": 0.95,
       "metalness": 0,
-      "price_per_unit": 0
+      "price_per_unit": 0,
+      "texture_url": "https://images.unsplash.com/photo-1528458909336-e7a0adfed0a5?auto=format&fit=crop&w=600&q=75"
     },
     {
       "slug": "leather_cognac",
@@ -180,7 +195,8 @@
       "color_hex": "#d9c09b",
       "roughness": 0.7,
       "metalness": 0,
-      "price_per_unit": 0
+      "price_per_unit": 0,
+      "texture_url": "https://images.unsplash.com/photo-1763392199003-27cee33bae31?auto=format&fit=crop&w=600&q=75"
     },
     {
       "slug": "velvet_forest",
@@ -198,7 +214,8 @@
       "color_hex": "#c19a5b",
       "roughness": 0.85,
       "metalness": 0,
-      "price_per_unit": 0
+      "price_per_unit": 0,
+      "texture_url": "https://images.unsplash.com/photo-1613931931994-398c3835983b?auto=format&fit=crop&w=600&q=75"
     },
     {
       "slug": "white_lacquer",
@@ -252,7 +269,7 @@
       "name": "Industrial",
       "sort_order": 2,
       "description": "Ladrillo, metal negro y tonos tostados.",
-      "image_url": "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=1200&q=80",
+      "image_url": "https://images.unsplash.com/photo-1505873242700-f289a29e1e0f?auto=format&fit=crop&w=1200&q=80",
       "lighting_color": "#ffd9a8",
       "lighting_intensity": 0.85,
       "materials": [
@@ -828,6 +845,136 @@
         "lamp"
       ],
       "color_hex": "#fff1c9"
+    }
+  ],
+  "inspiration_photos": [
+    {
+      "title": "Sala luminosa con madera",
+      "image_url": "https://images.unsplash.com/photo-1772797583328-f83bc3f94f80?auto=format&fit=crop&w=1600&q=75",
+      "author_name": "Puscas Adryan",
+      "source_url": "https://unsplash.com/photos/modern-living-room-with-natural-light-and-wooden-accents-2cfj0Y5ch00",
+      "style": "nordic",
+      "room_type": "living_room"
+    },
+    {
+      "title": "Cocina de roble con isla",
+      "image_url": "https://images.unsplash.com/photo-1764526624453-db32c24eca55?auto=format&fit=crop&w=1600&q=75",
+      "author_name": "Clay Banks",
+      "source_url": "https://unsplash.com/photos/modern-kitchen-with-wooden-cabinets-and-island-XU_ODlSO9ac",
+      "style": "modern",
+      "room_type": "kitchen"
+    },
+    {
+      "title": "Dormitorio sereno",
+      "image_url": "https://images.unsplash.com/photo-1724582586413-6b69e1c94a17?auto=format&fit=crop&w=1600&q=75",
+      "author_name": "Prydumano Design",
+      "source_url": "https://unsplash.com/photos/a-bedroom-with-a-bed-and-a-table-in-it-qPHpk6G9nik",
+      "style": "minimalist",
+      "room_type": "bedroom"
+    },
+    {
+      "title": "Baño en tonos tierra",
+      "image_url": "https://images.unsplash.com/photo-1754574741164-a41418029cfb?auto=format&fit=crop&w=1600&q=75",
+      "author_name": "Ela De Pure",
+      "source_url": "https://unsplash.com/photos/elegant-bathroom-with-modern-fixtures-and-decor-xS608no3sTk",
+      "style": "japandi",
+      "room_type": "bathroom"
+    },
+    {
+      "title": "Escritorio de roble con plantas",
+      "image_url": "https://images.unsplash.com/photo-1762983870490-63e5ba07105b?auto=format&fit=crop&w=1600&q=75",
+      "author_name": "Faizur Rehman",
+      "source_url": "https://unsplash.com/photos/modern-home-office-desk-setup-with-computer-and-plants-xqh-RlfJVx4",
+      "style": "minimalist",
+      "room_type": "office"
+    },
+    {
+      "title": "Comedor bañado de sol",
+      "image_url": "https://images.unsplash.com/photo-1772442364639-20fe5e5438a1?auto=format&fit=crop&w=1600&q=75",
+      "author_name": "Tim Schmidbauer",
+      "source_url": "https://unsplash.com/photos/sunlight-streams-into-a-modern-dining-room-with-wooden-chairs-3-furLtfeGU",
+      "style": "nordic",
+      "room_type": "dining_room"
+    },
+    {
+      "title": "Balcón con plantas",
+      "image_url": "https://images.unsplash.com/photo-1560769407-8ee7b93c602c?auto=format&fit=crop&w=1600&q=75",
+      "author_name": "Teo Zac",
+      "source_url": "https://unsplash.com/photos/apartment-balcony-with-plants-during-daytime-12ETf2gWvMc",
+      "style": "boho",
+      "room_type": null
+    },
+    {
+      "title": "Loft abierto con comedor",
+      "image_url": "https://images.unsplash.com/photo-1783990349147-906f62b882c1?auto=format&fit=crop&w=1600&q=75",
+      "author_name": "Ulises Ramírez",
+      "source_url": "https://unsplash.com/photos/modern-open-plan-loft-apartment-with-dining-area-and-kitchen-tqCfLSHgaIo",
+      "style": "industrial",
+      "room_type": "living_room"
+    },
+    {
+      "title": "Rincón cálido con repisas",
+      "image_url": "https://images.unsplash.com/photo-1753800558596-9ad08a31413c?auto=format&fit=crop&w=1600&q=75",
+      "author_name": "Alona Gross",
+      "source_url": "https://unsplash.com/photos/cozy-room-interior-with-shelving-and-ambient-lighting-pU63rAgaeoM",
+      "style": "japandi",
+      "room_type": "living_room"
+    },
+    {
+      "title": "Baño con piedra y plantas",
+      "image_url": "https://images.unsplash.com/photo-1750036015902-c6f5ebca924e?auto=format&fit=crop&w=1600&q=75",
+      "author_name": "Ela De Pure",
+      "source_url": "https://unsplash.com/photos/elegant-modern-bathroom-with-natural-accents-and-plants-HIu7A27ptE0",
+      "style": "japandi",
+      "room_type": "bathroom"
+    },
+    {
+      "title": "Comedor junto a la ventana",
+      "image_url": "https://images.unsplash.com/photo-1721742145312-9264de4cd63f?auto=format&fit=crop&w=1600&q=75",
+      "author_name": "Alex Tyson",
+      "source_url": "https://unsplash.com/photos/a-dining-room-with-a-table-and-chairs-next-to-a-window-ktmh_Q5ek8M",
+      "style": "classic",
+      "room_type": "dining_room"
+    },
+    {
+      "title": "Sala con chimenea",
+      "image_url": "https://images.unsplash.com/photo-1723748972084-4124765e0a55?auto=format&fit=crop&w=1600&q=75",
+      "author_name": "Clay Banks",
+      "source_url": "https://unsplash.com/photos/a-living-room-filled-with-furniture-and-a-fire-place-UTWRDWMMaag",
+      "style": "classic",
+      "room_type": "living_room"
+    },
+    {
+      "title": "Oficina con biblioteca",
+      "image_url": "https://images.unsplash.com/photo-1766330977451-de1b64b5e641?auto=format&fit=crop&w=1600&q=75",
+      "author_name": "Poojan Thanekar",
+      "source_url": "https://unsplash.com/photos/modern-home-office-with-desk-and-bookshelves-BbygXuoIrW8",
+      "style": "modern",
+      "room_type": "office"
+    },
+    {
+      "title": "Sala con cojines estampados",
+      "image_url": "https://images.unsplash.com/photo-1615529182904-14819c35db37?auto=format&fit=crop&w=1600&q=75",
+      "author_name": "Spacejoy",
+      "source_url": "https://unsplash.com/photos/living-room-with-grey-sofa-YqFz7UMm8qE",
+      "style": "boho",
+      "room_type": "living_room"
+    },
+    {
+      "title": "Cocina de madera clara",
+      "image_url": "https://images.unsplash.com/photo-1759239572496-4ec13e7643d6?auto=format&fit=crop&w=1600&q=75",
+      "author_name": "Clay Banks",
+      "source_url": "https://unsplash.com/photos/a-modern-kitchen-with-light-wood-countertops-and-island-mhDeeOvBs9o",
+      "style": "nordic",
+      "room_type": "kitchen"
+    },
+    {
+      "title": "Loft industrial con sala de cuero",
+      "image_url": "https://images.unsplash.com/photo-1505873242700-f289a29e1e0f?auto=format&fit=crop&w=1600&q=75",
+      "author_name": "Aaron Huber",
+      "source_url": "https://unsplash.com/photos/industrial-loft-with-dining-area-s95oB2n9jng",
+      "style": "industrial",
+      "room_type": "living_room"
     }
   ]
 }

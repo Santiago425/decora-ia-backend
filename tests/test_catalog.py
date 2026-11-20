@@ -40,3 +40,32 @@ def test_seed_is_idempotent(client: TestClient):
     before = len(client.get("/api/v1/catalog/furniture").json())
     run_seed()
     assert len(client.get("/api/v1/catalog/furniture").json()) == before
+
+
+def test_inspiration_gallery_comes_from_the_database(client: TestClient):
+    photos = client.get("/api/v1/catalog/inspiration").json()
+    assert len(photos) >= 12
+    assert all(photo["image_url"].startswith("https://") and photo["author_name"] for photo in photos)
+    assert any(photo["style"] and photo["style"]["slug"] for photo in photos)
+    assert {photo["room_type"]["slug"] for photo in photos if photo["room_type"]} >= {"kitchen", "bedroom"}
+
+
+def test_room_types_and_materials_carry_photos(client: TestClient):
+    assert all(room["cover_image_url"] for room in client.get("/api/v1/catalog/room-types").json())
+    materials = client.get("/api/v1/catalog/materials").json()
+    assert any(material["texture_url"] for material in materials)
+
+
+def test_seed_fills_missing_covers_without_overwriting(client: TestClient):
+    from app.models import RoomType
+
+    with Database().session() as session:
+        rooms = session.query(RoomType).order_by(RoomType.id).all()
+        rooms[0].cover_image_url = None
+        rooms[1].cover_image_url = "https://images.example.com/custom.jpg"
+        session.commit()
+    run_seed()
+    with Database().session() as session:
+        rooms = session.query(RoomType).order_by(RoomType.id).all()
+        assert rooms[0].cover_image_url
+        assert rooms[1].cover_image_url == "https://images.example.com/custom.jpg"

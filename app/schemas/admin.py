@@ -136,6 +136,23 @@ class StyleUpdate(BaseModel):
     is_active: bool | None = None
 
 
+class AdminRoomType(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
+    id: int
+    slug: str
+    name: str
+    icon: str
+    cover_image_url: str | None
+    is_active: bool
+
+
+class RoomTypeUpdate(BaseModel):
+    name: str | None = Field(default=None, min_length=2, max_length=60)
+    cover_image_url: str | None = Field(default=None, max_length=500)
+    is_active: bool | None = None
+
+
 class AdminAddon(BaseModel):
     model_config = ConfigDict(from_attributes=True)
 
