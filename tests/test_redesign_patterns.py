@@ -118,7 +118,12 @@ def test_edit_strategies_build_precise_instructions():
     replace = select_edit_strategy("replace_furniture")
     values = replace.clean({"target": "  el sofá   gris ", "replacement": "un sofá de lino"})
     assert values["target"] == "el sofá gris"
-    assert "same position and scale" in replace.prompt(values)
+    replace_prompt = replace.prompt(values, keep_items="el sofá gris")
+    assert "same position and scale" in replace_prompt
+    assert "keep the furniture" not in replace_prompt and "rest of the furniture" in replace_prompt
+    assert "Apart from the requested change" in replace_prompt
+
+    assert "keep the furniture, floor," in prompt and "walls" not in prompt.split("Change nothing else")[1]
 
     with pytest.raises(EditRequestError):
         select_edit_strategy("unknown")

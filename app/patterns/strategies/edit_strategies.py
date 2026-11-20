@@ -5,7 +5,7 @@ from dataclasses import dataclass
 HEX_COLOR = re.compile(r"^#[0-9a-fA-F]{6}$")
 MAX_TEXT = 80
 UNTOUCHED = (
-    "Change nothing else: keep the furniture, walls, floor, ceiling, windows, doors, lighting "
+    "Change nothing else: keep the {kept}, ceiling, windows, doors, lighting "
     "and the exact camera angle as they are. Return a photorealistic image."
 )
 
@@ -29,6 +29,8 @@ class EditStrategy(ABC):
     label: str
     description: str
     fields: tuple[EditField, ...]
+    # Parts of the room this edit must leave alone; never the part it is asked to change.
+    kept: str
 
     def clean(self, raw: dict[str, str]) -> dict[str, str]:
         cleaned = {}
@@ -42,9 +44,9 @@ class EditStrategy(ABC):
         return cleaned
 
     def prompt(self, values: dict[str, str], keep_items: str | None = None) -> str:
-        lines = [self.instruction(values), UNTOUCHED]
+        lines = [self.instruction(values), UNTOUCHED.format(kept=self.kept)]
         if keep_items:
-            lines.append(f"These pieces must stay exactly as they are: {keep_items}.")
+            lines.append(f"Apart from the requested change, these pieces must stay exactly as they are: {keep_items}.")
         return " ".join(lines)
 
     @abstractmethod
@@ -55,6 +57,7 @@ class WallPaintEdit(EditStrategy):
     key = "wall_paint"
     label = "Pintar paredes"
     description = "Cambia solo el color de las paredes."
+    kept = "furniture, floor"
     fields = (EditField("color", "Color de pintura", "color"),)
 
     def instruction(self, values: dict[str, str]) -> str:
@@ -65,6 +68,7 @@ class FloorSwapEdit(EditStrategy):
     key = "floor_swap"
     label = "Cambiar piso"
     description = "Reemplaza el piso por un material del catálogo."
+    kept = "furniture, walls"
     fields = (EditField("material", "Material del piso", "material", surface="floor"),)
 
     def instruction(self, values: dict[str, str]) -> str:
@@ -75,6 +79,7 @@ class RemoveObjectEdit(EditStrategy):
     key = "remove_object"
     label = "Borrar objeto"
     description = "Quita algo de la foto y rellena el espacio."
+    kept = "rest of the furniture, walls, floor"
     fields = (EditField("target", "¿Qué quieres borrar?", "text", "Ej.: la silla roja junto a la ventana"),)
 
     def instruction(self, values: dict[str, str]) -> str:
@@ -88,6 +93,7 @@ class ReplaceFurnitureEdit(EditStrategy):
     key = "replace_furniture"
     label = "Cambiar un mueble"
     description = "Cambia un mueble por otro en el mismo lugar."
+    kept = "rest of the furniture, walls, floor"
     fields = (
         EditField("target", "Mueble actual", "text", "Ej.: el sofá gris"),
         EditField("replacement", "Nuevo mueble", "text", "Ej.: un sofá de lino beige con patas de madera"),
@@ -96,7 +102,7 @@ class ReplaceFurnitureEdit(EditStrategy):
     def instruction(self, values: dict[str, str]) -> str:
         return (
             f"Replace {values['target']} with {values['replacement']}, in the same position and scale, "
-            "matching the light of the room."
+            "matching the light of the room. The old piece must be fully replaced by the new one."
         )
 
 
