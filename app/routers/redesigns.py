@@ -12,7 +12,12 @@ from app.models import Redesign
 from app.patterns.ai.ai_client import AIClient
 from app.patterns.ai.ai_provider import AIError
 from app.patterns.builders.redesign_request_builder import RedesignRequestError
-from app.patterns.facades.redesign_facade import RedesignFacade, RedesignNotFound, RedesignOptions
+from app.patterns.facades.redesign_facade import (
+    LastRedesignError,
+    RedesignFacade,
+    RedesignNotFound,
+    RedesignOptions,
+)
 from app.patterns.storage.storage_adapter import create_storage
 from app.patterns.strategies.budget_strategies import select_budget_strategy
 from app.patterns.strategies.edit_strategies import EDIT_STRATEGIES, EditRequestError
@@ -141,6 +146,16 @@ def get_redesign(redesign_id: uuid.UUID, user: CurrentUser, facade: Facade):
         return to_response(facade.get(user, redesign_id))
     except RedesignNotFound:
         raise HTTPException(status.HTTP_404_NOT_FOUND, "No encontramos ese rediseño") from None
+
+
+@router.delete("/{redesign_id}", status_code=status.HTTP_204_NO_CONTENT)
+def delete_redesign(redesign_id: uuid.UUID, user: CurrentUser, facade: Facade):
+    try:
+        facade.delete(user, redesign_id)
+    except RedesignNotFound:
+        raise HTTPException(status.HTTP_404_NOT_FOUND, "No encontramos ese rediseño") from None
+    except LastRedesignError:
+        raise HTTPException(status.HTTP_409_CONFLICT, "El proyecto necesita al menos una versión") from None
 
 
 @router.post("/{redesign_id}/variations", response_model=RedesignResponse, status_code=status.HTTP_201_CREATED)
