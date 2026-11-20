@@ -86,6 +86,8 @@ class Settings(BaseSettings):
     room_default_height: float = 2.7
     scene_max_nodes: int = 150
     scene_versions_limit: int = 20
+    # How many photos made from the 3D editor the project shows, newest first.
+    scene_renders_limit: int = 12
 
     assistant_name: str = "Lumi"
     assistant_rate_limit: str = "20/minute"

@@ -14,6 +14,7 @@ from app.repositories.project_repository import (
     ChatMessageRepository,
     ProjectRepository,
     RedesignRepository,
+    SceneRenderRepository,
     SceneVersionRepository,
 )
 from app.repositories.user_repository import UserRepository
@@ -31,6 +32,7 @@ __all__ = [
     "ProjectRepository",
     "RedesignRepository",
     "RoomTypeRepository",
+    "SceneRenderRepository",
     "SceneVersionRepository",
     "StyleRepository",
     "UserRepository",

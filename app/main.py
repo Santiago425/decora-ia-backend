@@ -22,6 +22,7 @@ from app.routers import (
     meta,
     projects,
     redesigns,
+    scene_renders,
     shopping_list,
 )
 
@@ -93,7 +94,20 @@ def create_app() -> FastAPI:
         response.headers.setdefault("Referrer-Policy", "no-referrer")
         return response
 
-    routers = (health, auth, catalog, dashboard, projects, shopping_list, redesigns, assistant, admin, meta, files)
+    routers = (
+        health,
+        auth,
+        catalog,
+        dashboard,
+        projects,
+        scene_renders,
+        shopping_list,
+        redesigns,
+        assistant,
+        admin,
+        meta,
+        files,
+    )
     for router in (module.router for module in routers):
         app.include_router(router, prefix=settings.api_prefix)
 

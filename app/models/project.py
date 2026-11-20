@@ -47,6 +47,9 @@ class Project(TimestampMixin, Base):
         back_populates="project", cascade="all, delete-orphan", order_by="Redesign.created_at.desc()"
     )
     scene_versions: Mapped[list["SceneVersion"]] = relationship(back_populates="project", cascade="all, delete-orphan")
+    scene_renders: Mapped[list["SceneRender"]] = relationship(
+        back_populates="project", cascade="all, delete-orphan", order_by="SceneRender.created_at.desc()"
+    )
 
 
 class Redesign(Base):
@@ -84,6 +87,24 @@ class SceneVersion(Base):
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utc_now)
 
     project: Mapped[Project] = relationship(back_populates="scene_versions")
+
+
+class SceneRender(Base):
+    """A photorealistic picture made from a capture of the 3D editor."""
+
+    __tablename__ = "scene_renders"
+
+    id: Mapped[uuid.UUID] = mapped_column(Uuid, primary_key=True, default=uuid.uuid4)
+    project_id: Mapped[uuid.UUID] = mapped_column(ForeignKey("projects.id", ondelete="CASCADE"), index=True)
+    capture_image_url: Mapped[str] = mapped_column(String(500))
+    result_image_url: Mapped[str | None] = mapped_column(String(500))
+    prompt: Mapped[str] = mapped_column(Text, default="")
+    time_of_day: Mapped[str | None] = mapped_column(String(40))
+    status: Mapped[RedesignStatus] = mapped_column(_enum(RedesignStatus), default=RedesignStatus.UPLOADING)
+    error_message: Mapped[str | None] = mapped_column(String(300))
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utc_now)
+
+    project: Mapped[Project] = relationship(back_populates="scene_renders")
 
 
 class ChatMessage(Base):

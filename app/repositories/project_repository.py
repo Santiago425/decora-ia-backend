@@ -4,7 +4,7 @@ from decimal import Decimal
 from sqlalchemy import delete, func, select
 from sqlalchemy.orm import selectinload
 
-from app.models import ChatMessage, DesignStyle, Project, Redesign, SceneVersion
+from app.models import ChatMessage, DesignStyle, Project, Redesign, SceneRender, SceneVersion
 from app.repositories.base_repository import BaseRepository
 
 
@@ -98,6 +98,19 @@ class SceneVersionRepository(BaseRepository[SceneVersion]):
     def keep_latest(self, project_id: uuid.UUID, limit: int) -> None:
         for version in self.list_by_project(project_id)[limit:]:
             self.session.delete(version)
+
+
+class SceneRenderRepository(BaseRepository[SceneRender]):
+    model = SceneRender
+
+    def recent_by_project(self, project_id: uuid.UUID, limit: int) -> list[SceneRender]:
+        query = (
+            select(SceneRender)
+            .where(SceneRender.project_id == project_id)
+            .order_by(SceneRender.created_at.desc())
+            .limit(limit)
+        )
+        return list(self.session.scalars(query))
 
 
 class ChatMessageRepository(BaseRepository[ChatMessage]):
