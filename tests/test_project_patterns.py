@@ -7,7 +7,15 @@ from app.patterns.builders.room_builder import RoomBuilder, StarterLayoutDirecto
 from app.patterns.mementos.scene_memento import ProjectSceneOriginator
 from app.patterns.prototypes.project_prototype import ProjectPrototype
 from app.patterns.states.project_states import ProjectLifecycle, ProjectTransitionError
-from app.patterns.visitors.scene_visitors import BudgetVisitor, walk_scene
+from app.patterns.visitors.scene_visitors import (
+    BudgetVisitor,
+    GroupElement,
+    ItemElement,
+    RoomElement,
+    SceneIterator,
+    SceneVisitor,
+    walk_scene,
+)
 
 
 def furniture(item_id, shape, width=1.0, depth=0.5, price=100):
@@ -58,6 +66,45 @@ def test_budget_visitor_walks_groups():
     }
     visitor = walk_scene(scene, BudgetVisitor({1: 100, 2: 50}, {"w": 1, "f": 10}, {"a": 5}))
     assert visitor.total == 100 + 5 + 50 + 4 * 10 + 16 * 1
+
+
+NESTED_SCENE = {
+    "room": {"width": 3},
+    "nodes": [
+        {"kind": "item", "id": "a"},
+        {"kind": "group", "id": "g", "children": [{"kind": "item", "id": "b"}, {"kind": "item", "id": "c"}]},
+        {"kind": "item", "id": "d"},
+    ],
+}
+
+
+def test_scene_iterator_goes_depth_first_in_drawing_order():
+    elements = list(SceneIterator(NESTED_SCENE))
+    assert isinstance(elements[0], RoomElement)
+    assert [(type(e), e.data["id"]) for e in elements[1:]] == [
+        (ItemElement, "a"),
+        (GroupElement, "g"),
+        (ItemElement, "b"),
+        (ItemElement, "c"),
+        (ItemElement, "d"),
+    ]
+
+
+def test_each_element_calls_back_its_own_visit_method():
+    class Recorder(SceneVisitor):
+        def __init__(self):
+            self.calls = []
+
+        def visit_room(self, room):
+            self.calls.append("room")
+
+        def visit_group(self, group):
+            self.calls.append(f"group:{group['id']}")
+
+        def visit_item(self, item):
+            self.calls.append(f"item:{item['id']}")
+
+    assert walk_scene(NESTED_SCENE, Recorder()).calls == ["room", "item:a", "group:g", "item:b", "item:c", "item:d"]
 
 
 def test_project_lifecycle_moves_through_its_states():

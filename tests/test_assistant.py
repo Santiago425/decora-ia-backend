@@ -5,7 +5,7 @@ from fastapi.testclient import TestClient
 
 from app.patterns.ai.ai_provider import AIError
 from app.patterns.assistant.action_sanitizer import sanitize
-from app.patterns.assistant.interpreters import FallbackInterpreter, IntentInterpreter, RuleBasedInterpreter
+from app.patterns.assistant.interpreters import IntentInterpreter, RuleBasedInterpreter, chain_interpreters
 from app.patterns.assistant.vocabulary import (
     AssistantAction,
     AssistantContext,
@@ -88,15 +88,32 @@ def test_sanitizer_drops_unknown_slugs_and_actions():
     ]
 
 
-def test_fallback_uses_rules_when_the_ai_fails():
-    class BrokenAI(IntentInterpreter):
-        name = "gemini"
+class BrokenAI(IntentInterpreter):
+    name = "gemini"
 
-        def interpret(self, message, context, vocabulary):
-            raise AIError("quota")
+    def __init__(self) -> None:
+        self.calls = 0
 
-    result = FallbackInterpreter(BrokenAI(), RuleBasedInterpreter()).interpret("más luz", EDITOR, VOCABULARY)
+    def interpret(self, message, context, vocabulary):
+        self.calls += 1
+        raise AIError("quota")
+
+
+def test_chain_uses_rules_when_the_ai_fails():
+    result = chain_interpreters(BrokenAI(), RuleBasedInterpreter()).interpret("más luz", EDITOR, VOCABULARY)
     assert result.actions[0].type == "set_lighting"
+
+
+def test_chain_passes_through_every_failing_link_in_order():
+    first, second = BrokenAI(), BrokenAI()
+    result = chain_interpreters(first, second, RuleBasedInterpreter()).interpret("más luz", EDITOR, VOCABULARY)
+    assert (first.calls, second.calls) == (1, 1)
+    assert result.actions[0].type == "set_lighting"
+
+
+def test_chain_reports_the_error_when_no_link_can_answer():
+    with pytest.raises(AIError):
+        chain_interpreters(BrokenAI()).interpret("más luz", EDITOR, VOCABULARY)
 
 
 def auth(token: str) -> dict:

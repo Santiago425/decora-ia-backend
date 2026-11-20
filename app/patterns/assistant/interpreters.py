@@ -264,15 +264,27 @@ class GeminiIntentInterpreter(IntentInterpreter):
             raise AIError("La IA respondió en un formato inesperado") from None
 
 
-# Chain of Responsibility: if the AI fails (quota, network, bad answer) the local rules answer instead.
-class FallbackInterpreter(IntentInterpreter):
-    def __init__(self, primary: IntentInterpreter, fallback: IntentInterpreter) -> None:
-        self.primary = primary
-        self.fallback = fallback
-        self.name = primary.name
+# Chain of Responsibility: each link tries its interpreter and, if the AI fails (quota, network, bad answer),
+# hands the same message to the next link; the last link is usually the local rules, which never fail.
+class InterpreterLink(IntentInterpreter):
+    def __init__(self, interpreter: IntentInterpreter, successor: IntentInterpreter | None = None) -> None:
+        self.interpreter = interpreter
+        self.successor = successor
+        self.name = interpreter.name
 
     def interpret(self, message: str, context: AssistantContext, vocabulary: Vocabulary) -> Interpretation:
         try:
-            return self.primary.interpret(message, context, vocabulary)
+            return self.interpreter.interpret(message, context, vocabulary)
         except AIError:
-            return self.fallback.interpret(message, context, vocabulary)
+            if self.successor is None:
+                raise
+            return self.successor.interpret(message, context, vocabulary)
+
+
+def chain_interpreters(*interpreters: IntentInterpreter) -> IntentInterpreter:
+    if not interpreters:
+        raise ValueError("The chain needs at least one interpreter")
+    chain = InterpreterLink(interpreters[-1])
+    for interpreter in reversed(interpreters[:-1]):
+        chain = InterpreterLink(interpreter, chain)
+    return chain

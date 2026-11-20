@@ -115,6 +115,18 @@ def test_reports_download_as_csv(client: TestClient):
     assert client.get("/api/v1/admin/reports/secret", headers=headers).status_code == 404
 
 
+def test_reports_share_formats_through_the_bridge(client: TestClient):
+    headers = admin_headers(client)
+    response = client.get("/api/v1/admin/reports/usuarios?format=json", headers=headers)
+    assert response.headers["content-type"].startswith("application/json")
+    assert 'filename="habita-usuarios-' in response.headers["content-disposition"]
+    assert response.headers["content-disposition"].endswith('.json"')
+    rows = response.json()
+    assert any(row["Correo"] == "user@test.app" for row in rows)
+    assert client.get("/api/v1/admin/reports/proyectos?format=json", headers=headers).json()[0].keys() >= {"Proyecto"}
+    assert client.get("/api/v1/admin/reports/usuarios?format=pdf", headers=headers).status_code == 422
+
+
 def test_meta_info_lists_demo_accounts(client: TestClient, user_token: str):
     body = client.get("/api/v1/meta/info", headers=user_headers(user_token)).json()
     assert {account["role"] for account in body["demo_accounts"]} == {"user", "admin"}

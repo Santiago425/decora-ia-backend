@@ -1,7 +1,11 @@
+from __future__ import annotations
+
 from abc import ABC, abstractmethod
+from collections.abc import Iterator
 
 
-# Visitor: operations over the scene tree (room, groups, items) live outside the scene data itself.
+# Visitor: operations over the scene (budget, counting) live outside the scene data; each node calls back
+# the method that matches its own type through accept().
 class SceneVisitor(ABC):
     @abstractmethod
     def visit_room(self, room: dict) -> None: ...
@@ -13,18 +17,56 @@ class SceneVisitor(ABC):
     def visit_item(self, item: dict) -> None: ...
 
 
-def walk_scene(scene: dict, visitor: SceneVisitor) -> SceneVisitor:
-    visitor.visit_room(scene.get("room", {}))
+class SceneElement(ABC):
+    def __init__(self, data: dict) -> None:
+        self.data = data
 
-    def visit(nodes: list[dict]) -> None:
-        for node in nodes:
-            if node.get("kind") == "group":
-                visitor.visit_group(node)
-                visit(node.get("children", []))
-            else:
-                visitor.visit_item(node)
+    @abstractmethod
+    def accept(self, visitor: SceneVisitor) -> None: ...
 
-    visit(scene.get("nodes", []))
+
+class RoomElement(SceneElement):
+    def accept(self, visitor: SceneVisitor) -> None:
+        visitor.visit_room(self.data)
+
+
+class GroupElement(SceneElement):
+    def accept(self, visitor: SceneVisitor) -> None:
+        visitor.visit_group(self.data)
+
+
+class ItemElement(SceneElement):
+    def accept(self, visitor: SceneVisitor) -> None:
+        visitor.visit_item(self.data)
+
+
+# Iterator: walks the room and every nested node depth first without exposing how groups store children.
+class SceneIterator(Iterator[SceneElement]):
+    def __init__(self, scene: dict) -> None:
+        self._pending: list[SceneElement] = [
+            *reversed(self._wrap(scene.get("nodes", []))),
+            RoomElement(scene.get("room", {})),
+        ]
+
+    @staticmethod
+    def _wrap(nodes: list[dict]) -> list[SceneElement]:
+        return [GroupElement(node) if node.get("kind") == "group" else ItemElement(node) for node in nodes]
+
+    def __iter__(self) -> SceneIterator:
+        return self
+
+    def __next__(self) -> SceneElement:
+        if not self._pending:
+            raise StopIteration
+        element = self._pending.pop()
+        if isinstance(element, GroupElement):
+            self._pending.extend(reversed(self._wrap(element.data.get("children", []))))
+        return element
+
+
+def walk_scene[V: SceneVisitor](scene: dict, visitor: V) -> V:
+    for element in SceneIterator(scene):
+        element.accept(visitor)
     return visitor
 
 
