@@ -1,15 +1,13 @@
-from typing import Any, Generic, TypeVar
+from typing import Any
 
 from sqlalchemy import func, select
 from sqlalchemy.orm import Session
 
 from app.models import Base
 
-ModelT = TypeVar("ModelT", bound=Base)
-
 
 # Repository: services work with collections of entities and never write SQL themselves.
-class BaseRepository(Generic[ModelT]):
+class BaseRepository[ModelT: Base]:
     model: type[ModelT]
 
     def __init__(self, session: Session) -> None:

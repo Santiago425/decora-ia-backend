@@ -21,7 +21,9 @@ def create(client, token, photo, **fields):
 
 
 def test_redesign_requires_a_session(client: TestClient, photo):
-    response = client.post("/api/v1/redesigns", data={"room_type": "bedroom", "style": "nordic"}, files={"image": ("r.jpg", photo)})
+    response = client.post(
+        "/api/v1/redesigns", data={"room_type": "bedroom", "style": "nordic"}, files={"image": ("r.jpg", photo)}
+    )
     assert response.status_code == 401
 
 
@@ -90,8 +92,28 @@ def test_gemini_adapter_translates_the_api_format(monkeypatch):
     image_b64 = base64.b64encode(b"png-bytes").decode()
     replies = iter(
         [
-            FakeResponse(200, {"candidates": [{"content": {"parts": [{"inlineData": {"mimeType": "image/png", "data": image_b64}}]}}]}),
-            FakeResponse(200, {"candidates": [{"content": {"parts": [{"text": '{"summary": "Hola", "colors": [{"name": "Arena", "hex": "#e3d3bb"}]}'}]}}]}),
+            FakeResponse(
+                200,
+                {
+                    "candidates": [
+                        {"content": {"parts": [{"inlineData": {"mimeType": "image/png", "data": image_b64}}]}}
+                    ]
+                },
+            ),
+            FakeResponse(
+                200,
+                {
+                    "candidates": [
+                        {
+                            "content": {
+                                "parts": [
+                                    {"text": '{"summary": "Hola", "colors": [{"name": "Arena", "hex": "#e3d3bb"}]}'}
+                                ]
+                            }
+                        }
+                    ]
+                },
+            ),
             FakeResponse(429, {}),
         ]
     )

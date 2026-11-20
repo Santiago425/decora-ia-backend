@@ -82,7 +82,10 @@ def test_sanitizer_drops_unknown_slugs_and_actions():
         ],
     )
     clean = sanitize(raw, EDITOR, VOCABULARY)
-    assert [(a.type, a.params) for a in clean.actions] == [("set_lighting", {"delta": 1.0}), ("navigate", {"to": "docs"})]
+    assert [(a.type, a.params) for a in clean.actions] == [
+        ("set_lighting", {"delta": 1.0}),
+        ("navigate", {"to": "docs"}),
+    ]
 
 
 def test_fallback_uses_rules_when_the_ai_fails():
@@ -117,7 +120,9 @@ def test_chat_creates_a_project_and_keeps_history(client: TestClient, member: di
     project = client.get(f"/api/v1/projects/{action['params']['project_id']}", headers=member).json()
     assert project["style"]["slug"] == "japandi"
 
-    budget = client.post("/api/v1/assistant/messages", json={"message": "¿cuánto es mi presupuesto?"}, headers=member).json()
+    budget = client.post(
+        "/api/v1/assistant/messages", json={"message": "¿cuánto es mi presupuesto?"}, headers=member
+    ).json()
     assert "1 proyecto" in budget["reply"]["content"]
 
     history = client.get("/api/v1/assistant/messages", headers=member).json()

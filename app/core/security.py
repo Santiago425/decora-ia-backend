@@ -31,4 +31,6 @@ class TokenService:
     @staticmethod
     def decode(token: str) -> dict:
         settings = get_settings()
-        return jwt.decode(token, settings.jwt_secret, algorithms=[settings.jwt_algorithm], options={"require": ["sub", "exp"]})
+        return jwt.decode(
+            token, settings.jwt_secret, algorithms=[settings.jwt_algorithm], options={"require": ["sub", "exp"]}
+        )

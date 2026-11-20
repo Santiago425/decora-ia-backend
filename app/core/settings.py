@@ -94,7 +94,7 @@ class Settings(BaseSettings):
     def use_psycopg_driver(cls, value: str) -> str:
         for prefix in ("postgres://", "postgresql://"):
             if value.startswith(prefix):
-                return "postgresql+psycopg://" + value[len(prefix):]
+                return "postgresql+psycopg://" + value[len(prefix) :]
         return value
 
     @property

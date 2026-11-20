@@ -61,7 +61,12 @@ class RoomBuilder:
         return self
 
     def build(self) -> dict:
-        return {"format": SCENE_FORMAT, "room": dict(self._room), "lighting": dict(self._lighting), "nodes": deepcopy(self._nodes)}
+        return {
+            "format": SCENE_FORMAT,
+            "room": dict(self._room),
+            "lighting": dict(self._lighting),
+            "nodes": deepcopy(self._nodes),
+        }
 
 
 # Director: knows where each kind of furniture usually goes and drives the builder.

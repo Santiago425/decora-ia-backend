@@ -31,7 +31,10 @@ class StyleRepository(BaseRepository[DesignStyle]):
 
     def all_with_project_counts(self) -> list[tuple[DesignStyle, int]]:
         project_count = (
-            select(func.count(Project.id)).where(Project.style_id == DesignStyle.id).correlate(DesignStyle).scalar_subquery()
+            select(func.count(Project.id))
+            .where(Project.style_id == DesignStyle.id)
+            .correlate(DesignStyle)
+            .scalar_subquery()
         )
         query = select(DesignStyle, project_count).order_by(DesignStyle.sort_order, DesignStyle.name)
         return [(style, count) for style, count in self.session.execute(query)]
@@ -105,7 +108,9 @@ class MaterialRepository(BaseRepository[Material]):
         return self.session.scalar(select(Material).where(Material.slug == slug))
 
     def prices_by_slug(self) -> dict[str, float]:
-        return {slug: float(price) for slug, price in self.session.execute(select(Material.slug, Material.price_per_unit))}
+        return {
+            slug: float(price) for slug, price in self.session.execute(select(Material.slug, Material.price_per_unit))
+        }
 
 
 class PaletteRepository(BaseRepository[ColorPalette]):
@@ -129,4 +134,7 @@ class FurnitureAddonRepository(BaseRepository[FurnitureAddon]):
         return self.session.scalar(select(FurnitureAddon).where(FurnitureAddon.slug == slug))
 
     def prices_by_slug(self) -> dict[str, float]:
-        return {slug: float(price) for slug, price in self.session.execute(select(FurnitureAddon.slug, FurnitureAddon.price))}
+        return {
+            slug: float(price)
+            for slug, price in self.session.execute(select(FurnitureAddon.slug, FurnitureAddon.price))
+        }

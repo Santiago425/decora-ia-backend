@@ -1,6 +1,7 @@
 import base64
 import json
 import time
+from typing import ClassVar
 
 import httpx
 from pydantic import ValidationError
@@ -12,7 +13,7 @@ UNAVAILABLE_MESSAGE = "La IA no está disponible en este momento. Inténtalo de 
 
 
 class GeminiClient:
-    retry_statuses = {500, 503}
+    retry_statuses: ClassVar[frozenset[int]] = frozenset({500, 503})
     max_attempts = 3
 
     def __init__(self, api_key: str, base_url: str, timeout: float) -> None:
@@ -23,7 +24,9 @@ class GeminiClient:
         self.timeout = timeout
 
     def generate(self, model: str, parts: list[dict], generation_config: dict) -> list[dict]:
-        response = self._post(model, {"contents": [{"role": "user", "parts": parts}], "generationConfig": generation_config})
+        response = self._post(
+            model, {"contents": [{"role": "user", "parts": parts}], "generationConfig": generation_config}
+        )
         if response.status_code == 429:
             raise AIError(QUOTA_MESSAGE)
         if response.status_code >= 400:

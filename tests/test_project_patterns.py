@@ -13,20 +13,35 @@ from app.patterns.visitors.scene_visitors import BudgetVisitor, walk_scene
 def furniture(item_id, shape, width=1.0, depth=0.5, price=100):
     category = SimpleNamespace(slug=shape, shape=shape)
     return SimpleNamespace(
-        id=item_id, name=shape, category=category, width=width, depth=depth, height=1.0, default_color="#aaaaaa", price=price
+        id=item_id,
+        name=shape,
+        category=category,
+        width=width,
+        depth=depth,
+        height=1.0,
+        default_color="#aaaaaa",
+        price=price,
     )
 
 
 def test_room_builder_produces_a_complete_scene():
     scene = RoomBuilder(4, 3, 2.5).with_walls("wall_a").with_floor("floor_a").with_lighting("#ffffff", 1.2).build()
-    assert scene["room"] == {"width": 4, "length": 3, "height": 2.5, "wall_material": "wall_a", "floor_material": "floor_a"}
+    assert scene["room"] == {
+        "width": 4,
+        "length": 3,
+        "height": 2.5,
+        "wall_material": "wall_a",
+        "floor_material": "floor_a",
+    }
     assert scene["lighting"] == {"color": "#ffffff", "intensity": 1.2}
     assert scene["nodes"] == []
 
 
 def test_director_places_anchors_against_the_walls():
     builder = RoomBuilder(4, 3, 2.5)
-    StarterLayoutDirector(builder).furnish([furniture(1, "sofa", depth=0.9), furniture(2, "shelf"), furniture(3, "rug")])
+    StarterLayoutDirector(builder).furnish(
+        [furniture(1, "sofa", depth=0.9), furniture(2, "shelf"), furniture(3, "rug")]
+    )
     nodes = {node["shape"]: node for node in builder.build()["nodes"]}
     assert nodes["sofa"]["position"] == [0, pytest.approx(-1.5 + 0.45 + 0.05)]
     assert nodes["shelf"]["rotation"] == 90
@@ -69,7 +84,9 @@ def test_memento_restores_a_snapshot_without_sharing_references():
 
 
 def test_prototype_clone_gets_new_node_ids():
-    original = Project(name="Sala", status=ProjectStatus.FINISHED, scene={"nodes": [{"id": "a", "children": [{"id": "b"}]}]})
+    original = Project(
+        name="Sala", status=ProjectStatus.FINISHED, scene={"nodes": [{"id": "a", "children": [{"id": "b"}]}]}
+    )
     copy = ProjectPrototype(original).clone("Sala 2")
     assert copy.status == ProjectStatus.DRAFT
     assert copy.scene["nodes"][0]["id"] != "a"

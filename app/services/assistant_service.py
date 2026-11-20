@@ -1,4 +1,3 @@
-
 from app.core.settings import Settings
 from app.models import ChatMessage, User
 from app.patterns.assistant.action_sanitizer import sanitize
@@ -72,9 +71,13 @@ class AssistantService:
                 payload={"actions": [action.model_dump() for action in interpretation.actions]},
             )
         )
-        return AssistantReply(message=self._response(message), reply=self._response(reply), provider=self.interpreter.name)
+        return AssistantReply(
+            message=self._response(message), reply=self._response(reply), provider=self.interpreter.name
+        )
 
-    def _run_server_actions(self, user: User, interpretation: Interpretation, context: AssistantContext) -> Interpretation:
+    def _run_server_actions(
+        self, user: User, interpretation: Interpretation, context: AssistantContext
+    ) -> Interpretation:
         actions: list[AssistantAction] = []
         reply = interpretation.reply
         for action in interpretation.actions:

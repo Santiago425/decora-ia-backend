@@ -35,7 +35,9 @@ class LocalStorageAdapter(StorageAdapter):
 
     def load(self, url: str) -> ImageData:
         name = Path(url).name
-        content_type = next((kind for kind, ext in EXTENSIONS.items() if name.endswith(ext)), "application/octet-stream")
+        content_type = next(
+            (kind for kind, ext in EXTENSIONS.items() if name.endswith(ext)), "application/octet-stream"
+        )
         return ImageData((self.directory / name).read_bytes(), content_type)
 
 

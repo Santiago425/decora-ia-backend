@@ -205,6 +205,8 @@ alembic upgrade head
 python -m app.seed
 uvicorn app.main:app --reload      # http://localhost:8000/api/v1/docs
 pytest
+ruff check .                       # linter
+ruff format .                      # formateador
 ```
 
 Con Docker Compose (PostgreSQL + API, sin instalar Python):
@@ -223,7 +225,7 @@ docker run -p 8000:8000 --env-file .env habita-backend
 
 ## Calidad
 
-- **87 pruebas** con pytest: autenticación y roles, catálogo, rediseño con IA simulada, cadena de validación de imágenes, estrategias de presupuesto, estados, proyectos 3D con versiones, Lumi (reglas, sanitizador de acciones y respaldo cuando falla la IA) y panel de administración.
+- **92 pruebas** con pytest: autenticación y roles, catálogo, rediseño con IA simulada, cadena de validación de imágenes, estrategias de presupuesto, estados, proyectos 3D con versiones, Lumi (reglas, sanitizador de acciones y respaldo cuando falla la IA) y panel de administración.
 - **Integración continua** con GitHub Actions: en cada push se instalan dependencias, se corren las pruebas y se construye la imagen de Docker.
 - Despliegue automático en **Render** desde `main`; las migraciones de Alembic se aplican al arrancar el contenedor.
 

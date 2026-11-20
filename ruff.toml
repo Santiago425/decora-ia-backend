@@ -1,0 +1,13 @@
+line-length = 120
+target-version = "py313"
+extend-exclude = ["migrations/versions"]
+
+[lint]
+select = ["E", "W", "F", "I", "B", "UP", "SIM", "C4", "RUF", "N", "PIE", "RET"]
+ignore = ["B008", "E501", "N818", "UP042"]
+
+[lint.per-file-ignores]
+"tests/**" = ["N802"]
+
+[format]
+quote-style = "double"
