@@ -68,19 +68,23 @@ def seed_catalog(session: Session, data: dict) -> None:
         session.add(style)
 
     categories = FurnitureCategoryRepository(session)
+    wall_categories = set(data.get("wall_categories", []))
     for item in data["furniture_categories"]:
         category = categories.get_by_slug(item["slug"])
         if category is None:
-            session.add(categories.model(**item))
+            session.add(categories.model(**item, blocks_floor=item["slug"] not in wall_categories))
         elif not category.room_types:
             category.room_types = item["room_types"]
     session.flush()
 
     if not session.query(FurnitureItem).first():
+        details = {detail["name"]: detail for detail in data.get("furniture_details", [])}
         for item in data["furniture_items"]:
             category = categories.get_by_slug(item["category"])
-            fields = {k: v for k, v in item.items() if k != "category"}
-            session.add(FurnitureItem(**{**fields, "price": Decimal(str(item["price"])), "category_id": category.id}))
+            fields = {k: v for k, v in item.items() if k not in ("category", "price")}
+            extra = {k: v for k, v in details.get(item["name"], {}).items() if k != "name"}
+            price = Decimal(str(item["price"]))
+            session.add(FurnitureItem(**fields, **extra, price=price, category_id=category.id))
 
     addons = FurnitureAddonRepository(session)
     for item in data["furniture_addons"]:

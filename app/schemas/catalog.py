@@ -68,6 +68,12 @@ class FurnitureCategoryResponse(ORMModel):
     icon: str
     shape: str
     room_types: list[str]
+    blocks_floor: bool = True
+
+
+class ColorOption(BaseModel):
+    name: str
+    hex: str
 
 
 class FurnitureItemResponse(ORMModel):
@@ -80,6 +86,9 @@ class FurnitureItemResponse(ORMModel):
     height: float
     default_color: str
     model_url: str | None
+    materials: str = ""
+    color_options: list[ColorOption] = []
+    finish_options: list[str] = []
     category: FurnitureCategoryResponse
 
 
@@ -90,6 +99,7 @@ class FurnitureAddonResponse(ORMModel):
     description: str
     price: Decimal
     visual: str
+    icon: str = "sparkles"
     color_hex: str | None
     categories: list[str]
 

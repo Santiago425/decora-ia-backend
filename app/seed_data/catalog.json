@@ -824,7 +824,9 @@
       "room_types": [
         "living_room",
         "office",
-        "bedroom"
+        "bedroom",
+        "dining_room",
+        "kitchen"
       ]
     },
     {
@@ -835,7 +837,9 @@
       "room_types": [
         "living_room",
         "bedroom",
-        "dining_room"
+        "dining_room",
+        "office",
+        "bathroom"
       ]
     },
     {
@@ -872,7 +876,8 @@
         "dining_room",
         "bedroom",
         "kitchen",
-        "bathroom"
+        "bathroom",
+        "office"
       ]
     },
     {
@@ -1004,7 +1009,136 @@
         "office",
         "bathroom"
       ]
+    },
+    {
+      "slug": "armchair",
+      "name": "Sillones",
+      "icon": "armchair",
+      "shape": "chair",
+      "room_types": [
+        "living_room",
+        "bedroom",
+        "office"
+      ]
+    },
+    {
+      "slug": "pouf",
+      "name": "Puffs y bancos",
+      "icon": "cylinder",
+      "shape": "pouf",
+      "room_types": [
+        "living_room",
+        "bedroom"
+      ]
+    },
+    {
+      "slug": "side_table",
+      "name": "Mesas auxiliares",
+      "icon": "table-2",
+      "shape": "side_table",
+      "room_types": [
+        "living_room",
+        "bedroom",
+        "office"
+      ]
+    },
+    {
+      "slug": "stool",
+      "name": "Banquetas",
+      "icon": "utensils",
+      "shape": "stool",
+      "room_types": [
+        "kitchen",
+        "dining_room"
+      ]
+    },
+    {
+      "slug": "art",
+      "name": "Cuadros y arte",
+      "icon": "image",
+      "shape": "art",
+      "room_types": [
+        "living_room",
+        "bedroom",
+        "dining_room",
+        "office",
+        "kitchen",
+        "bathroom"
+      ]
+    },
+    {
+      "slug": "curtain",
+      "name": "Cortinas",
+      "icon": "blinds",
+      "shape": "curtain",
+      "room_types": [
+        "living_room",
+        "bedroom",
+        "dining_room",
+        "office"
+      ]
+    },
+    {
+      "slug": "tv",
+      "name": "Televisores",
+      "icon": "tv",
+      "shape": "tv",
+      "room_types": [
+        "living_room",
+        "bedroom",
+        "office"
+      ]
+    },
+    {
+      "slug": "decor",
+      "name": "Decoración",
+      "icon": "flower-2",
+      "shape": "vase",
+      "room_types": [
+        "living_room",
+        "bedroom",
+        "dining_room",
+        "office"
+      ]
+    },
+    {
+      "slug": "basket",
+      "name": "Canastos y organizadores",
+      "icon": "shopping-basket",
+      "shape": "basket",
+      "room_types": [
+        "living_room",
+        "bedroom",
+        "bathroom",
+        "office",
+        "kitchen"
+      ]
+    },
+    {
+      "slug": "bath_accessory",
+      "name": "Accesorios de baño",
+      "icon": "waves",
+      "shape": "towel_rack",
+      "room_types": [
+        "bathroom"
+      ]
+    },
+    {
+      "slug": "washer",
+      "name": "Lavado y lavavajillas",
+      "icon": "washing-machine",
+      "shape": "appliance",
+      "room_types": [
+        "kitchen",
+        "bathroom"
+      ]
     }
+  ],
+  "wall_categories": [
+    "window",
+    "art",
+    "curtain",
+    "tv"
   ],
   "furniture_items": [
     {
@@ -1496,6 +1630,4636 @@
       "depth": 0.12,
       "height": 0.6,
       "default_color": "#ffffff"
+    },
+    {
+      "category": "armchair",
+      "name": "Sillón Bergère",
+      "description": "Respaldo alto y brazos curvos, ideal para leer.",
+      "price": 1890000,
+      "width": 0.78,
+      "depth": 0.82,
+      "height": 0.95,
+      "default_color": "#e3d3bb"
+    },
+    {
+      "category": "armchair",
+      "name": "Sillón de cuero Milano",
+      "description": "Asiento profundo y costuras a la vista.",
+      "price": 2450000,
+      "width": 0.85,
+      "depth": 0.88,
+      "height": 0.82,
+      "default_color": "#8a4b2a"
+    },
+    {
+      "category": "armchair",
+      "name": "Sillón de terciopelo Ópera",
+      "description": "Líneas redondeadas y patas doradas.",
+      "price": 1690000,
+      "width": 0.8,
+      "depth": 0.8,
+      "height": 0.78,
+      "default_color": "#3f5a46"
+    },
+    {
+      "category": "armchair",
+      "name": "Sillón reclinable Descanso",
+      "description": "Se reclina hasta 150 grados.",
+      "price": 2190000,
+      "width": 0.9,
+      "depth": 0.95,
+      "height": 1.0,
+      "default_color": "#6f6a64"
+    },
+    {
+      "category": "pouf",
+      "name": "Puff redondo tejido",
+      "description": "Sirve de asiento o de apoyapiés.",
+      "price": 260000,
+      "width": 0.5,
+      "depth": 0.5,
+      "height": 0.4,
+      "default_color": "#c9a96e"
+    },
+    {
+      "category": "pouf",
+      "name": "Puff de terciopelo",
+      "description": "Pequeño y liviano, para cualquier rincón.",
+      "price": 320000,
+      "width": 0.45,
+      "depth": 0.45,
+      "height": 0.42,
+      "default_color": "#d4a5a0"
+    },
+    {
+      "category": "pouf",
+      "name": "Banco pie de cama",
+      "description": "Tapizado, para el frente de la cama.",
+      "price": 890000,
+      "width": 1.3,
+      "depth": 0.42,
+      "height": 0.45,
+      "default_color": "#e3d3bb"
+    },
+    {
+      "category": "pouf",
+      "name": "Otomana de cuero",
+      "description": "Con tapa abatible y espacio para guardar.",
+      "price": 690000,
+      "width": 0.7,
+      "depth": 0.55,
+      "height": 0.42,
+      "default_color": "#8a4b2a"
+    },
+    {
+      "category": "side_table",
+      "name": "Mesa auxiliar Tulipa",
+      "description": "Pie central y cubierta redonda.",
+      "price": 380000,
+      "width": 0.45,
+      "depth": 0.45,
+      "height": 0.55,
+      "default_color": "#f5f4f0"
+    },
+    {
+      "category": "side_table",
+      "name": "Mesa auxiliar de mármol",
+      "description": "Cubierta de mármol sobre base dorada.",
+      "price": 590000,
+      "width": 0.4,
+      "depth": 0.4,
+      "height": 0.5,
+      "default_color": "#e8e4dc"
+    },
+    {
+      "category": "side_table",
+      "name": "Mesa nido de roble",
+      "description": "Juego de dos mesas que se guardan juntas.",
+      "price": 420000,
+      "width": 0.5,
+      "depth": 0.5,
+      "height": 0.48,
+      "default_color": "#c8a27a"
+    },
+    {
+      "category": "table",
+      "name": "Mesa de centro Nogal",
+      "description": "Rectangular, con patas cónicas.",
+      "price": 890000,
+      "width": 1.2,
+      "depth": 0.6,
+      "height": 0.4,
+      "default_color": "#6b4a32"
+    },
+    {
+      "category": "table",
+      "name": "Mesa de centro de mármol",
+      "description": "Redonda y baja, cubierta de mármol.",
+      "price": 1290000,
+      "width": 0.8,
+      "depth": 0.8,
+      "height": 0.38,
+      "default_color": "#e8e4dc"
+    },
+    {
+      "category": "table",
+      "name": "Comedor redondo 4 puestos",
+      "description": "Pedestal central, cómodo para conversar.",
+      "price": 1650000,
+      "width": 1.1,
+      "depth": 1.1,
+      "height": 0.75,
+      "default_color": "#c8a27a"
+    },
+    {
+      "category": "table",
+      "name": "Comedor extensible 8 puestos",
+      "description": "Crece de 1,6 a 2,2 m con una extensión.",
+      "price": 3890000,
+      "width": 2.2,
+      "depth": 1.0,
+      "height": 0.76,
+      "default_color": "#d9c09b"
+    },
+    {
+      "category": "table",
+      "name": "Mesa de cocina compacta",
+      "description": "Para dos o cuatro personas.",
+      "price": 690000,
+      "width": 1.0,
+      "depth": 0.7,
+      "height": 0.75,
+      "default_color": "#f5f4f0"
+    },
+    {
+      "category": "chair",
+      "name": "Silla de comedor tapizada",
+      "description": "Asiento acolchado y respaldo curvo.",
+      "price": 420000,
+      "width": 0.48,
+      "depth": 0.55,
+      "height": 0.88,
+      "default_color": "#b9b6b0"
+    },
+    {
+      "category": "chair",
+      "name": "Silla Eames blanca",
+      "description": "Clásica de polipropileno con patas de madera.",
+      "price": 290000,
+      "width": 0.47,
+      "depth": 0.53,
+      "height": 0.81,
+      "default_color": "#f5f4f0"
+    },
+    {
+      "category": "chair",
+      "name": "Silla ergonómica de oficina",
+      "description": "Soporte lumbar y altura regulable.",
+      "price": 990000,
+      "width": 0.62,
+      "depth": 0.62,
+      "height": 1.1,
+      "default_color": "#2d2d2d"
+    },
+    {
+      "category": "chair",
+      "name": "Silla de ratán",
+      "description": "Respaldo tejido y estructura de madera.",
+      "price": 520000,
+      "width": 0.55,
+      "depth": 0.56,
+      "height": 0.82,
+      "default_color": "#c19a5b"
+    },
+    {
+      "category": "stool",
+      "name": "Banqueta de barra Industrial",
+      "description": "Con apoyapiés y asiento de madera.",
+      "price": 320000,
+      "width": 0.4,
+      "depth": 0.4,
+      "height": 0.75,
+      "default_color": "#232323"
+    },
+    {
+      "category": "stool",
+      "name": "Banqueta tapizada",
+      "description": "Asiento acolchado a altura de mesón.",
+      "price": 390000,
+      "width": 0.42,
+      "depth": 0.42,
+      "height": 0.65,
+      "default_color": "#b07d4f"
+    },
+    {
+      "category": "stool",
+      "name": "Banqueta de roble",
+      "description": "Madera maciza con aro apoyapiés.",
+      "price": 280000,
+      "width": 0.38,
+      "depth": 0.38,
+      "height": 0.75,
+      "default_color": "#c8a27a"
+    },
+    {
+      "category": "lamp",
+      "name": "Lámpara de pie trípode",
+      "description": "Tres patas de madera y pantalla de lino.",
+      "price": 520000,
+      "width": 0.55,
+      "depth": 0.55,
+      "height": 1.55,
+      "default_color": "#6b4a32"
+    },
+    {
+      "category": "lamp",
+      "name": "Lámpara de escritorio articulada",
+      "description": "Brazo móvil y luz LED cálida.",
+      "price": 190000,
+      "width": 0.25,
+      "depth": 0.3,
+      "height": 0.5,
+      "default_color": "#232323"
+    },
+    {
+      "category": "lamp",
+      "name": "Lámpara de pie de ratán",
+      "description": "Pantalla tejida que dibuja sombras.",
+      "price": 460000,
+      "width": 0.45,
+      "depth": 0.45,
+      "height": 1.5,
+      "default_color": "#c19a5b"
+    },
+    {
+      "category": "lamp",
+      "name": "Lámpara de lectura dorada",
+      "description": "Cabeza orientable para leer.",
+      "price": 380000,
+      "width": 0.35,
+      "depth": 0.35,
+      "height": 1.6,
+      "default_color": "#b5924c"
+    },
+    {
+      "category": "shelf",
+      "name": "Estantería de cubos",
+      "description": "Nueve espacios para cajas o libros.",
+      "price": 520000,
+      "width": 1.0,
+      "depth": 0.35,
+      "height": 1.1,
+      "default_color": "#f5f4f0"
+    },
+    {
+      "category": "shelf",
+      "name": "Repisa baja de roble",
+      "description": "Baja y larga, para debajo de una ventana.",
+      "price": 790000,
+      "width": 1.6,
+      "depth": 0.35,
+      "height": 0.8,
+      "default_color": "#c8a27a"
+    },
+    {
+      "category": "shelf",
+      "name": "Biblioteca alta Nogal",
+      "description": "Seis niveles hasta el techo.",
+      "price": 1490000,
+      "width": 0.9,
+      "depth": 0.38,
+      "height": 2.1,
+      "default_color": "#6b4a32"
+    },
+    {
+      "category": "rug",
+      "name": "Alfombra de lana gris",
+      "description": "Pelo corto, suave al pisar.",
+      "price": 890000,
+      "width": 2.0,
+      "depth": 2.8,
+      "height": 0.012,
+      "default_color": "#8f8c86"
+    },
+    {
+      "category": "rug",
+      "name": "Alfombra kilim",
+      "description": "Tejido plano con motivos andinos.",
+      "price": 520000,
+      "width": 1.4,
+      "depth": 2.0,
+      "height": 0.008,
+      "default_color": "#c4704f"
+    },
+    {
+      "category": "rug",
+      "name": "Alfombra de pelo largo",
+      "description": "Mullida, para el dormitorio.",
+      "price": 760000,
+      "width": 1.6,
+      "depth": 2.3,
+      "height": 0.03,
+      "default_color": "#efe6d6"
+    },
+    {
+      "category": "rug",
+      "name": "Tapete de baño de algodón",
+      "description": "Absorbente y antideslizante.",
+      "price": 85000,
+      "width": 0.5,
+      "depth": 0.8,
+      "height": 0.01,
+      "default_color": "#efe6d6"
+    },
+    {
+      "category": "rug",
+      "name": "Alfombra para escritorio",
+      "description": "Protege el piso de las ruedas de la silla.",
+      "price": 290000,
+      "width": 1.2,
+      "depth": 1.6,
+      "height": 0.008,
+      "default_color": "#4a4a48"
+    },
+    {
+      "category": "plant",
+      "name": "Ficus lyrata",
+      "description": "Hojas grandes con forma de violín.",
+      "price": 260000,
+      "width": 0.55,
+      "depth": 0.55,
+      "height": 1.6,
+      "default_color": "#4c7a46"
+    },
+    {
+      "category": "plant",
+      "name": "Palma areca",
+      "description": "Purifica el aire, aguanta poca luz.",
+      "price": 290000,
+      "width": 0.7,
+      "depth": 0.7,
+      "height": 1.8,
+      "default_color": "#6a9a4f"
+    },
+    {
+      "category": "plant",
+      "name": "Sansevieria",
+      "description": "Casi no necesita riego.",
+      "price": 120000,
+      "width": 0.35,
+      "depth": 0.35,
+      "height": 0.8,
+      "default_color": "#3f6b4a"
+    },
+    {
+      "category": "plant",
+      "name": "Cactus columnar",
+      "description": "Escultural y de bajo cuidado.",
+      "price": 140000,
+      "width": 0.3,
+      "depth": 0.3,
+      "height": 1.1,
+      "default_color": "#5f8a55"
+    },
+    {
+      "category": "plant",
+      "name": "Helecho de Boston",
+      "description": "Frondoso, ideal para baños con luz.",
+      "price": 95000,
+      "width": 0.5,
+      "depth": 0.5,
+      "height": 0.6,
+      "default_color": "#5c9a4c"
+    },
+    {
+      "category": "desk",
+      "name": "Escritorio elevable",
+      "description": "Motor eléctrico, sube hasta 1,25 m.",
+      "price": 1890000,
+      "width": 1.4,
+      "depth": 0.7,
+      "height": 0.75,
+      "default_color": "#f5f4f0"
+    },
+    {
+      "category": "desk",
+      "name": "Escritorio compacto",
+      "description": "Para espacios pequeños, con cajón.",
+      "price": 590000,
+      "width": 1.0,
+      "depth": 0.5,
+      "height": 0.75,
+      "default_color": "#d9c09b"
+    },
+    {
+      "category": "desk",
+      "name": "Escritorio ejecutivo Nogal",
+      "description": "Amplio, con cajonera lateral.",
+      "price": 2490000,
+      "width": 1.8,
+      "depth": 0.8,
+      "height": 0.76,
+      "default_color": "#6b4a32"
+    },
+    {
+      "category": "storage",
+      "name": "Archivador de oficina",
+      "description": "Tres cajones con llave.",
+      "price": 690000,
+      "width": 0.45,
+      "depth": 0.6,
+      "height": 0.7,
+      "default_color": "#c9ccce"
+    },
+    {
+      "category": "storage",
+      "name": "Aparador Nogal",
+      "description": "Tres puertas y cajones interiores.",
+      "price": 1990000,
+      "width": 1.6,
+      "depth": 0.45,
+      "height": 0.8,
+      "default_color": "#6b4a32"
+    },
+    {
+      "category": "storage",
+      "name": "Vitrina de comedor",
+      "description": "Puertas de vidrio para la vajilla.",
+      "price": 1890000,
+      "width": 1.0,
+      "depth": 0.42,
+      "height": 1.8,
+      "default_color": "#d9c09b"
+    },
+    {
+      "category": "storage",
+      "name": "Mueble auxiliar de baño",
+      "description": "Columna estrecha para toallas.",
+      "price": 390000,
+      "width": 0.4,
+      "depth": 0.3,
+      "height": 1.2,
+      "default_color": "#f5f4f0"
+    },
+    {
+      "category": "storage",
+      "name": "Despensero de cocina",
+      "description": "Alacena alta con entrepaños.",
+      "price": 1150000,
+      "width": 0.6,
+      "depth": 0.5,
+      "height": 2.0,
+      "default_color": "#f5f4f0"
+    },
+    {
+      "category": "bed",
+      "name": "Cama sencilla juvenil",
+      "description": "Con cajón inferior para guardar.",
+      "price": 1190000,
+      "width": 1.0,
+      "depth": 1.9,
+      "height": 0.9,
+      "default_color": "#f5f4f0"
+    },
+    {
+      "category": "bed",
+      "name": "Cama King Nogal",
+      "description": "Cabecero de listones de madera.",
+      "price": 3990000,
+      "width": 2.0,
+      "depth": 2.1,
+      "height": 1.1,
+      "default_color": "#6b4a32"
+    },
+    {
+      "category": "bed",
+      "name": "Cama de ratán",
+      "description": "Cabecero tejido, aire tropical.",
+      "price": 2690000,
+      "width": 1.6,
+      "depth": 2.05,
+      "height": 1.0,
+      "default_color": "#c19a5b"
+    },
+    {
+      "category": "nightstand",
+      "name": "Mesa de noche Nogal",
+      "description": "Cajón con cierre lento.",
+      "price": 490000,
+      "width": 0.5,
+      "depth": 0.4,
+      "height": 0.55,
+      "default_color": "#6b4a32"
+    },
+    {
+      "category": "nightstand",
+      "name": "Mesa de noche de ratán",
+      "description": "Frente tejido y patas de madera.",
+      "price": 390000,
+      "width": 0.45,
+      "depth": 0.4,
+      "height": 0.55,
+      "default_color": "#c19a5b"
+    },
+    {
+      "category": "wardrobe",
+      "name": "Clóset corredizo con espejo",
+      "description": "Dos puertas corredizas, una con espejo.",
+      "price": 3290000,
+      "width": 2.0,
+      "depth": 0.62,
+      "height": 2.2,
+      "default_color": "#d9c09b"
+    },
+    {
+      "category": "wardrobe",
+      "name": "Clóset juvenil",
+      "description": "Compacto, con barra y repisas.",
+      "price": 1290000,
+      "width": 0.9,
+      "depth": 0.55,
+      "height": 1.8,
+      "default_color": "#f5f4f0"
+    },
+    {
+      "category": "tv_stand",
+      "name": "Mueble de TV de ratán",
+      "description": "Puertas tejidas y televisor de 50 pulgadas.",
+      "price": 1190000,
+      "width": 1.6,
+      "depth": 0.42,
+      "height": 0.55,
+      "default_color": "#c19a5b"
+    },
+    {
+      "category": "tv",
+      "name": "Televisor de 43 pulgadas",
+      "description": "Smart TV para cuarto u oficina.",
+      "price": 1490000,
+      "width": 0.97,
+      "depth": 0.06,
+      "height": 0.57,
+      "default_color": "#1c1c1e"
+    },
+    {
+      "category": "tv",
+      "name": "Televisor de 55 pulgadas",
+      "description": "Smart TV de marco delgado.",
+      "price": 2390000,
+      "width": 1.23,
+      "depth": 0.06,
+      "height": 0.71,
+      "default_color": "#1c1c1e"
+    },
+    {
+      "category": "tv",
+      "name": "Televisor de 65 pulgadas",
+      "description": "Para salas grandes, sonido envolvente.",
+      "price": 3490000,
+      "width": 1.45,
+      "depth": 0.06,
+      "height": 0.83,
+      "default_color": "#1c1c1e"
+    },
+    {
+      "category": "mirror",
+      "name": "Espejo de pie en arco",
+      "description": "Cuerpo entero, para apoyar en la pared.",
+      "price": 590000,
+      "width": 0.6,
+      "depth": 0.05,
+      "height": 1.7,
+      "default_color": "#b5924c"
+    },
+    {
+      "category": "mirror",
+      "name": "Espejo con luz LED",
+      "description": "Luz perimetral y antiempañante.",
+      "price": 690000,
+      "width": 0.8,
+      "depth": 0.04,
+      "height": 0.7,
+      "default_color": "#e8e4dc"
+    },
+    {
+      "category": "mirror",
+      "name": "Espejo sol de ratán",
+      "description": "Marco tejido en forma de sol.",
+      "price": 340000,
+      "width": 0.75,
+      "depth": 0.04,
+      "height": 0.75,
+      "default_color": "#c19a5b"
+    },
+    {
+      "category": "vanity",
+      "name": "Lavamanos flotante Nogal",
+      "description": "Mueble suspendido con cajón.",
+      "price": 1290000,
+      "width": 1.0,
+      "depth": 0.48,
+      "height": 0.85,
+      "default_color": "#6b4a32"
+    },
+    {
+      "category": "toilet",
+      "name": "Inodoro inteligente",
+      "description": "Asiento térmico y descarga automática.",
+      "price": 3290000,
+      "width": 0.4,
+      "depth": 0.7,
+      "height": 0.5,
+      "default_color": "#ffffff"
+    },
+    {
+      "category": "shower",
+      "name": "Ducha esquinera",
+      "description": "Mampara curva que ahorra espacio.",
+      "price": 1350000,
+      "width": 0.8,
+      "depth": 0.8,
+      "height": 2.0,
+      "default_color": "#dbe6e8"
+    },
+    {
+      "category": "bathtub",
+      "name": "Bañera de piedra",
+      "description": "Piedra moldeada, sensación de spa.",
+      "price": 5900000,
+      "width": 1.6,
+      "depth": 0.75,
+      "height": 0.55,
+      "default_color": "#d6d2c8"
+    },
+    {
+      "category": "bath_accessory",
+      "name": "Toallero de pie",
+      "description": "Tres barras para toallas.",
+      "price": 220000,
+      "width": 0.5,
+      "depth": 0.25,
+      "height": 0.9,
+      "default_color": "#b5924c"
+    },
+    {
+      "category": "bath_accessory",
+      "name": "Escalera toallero de bambú",
+      "description": "Para apoyar contra la pared.",
+      "price": 260000,
+      "width": 0.45,
+      "depth": 0.3,
+      "height": 1.6,
+      "default_color": "#d9c09b"
+    },
+    {
+      "category": "bath_accessory",
+      "name": "Toallero calefactable",
+      "description": "Seca y calienta las toallas.",
+      "price": 890000,
+      "width": 0.5,
+      "depth": 0.1,
+      "height": 1.0,
+      "default_color": "#232323"
+    },
+    {
+      "category": "fridge",
+      "name": "Nevera compacta",
+      "description": "Para cocinas pequeñas o estudios.",
+      "price": 1590000,
+      "width": 0.55,
+      "depth": 0.6,
+      "height": 1.4,
+      "default_color": "#2d2d2d"
+    },
+    {
+      "category": "fridge",
+      "name": "Nevera side by side negra",
+      "description": "Dispensador de agua y hielo.",
+      "price": 5290000,
+      "width": 0.92,
+      "depth": 0.75,
+      "height": 1.78,
+      "default_color": "#2d2d2d"
+    },
+    {
+      "category": "stove",
+      "name": "Estufa profesional 6 puestos",
+      "description": "Horno doble y quemadores de alto poder.",
+      "price": 3890000,
+      "width": 0.9,
+      "depth": 0.6,
+      "height": 0.9,
+      "default_color": "#c9ccce"
+    },
+    {
+      "category": "counter",
+      "name": "Barra desayunador",
+      "description": "Alta, para banquetas.",
+      "price": 1490000,
+      "width": 1.4,
+      "depth": 0.5,
+      "height": 1.05,
+      "default_color": "#e8e4dc"
+    },
+    {
+      "category": "counter",
+      "name": "Mesón de mármol",
+      "description": "Largo, con espacio para electrodomésticos.",
+      "price": 4290000,
+      "width": 2.4,
+      "depth": 0.6,
+      "height": 0.9,
+      "default_color": "#f2f2ee"
+    },
+    {
+      "category": "washer",
+      "name": "Lavadora carga frontal",
+      "description": "12 kg, bajo consumo.",
+      "price": 2190000,
+      "width": 0.6,
+      "depth": 0.6,
+      "height": 0.85,
+      "default_color": "#f5f4f0"
+    },
+    {
+      "category": "washer",
+      "name": "Secadora",
+      "description": "Secado por bomba de calor.",
+      "price": 1990000,
+      "width": 0.6,
+      "depth": 0.6,
+      "height": 0.85,
+      "default_color": "#f5f4f0"
+    },
+    {
+      "category": "washer",
+      "name": "Lavavajillas",
+      "description": "Para 12 puestos, empotrable.",
+      "price": 2490000,
+      "width": 0.6,
+      "depth": 0.6,
+      "height": 0.85,
+      "default_color": "#c9ccce"
+    },
+    {
+      "category": "art",
+      "name": "Cuadro abstracto terracota",
+      "description": "Óleo sobre lienzo con marco de madera.",
+      "price": 390000,
+      "width": 0.8,
+      "depth": 0.04,
+      "height": 1.0,
+      "default_color": "#c4704f"
+    },
+    {
+      "category": "art",
+      "name": "Tríptico botánico",
+      "description": "Tres láminas de hojas tropicales.",
+      "price": 590000,
+      "width": 1.5,
+      "depth": 0.03,
+      "height": 0.6,
+      "default_color": "#7d8f69"
+    },
+    {
+      "category": "art",
+      "name": "Lámina de línea minimalista",
+      "description": "Dibujo a una línea sobre fondo crema.",
+      "price": 160000,
+      "width": 0.5,
+      "depth": 0.03,
+      "height": 0.7,
+      "default_color": "#efe6d6"
+    },
+    {
+      "category": "art",
+      "name": "Cuadro grande océano",
+      "description": "Pieza protagonista para la sala.",
+      "price": 790000,
+      "width": 1.2,
+      "depth": 0.04,
+      "height": 0.9,
+      "default_color": "#4f6d8a"
+    },
+    {
+      "category": "art",
+      "name": "Fotografía en blanco y negro",
+      "description": "Paisaje de montaña enmarcado.",
+      "price": 240000,
+      "width": 0.6,
+      "depth": 0.03,
+      "height": 0.6,
+      "default_color": "#8f8c86"
+    },
+    {
+      "category": "curtain",
+      "name": "Cortina de lino",
+      "description": "Deja pasar la luz con suavidad.",
+      "price": 420000,
+      "width": 1.6,
+      "depth": 0.12,
+      "height": 2.4,
+      "default_color": "#efe6d6"
+    },
+    {
+      "category": "curtain",
+      "name": "Cortina blackout",
+      "description": "Bloquea la luz para dormir mejor.",
+      "price": 590000,
+      "width": 2.0,
+      "depth": 0.14,
+      "height": 2.4,
+      "default_color": "#6f6a64"
+    },
+    {
+      "category": "curtain",
+      "name": "Cortina de terciopelo",
+      "description": "Caída pesada y elegante.",
+      "price": 760000,
+      "width": 1.8,
+      "depth": 0.15,
+      "height": 2.5,
+      "default_color": "#3f5a46"
+    },
+    {
+      "category": "decor",
+      "name": "Jarrón de piso con ramas",
+      "description": "Jarrón alto con ramas secas.",
+      "price": 290000,
+      "width": 0.35,
+      "depth": 0.35,
+      "height": 1.2,
+      "default_color": "#e8e4dc"
+    },
+    {
+      "category": "decor",
+      "name": "Escultura de cerámica",
+      "description": "Pieza orgánica hecha a mano.",
+      "price": 380000,
+      "width": 0.3,
+      "depth": 0.3,
+      "height": 0.6,
+      "default_color": "#2d2d2d"
+    },
+    {
+      "category": "decor",
+      "name": "Pampas en jarrón de barro",
+      "description": "Plumas de pampas que no necesitan agua.",
+      "price": 210000,
+      "width": 0.3,
+      "depth": 0.3,
+      "height": 1.0,
+      "default_color": "#c4704f"
+    },
+    {
+      "category": "basket",
+      "name": "Canasto de mimbre grande",
+      "description": "Para mantas, juguetes o leña.",
+      "price": 150000,
+      "width": 0.45,
+      "depth": 0.45,
+      "height": 0.5,
+      "default_color": "#c19a5b"
+    },
+    {
+      "category": "basket",
+      "name": "Cesto para ropa",
+      "description": "Con tapa, para el baño o el cuarto.",
+      "price": 130000,
+      "width": 0.4,
+      "depth": 0.4,
+      "height": 0.6,
+      "default_color": "#c9a96e"
+    },
+    {
+      "category": "basket",
+      "name": "Canasto de algodón",
+      "description": "Suave y lavable.",
+      "price": 90000,
+      "width": 0.35,
+      "depth": 0.35,
+      "height": 0.35,
+      "default_color": "#efe6d6"
+    }
+  ],
+  "furniture_details": [
+    {
+      "name": "Sofá Oslo 3 puestos",
+      "materials": "Lino lavable y patas de roble macizo",
+      "color_options": [
+        {
+          "name": "Lino arena",
+          "hex": "#d8c8ae"
+        },
+        {
+          "name": "Gris perla",
+          "hex": "#b9b6b0"
+        },
+        {
+          "name": "Terracota",
+          "hex": "#c4704f"
+        },
+        {
+          "name": "Verde salvia",
+          "hex": "#a9b49a"
+        },
+        {
+          "name": "Azul petróleo",
+          "hex": "#2f4f5a"
+        }
+      ],
+      "finish_options": [
+        "fabric_sand_linen",
+        "velvet_forest",
+        "leather_cognac"
+      ]
+    },
+    {
+      "name": "Sofá Chester de cuero",
+      "materials": "Cuero genuino y estructura de pino",
+      "color_options": [
+        {
+          "name": "Coñac",
+          "hex": "#8a4b2a"
+        },
+        {
+          "name": "Chocolate",
+          "hex": "#4e3324"
+        },
+        {
+          "name": "Camel",
+          "hex": "#b07d4f"
+        },
+        {
+          "name": "Negro",
+          "hex": "#232323"
+        }
+      ],
+      "finish_options": [
+        "fabric_sand_linen",
+        "velvet_forest",
+        "leather_cognac"
+      ]
+    },
+    {
+      "name": "Sofá modular Nube",
+      "materials": "Terciopelo antimanchas y espuma de alta densidad",
+      "color_options": [
+        {
+          "name": "Verde bosque",
+          "hex": "#3f5a46"
+        },
+        {
+          "name": "Azul noche",
+          "hex": "#2b3a55"
+        },
+        {
+          "name": "Rosa empolvado",
+          "hex": "#d4a5a0"
+        },
+        {
+          "name": "Mostaza",
+          "hex": "#c99a3b"
+        }
+      ],
+      "finish_options": [
+        "fabric_sand_linen",
+        "velvet_forest",
+        "leather_cognac"
+      ]
+    },
+    {
+      "name": "Cama Kioto doble",
+      "materials": "Madera de fresno con acabado natural",
+      "color_options": [
+        {
+          "name": "Fresno",
+          "hex": "#d9c09b"
+        },
+        {
+          "name": "Lino arena",
+          "hex": "#d8c8ae"
+        },
+        {
+          "name": "Gris perla",
+          "hex": "#b9b6b0"
+        },
+        {
+          "name": "Terracota",
+          "hex": "#c4704f"
+        },
+        {
+          "name": "Verde salvia",
+          "hex": "#a9b49a"
+        }
+      ],
+      "finish_options": [
+        "fabric_sand_linen",
+        "velvet_forest",
+        "wood_ash"
+      ]
+    },
+    {
+      "name": "Cama tapizada Aurora",
+      "materials": "Tela tejida y base de madera",
+      "color_options": [
+        {
+          "name": "Original",
+          "hex": "#e3d3bb"
+        },
+        {
+          "name": "Lino arena",
+          "hex": "#d8c8ae"
+        },
+        {
+          "name": "Gris perla",
+          "hex": "#b9b6b0"
+        },
+        {
+          "name": "Terracota",
+          "hex": "#c4704f"
+        },
+        {
+          "name": "Verde salvia",
+          "hex": "#a9b49a"
+        }
+      ],
+      "finish_options": [
+        "fabric_sand_linen",
+        "velvet_forest",
+        "wood_ash"
+      ]
+    },
+    {
+      "name": "Mesa de centro Roble",
+      "materials": "Roble macizo con aceite natural",
+      "color_options": [
+        {
+          "name": "Roble claro",
+          "hex": "#c8a27a"
+        },
+        {
+          "name": "Fresno",
+          "hex": "#d9c09b"
+        },
+        {
+          "name": "Nogal",
+          "hex": "#6b4a32"
+        },
+        {
+          "name": "Negro",
+          "hex": "#232323"
+        }
+      ],
+      "finish_options": [
+        "wood_ash",
+        "white_lacquer",
+        "metal_matte_black"
+      ]
+    },
+    {
+      "name": "Comedor Nogal 6 puestos",
+      "materials": "Nogal macizo",
+      "color_options": [
+        {
+          "name": "Nogal",
+          "hex": "#6b4a32"
+        },
+        {
+          "name": "Roble claro",
+          "hex": "#c8a27a"
+        },
+        {
+          "name": "Fresno",
+          "hex": "#d9c09b"
+        },
+        {
+          "name": "Negro",
+          "hex": "#232323"
+        }
+      ],
+      "finish_options": [
+        "wood_ash",
+        "white_lacquer",
+        "metal_matte_black"
+      ]
+    },
+    {
+      "name": "Mesa auxiliar de metal",
+      "materials": "Acero con pintura electrostática",
+      "color_options": [
+        {
+          "name": "Negro",
+          "hex": "#232323"
+        },
+        {
+          "name": "Roble claro",
+          "hex": "#c8a27a"
+        },
+        {
+          "name": "Fresno",
+          "hex": "#d9c09b"
+        },
+        {
+          "name": "Nogal",
+          "hex": "#6b4a32"
+        }
+      ],
+      "finish_options": [
+        "wood_ash",
+        "white_lacquer",
+        "metal_matte_black"
+      ]
+    },
+    {
+      "name": "Silla Windsor",
+      "materials": "Madera de haya torneada",
+      "color_options": [
+        {
+          "name": "Natural",
+          "hex": "#c19a5b"
+        },
+        {
+          "name": "Roble claro",
+          "hex": "#c8a27a"
+        },
+        {
+          "name": "Fresno",
+          "hex": "#d9c09b"
+        },
+        {
+          "name": "Nogal",
+          "hex": "#6b4a32"
+        },
+        {
+          "name": "Negro",
+          "hex": "#232323"
+        }
+      ],
+      "finish_options": [
+        "wood_ash",
+        "white_lacquer",
+        "metal_matte_black",
+        "rattan"
+      ]
+    },
+    {
+      "name": "Butaca Lounge",
+      "materials": "Tela bouclé y patas de roble",
+      "color_options": [
+        {
+          "name": "Verde salvia",
+          "hex": "#a9b49a"
+        },
+        {
+          "name": "Roble claro",
+          "hex": "#c8a27a"
+        },
+        {
+          "name": "Fresno",
+          "hex": "#d9c09b"
+        },
+        {
+          "name": "Nogal",
+          "hex": "#6b4a32"
+        },
+        {
+          "name": "Negro",
+          "hex": "#232323"
+        }
+      ],
+      "finish_options": [
+        "wood_ash",
+        "white_lacquer",
+        "metal_matte_black",
+        "rattan"
+      ]
+    },
+    {
+      "name": "Lámpara de pie Arco",
+      "materials": "Latón y pantalla de lino",
+      "color_options": [
+        {
+          "name": "Latón",
+          "hex": "#b5924c"
+        },
+        {
+          "name": "Negro mate",
+          "hex": "#232323"
+        },
+        {
+          "name": "Acero",
+          "hex": "#c9ccce"
+        },
+        {
+          "name": "Blanco",
+          "hex": "#f4f4f1"
+        }
+      ],
+      "finish_options": [
+        "brass",
+        "metal_matte_black",
+        "white_lacquer"
+      ]
+    },
+    {
+      "name": "Lámpara de mesa Papel",
+      "materials": "Papel de arroz y base de madera",
+      "color_options": [
+        {
+          "name": "Original",
+          "hex": "#f3eee6"
+        },
+        {
+          "name": "Negro mate",
+          "hex": "#232323"
+        },
+        {
+          "name": "Latón",
+          "hex": "#b5924c"
+        },
+        {
+          "name": "Acero",
+          "hex": "#c9ccce"
+        },
+        {
+          "name": "Blanco",
+          "hex": "#f4f4f1"
+        }
+      ],
+      "finish_options": [
+        "brass",
+        "metal_matte_black",
+        "white_lacquer"
+      ]
+    },
+    {
+      "name": "Estantería Escalera",
+      "materials": "Madera de fresno",
+      "color_options": [
+        {
+          "name": "Fresno",
+          "hex": "#d9c09b"
+        },
+        {
+          "name": "Roble claro",
+          "hex": "#c8a27a"
+        },
+        {
+          "name": "Nogal",
+          "hex": "#6b4a32"
+        },
+        {
+          "name": "Negro",
+          "hex": "#232323"
+        }
+      ],
+      "finish_options": [
+        "wood_ash",
+        "white_lacquer",
+        "metal_matte_black"
+      ]
+    },
+    {
+      "name": "Biblioteca Industrial",
+      "materials": "Acero negro y madera recuperada",
+      "color_options": [
+        {
+          "name": "Original",
+          "hex": "#4a4a48"
+        },
+        {
+          "name": "Roble claro",
+          "hex": "#c8a27a"
+        },
+        {
+          "name": "Fresno",
+          "hex": "#d9c09b"
+        },
+        {
+          "name": "Nogal",
+          "hex": "#6b4a32"
+        },
+        {
+          "name": "Negro",
+          "hex": "#232323"
+        }
+      ],
+      "finish_options": [
+        "wood_ash",
+        "white_lacquer",
+        "metal_matte_black"
+      ]
+    },
+    {
+      "name": "Alfombra de yute",
+      "materials": "Yute natural tejido a mano",
+      "color_options": [
+        {
+          "name": "Natural",
+          "hex": "#c9a96e"
+        },
+        {
+          "name": "Crema",
+          "hex": "#efe6d6"
+        },
+        {
+          "name": "Gris",
+          "hex": "#8f8c86"
+        },
+        {
+          "name": "Terracota",
+          "hex": "#c4704f"
+        },
+        {
+          "name": "Azul",
+          "hex": "#4f6d8a"
+        }
+      ],
+      "finish_options": []
+    },
+    {
+      "name": "Alfombra bereber",
+      "materials": "Lana virgen",
+      "color_options": [
+        {
+          "name": "Crema",
+          "hex": "#efe6d6"
+        },
+        {
+          "name": "Natural",
+          "hex": "#c9a96e"
+        },
+        {
+          "name": "Gris",
+          "hex": "#8f8c86"
+        },
+        {
+          "name": "Terracota",
+          "hex": "#c4704f"
+        },
+        {
+          "name": "Azul",
+          "hex": "#4f6d8a"
+        }
+      ],
+      "finish_options": []
+    },
+    {
+      "name": "Monstera en maceta",
+      "materials": "Planta natural con matera de cerámica",
+      "color_options": [
+        {
+          "name": "Verde intenso",
+          "hex": "#3d805b"
+        },
+        {
+          "name": "Verde oliva",
+          "hex": "#7d8f69"
+        },
+        {
+          "name": "Verde lima",
+          "hex": "#8fae5d"
+        }
+      ],
+      "finish_options": []
+    },
+    {
+      "name": "Olivo pequeño",
+      "materials": "Planta natural con matera de barro",
+      "color_options": [
+        {
+          "name": "Verde oliva",
+          "hex": "#7d8f69"
+        },
+        {
+          "name": "Verde intenso",
+          "hex": "#3d805b"
+        },
+        {
+          "name": "Verde lima",
+          "hex": "#8fae5d"
+        }
+      ],
+      "finish_options": []
+    },
+    {
+      "name": "Escritorio Estudio",
+      "materials": "Tablero de roble y estructura lacada",
+      "color_options": [
+        {
+          "name": "Original",
+          "hex": "#d2b48c"
+        },
+        {
+          "name": "Roble claro",
+          "hex": "#c8a27a"
+        },
+        {
+          "name": "Fresno",
+          "hex": "#d9c09b"
+        },
+        {
+          "name": "Nogal",
+          "hex": "#6b4a32"
+        },
+        {
+          "name": "Negro",
+          "hex": "#232323"
+        }
+      ],
+      "finish_options": [
+        "wood_ash",
+        "white_lacquer",
+        "metal_matte_black"
+      ]
+    },
+    {
+      "name": "Aparador Sideboard",
+      "materials": "MDF lacado y patas de roble",
+      "color_options": [
+        {
+          "name": "Blanco",
+          "hex": "#f5f4f0"
+        },
+        {
+          "name": "Gris niebla",
+          "hex": "#c9ccce"
+        },
+        {
+          "name": "Verde oliva",
+          "hex": "#7d8f69"
+        },
+        {
+          "name": "Negro mate",
+          "hex": "#2d2d2d"
+        }
+      ],
+      "finish_options": [
+        "wood_ash",
+        "white_lacquer",
+        "metal_matte_black",
+        "rattan"
+      ]
+    },
+    {
+      "name": "Inodoro Compacto",
+      "materials": "Porcelana sanitaria",
+      "color_options": [
+        {
+          "name": "Blanco",
+          "hex": "#f7f7f4"
+        },
+        {
+          "name": "Hueso",
+          "hex": "#efe6d6"
+        },
+        {
+          "name": "Gris",
+          "hex": "#b9b6b0"
+        },
+        {
+          "name": "Negro",
+          "hex": "#2d2d2d"
+        }
+      ],
+      "finish_options": []
+    },
+    {
+      "name": "Inodoro Suspendido",
+      "materials": "Porcelana sanitaria y sistema empotrado",
+      "color_options": [
+        {
+          "name": "Original",
+          "hex": "#ffffff"
+        },
+        {
+          "name": "Blanco",
+          "hex": "#f7f7f4"
+        },
+        {
+          "name": "Hueso",
+          "hex": "#efe6d6"
+        },
+        {
+          "name": "Gris",
+          "hex": "#b9b6b0"
+        },
+        {
+          "name": "Negro",
+          "hex": "#2d2d2d"
+        }
+      ],
+      "finish_options": []
+    },
+    {
+      "name": "Lavamanos con mueble Roble",
+      "materials": "Mueble de roble y lavamanos de porcelana",
+      "color_options": [
+        {
+          "name": "Roble claro",
+          "hex": "#c8a27a"
+        },
+        {
+          "name": "Fresno",
+          "hex": "#d9c09b"
+        },
+        {
+          "name": "Nogal",
+          "hex": "#6b4a32"
+        },
+        {
+          "name": "Negro",
+          "hex": "#232323"
+        }
+      ],
+      "finish_options": [
+        "wood_ash",
+        "white_lacquer",
+        "metal_matte_black"
+      ]
+    },
+    {
+      "name": "Lavamanos doble Laca",
+      "materials": "MDF lacado hidrófugo y porcelana",
+      "color_options": [
+        {
+          "name": "Blanco",
+          "hex": "#f5f4f0"
+        },
+        {
+          "name": "Gris niebla",
+          "hex": "#c9ccce"
+        },
+        {
+          "name": "Verde oliva",
+          "hex": "#7d8f69"
+        },
+        {
+          "name": "Negro mate",
+          "hex": "#2d2d2d"
+        }
+      ],
+      "finish_options": [
+        "wood_ash",
+        "white_lacquer",
+        "metal_matte_black"
+      ]
+    },
+    {
+      "name": "Bañera exenta Ovalada",
+      "materials": "Acrílico reforzado",
+      "color_options": [
+        {
+          "name": "Original",
+          "hex": "#fbfbf8"
+        },
+        {
+          "name": "Blanco",
+          "hex": "#f7f7f4"
+        },
+        {
+          "name": "Hueso",
+          "hex": "#efe6d6"
+        },
+        {
+          "name": "Gris",
+          "hex": "#b9b6b0"
+        },
+        {
+          "name": "Negro",
+          "hex": "#2d2d2d"
+        }
+      ],
+      "finish_options": []
+    },
+    {
+      "name": "Bañera empotrada",
+      "materials": "Acrílico con faldón",
+      "color_options": [
+        {
+          "name": "Mármol",
+          "hex": "#f2f2ee"
+        },
+        {
+          "name": "Blanco",
+          "hex": "#f7f7f4"
+        },
+        {
+          "name": "Hueso",
+          "hex": "#efe6d6"
+        },
+        {
+          "name": "Gris",
+          "hex": "#b9b6b0"
+        },
+        {
+          "name": "Negro",
+          "hex": "#2d2d2d"
+        }
+      ],
+      "finish_options": []
+    },
+    {
+      "name": "Ducha con mampara",
+      "materials": "Vidrio templado de 8 mm y plato acrílico",
+      "color_options": [
+        {
+          "name": "Transparente",
+          "hex": "#dbe6e8"
+        },
+        {
+          "name": "Ahumado",
+          "hex": "#9aa5a8"
+        }
+      ],
+      "finish_options": []
+    },
+    {
+      "name": "Ducha Walk-in",
+      "materials": "Vidrio templado y grifería en acero",
+      "color_options": [
+        {
+          "name": "Original",
+          "hex": "#cfdcdf"
+        },
+        {
+          "name": "Transparente",
+          "hex": "#dbe6e8"
+        },
+        {
+          "name": "Ahumado",
+          "hex": "#9aa5a8"
+        }
+      ],
+      "finish_options": []
+    },
+    {
+      "name": "Espejo redondo de latón",
+      "materials": "Espejo de 4 mm y marco de latón",
+      "color_options": [
+        {
+          "name": "Latón",
+          "hex": "#b5924c"
+        },
+        {
+          "name": "Negro mate",
+          "hex": "#232323"
+        },
+        {
+          "name": "Acero",
+          "hex": "#c9ccce"
+        },
+        {
+          "name": "Blanco",
+          "hex": "#f4f4f1"
+        }
+      ],
+      "finish_options": [
+        "brass",
+        "metal_matte_black",
+        "white_lacquer"
+      ]
+    },
+    {
+      "name": "Espejo rectangular negro",
+      "materials": "Espejo de 4 mm y marco de aluminio",
+      "color_options": [
+        {
+          "name": "Negro mate",
+          "hex": "#232323"
+        },
+        {
+          "name": "Latón",
+          "hex": "#b5924c"
+        },
+        {
+          "name": "Acero",
+          "hex": "#c9ccce"
+        },
+        {
+          "name": "Blanco",
+          "hex": "#f4f4f1"
+        }
+      ],
+      "finish_options": [
+        "brass",
+        "metal_matte_black",
+        "white_lacquer"
+      ]
+    },
+    {
+      "name": "Nevera dos puertas",
+      "materials": "Acero inoxidable",
+      "color_options": [
+        {
+          "name": "Acero",
+          "hex": "#c9ccce"
+        },
+        {
+          "name": "Blanco",
+          "hex": "#f5f4f0"
+        },
+        {
+          "name": "Negro",
+          "hex": "#2d2d2d"
+        }
+      ],
+      "finish_options": [
+        "metal_matte_black",
+        "white_lacquer"
+      ]
+    },
+    {
+      "name": "Nevera panelada",
+      "materials": "Frente lacado y acero inoxidable",
+      "color_options": [
+        {
+          "name": "Blanco",
+          "hex": "#f5f4f0"
+        },
+        {
+          "name": "Gris niebla",
+          "hex": "#c9ccce"
+        },
+        {
+          "name": "Verde oliva",
+          "hex": "#7d8f69"
+        },
+        {
+          "name": "Negro mate",
+          "hex": "#2d2d2d"
+        }
+      ],
+      "finish_options": [
+        "metal_matte_black",
+        "white_lacquer"
+      ]
+    },
+    {
+      "name": "Estufa a gas 4 puestos",
+      "materials": "Acero esmaltado y parrillas de hierro",
+      "color_options": [
+        {
+          "name": "Negro",
+          "hex": "#2d2d2d"
+        },
+        {
+          "name": "Acero",
+          "hex": "#c9ccce"
+        },
+        {
+          "name": "Blanco",
+          "hex": "#f5f4f0"
+        }
+      ],
+      "finish_options": [
+        "metal_matte_black"
+      ]
+    },
+    {
+      "name": "Estufa de inducción",
+      "materials": "Vitrocerámica y acero inoxidable",
+      "color_options": [
+        {
+          "name": "Original",
+          "hex": "#3a3d40"
+        },
+        {
+          "name": "Acero",
+          "hex": "#c9ccce"
+        },
+        {
+          "name": "Blanco",
+          "hex": "#f5f4f0"
+        },
+        {
+          "name": "Negro",
+          "hex": "#2d2d2d"
+        }
+      ],
+      "finish_options": [
+        "metal_matte_black"
+      ]
+    },
+    {
+      "name": "Mesón con lavaplatos",
+      "materials": "Cuarzo y gabinetes en MDF hidrófugo",
+      "color_options": [
+        {
+          "name": "Cuarzo claro",
+          "hex": "#e8e4dc"
+        },
+        {
+          "name": "Mármol",
+          "hex": "#f2f2ee"
+        },
+        {
+          "name": "Granito negro",
+          "hex": "#2d2d2d"
+        },
+        {
+          "name": "Concreto",
+          "hex": "#a7a39c"
+        }
+      ],
+      "finish_options": [
+        "wood_ash",
+        "white_lacquer"
+      ]
+    },
+    {
+      "name": "Isla de cocina Nogal",
+      "materials": "Nogal macizo y gabinetes lacados",
+      "color_options": [
+        {
+          "name": "Nogal",
+          "hex": "#6b4a32"
+        },
+        {
+          "name": "Roble claro",
+          "hex": "#c8a27a"
+        },
+        {
+          "name": "Fresno",
+          "hex": "#d9c09b"
+        },
+        {
+          "name": "Negro",
+          "hex": "#232323"
+        }
+      ],
+      "finish_options": [
+        "wood_ash",
+        "white_lacquer"
+      ]
+    },
+    {
+      "name": "Butaco alto de cocina",
+      "materials": "Madera de haya",
+      "color_options": [
+        {
+          "name": "Natural",
+          "hex": "#c19a5b"
+        },
+        {
+          "name": "Roble claro",
+          "hex": "#c8a27a"
+        },
+        {
+          "name": "Fresno",
+          "hex": "#d9c09b"
+        },
+        {
+          "name": "Nogal",
+          "hex": "#6b4a32"
+        },
+        {
+          "name": "Negro",
+          "hex": "#232323"
+        }
+      ],
+      "finish_options": [
+        "wood_ash",
+        "white_lacquer",
+        "metal_matte_black",
+        "rattan"
+      ]
+    },
+    {
+      "name": "Mesa de noche Fresno",
+      "materials": "Madera de fresno",
+      "color_options": [
+        {
+          "name": "Fresno",
+          "hex": "#d9c09b"
+        },
+        {
+          "name": "Roble claro",
+          "hex": "#c8a27a"
+        },
+        {
+          "name": "Nogal",
+          "hex": "#6b4a32"
+        },
+        {
+          "name": "Negro",
+          "hex": "#232323"
+        }
+      ],
+      "finish_options": [
+        "wood_ash",
+        "white_lacquer",
+        "metal_matte_black",
+        "rattan"
+      ]
+    },
+    {
+      "name": "Mesa de noche Laca",
+      "materials": "MDF lacado",
+      "color_options": [
+        {
+          "name": "Blanco",
+          "hex": "#f5f4f0"
+        },
+        {
+          "name": "Gris niebla",
+          "hex": "#c9ccce"
+        },
+        {
+          "name": "Verde oliva",
+          "hex": "#7d8f69"
+        },
+        {
+          "name": "Negro mate",
+          "hex": "#2d2d2d"
+        }
+      ],
+      "finish_options": [
+        "wood_ash",
+        "white_lacquer",
+        "metal_matte_black",
+        "rattan"
+      ]
+    },
+    {
+      "name": "Clóset dos puertas",
+      "materials": "MDF lacado y herrajes de cierre lento",
+      "color_options": [
+        {
+          "name": "Blanco",
+          "hex": "#f5f4f0"
+        },
+        {
+          "name": "Gris niebla",
+          "hex": "#c9ccce"
+        },
+        {
+          "name": "Verde oliva",
+          "hex": "#7d8f69"
+        },
+        {
+          "name": "Negro mate",
+          "hex": "#2d2d2d"
+        }
+      ],
+      "finish_options": [
+        "wood_ash",
+        "white_lacquer",
+        "metal_matte_black"
+      ]
+    },
+    {
+      "name": "Clóset Nogal tres puertas",
+      "materials": "Enchapado en nogal",
+      "color_options": [
+        {
+          "name": "Nogal",
+          "hex": "#6b4a32"
+        },
+        {
+          "name": "Roble claro",
+          "hex": "#c8a27a"
+        },
+        {
+          "name": "Fresno",
+          "hex": "#d9c09b"
+        },
+        {
+          "name": "Negro",
+          "hex": "#232323"
+        }
+      ],
+      "finish_options": [
+        "wood_ash",
+        "white_lacquer",
+        "metal_matte_black"
+      ]
+    },
+    {
+      "name": "Mueble de TV Roble",
+      "materials": "Roble y televisor LED de 55 pulgadas",
+      "color_options": [
+        {
+          "name": "Roble claro",
+          "hex": "#c8a27a"
+        },
+        {
+          "name": "Fresno",
+          "hex": "#d9c09b"
+        },
+        {
+          "name": "Nogal",
+          "hex": "#6b4a32"
+        },
+        {
+          "name": "Negro",
+          "hex": "#232323"
+        }
+      ],
+      "finish_options": [
+        "wood_ash",
+        "white_lacquer",
+        "metal_matte_black"
+      ]
+    },
+    {
+      "name": "Mueble de TV flotante",
+      "materials": "MDF lacado y televisor LED de 65 pulgadas",
+      "color_options": [
+        {
+          "name": "Negro",
+          "hex": "#232323"
+        },
+        {
+          "name": "Roble claro",
+          "hex": "#c8a27a"
+        },
+        {
+          "name": "Fresno",
+          "hex": "#d9c09b"
+        },
+        {
+          "name": "Nogal",
+          "hex": "#6b4a32"
+        }
+      ],
+      "finish_options": [
+        "wood_ash",
+        "white_lacquer",
+        "metal_matte_black"
+      ]
+    },
+    {
+      "name": "Puerta de roble claro",
+      "materials": "Roble macizo y manija de acero",
+      "color_options": [
+        {
+          "name": "Roble claro",
+          "hex": "#c8a27a"
+        },
+        {
+          "name": "Fresno",
+          "hex": "#d9c09b"
+        },
+        {
+          "name": "Nogal",
+          "hex": "#6b4a32"
+        },
+        {
+          "name": "Negro",
+          "hex": "#232323"
+        }
+      ],
+      "finish_options": [
+        "wood_ash",
+        "white_lacquer"
+      ]
+    },
+    {
+      "name": "Puerta blanca lacada",
+      "materials": "MDF lacado",
+      "color_options": [
+        {
+          "name": "Original",
+          "hex": "#f2efe9"
+        },
+        {
+          "name": "Blanco",
+          "hex": "#f5f4f0"
+        },
+        {
+          "name": "Gris niebla",
+          "hex": "#c9ccce"
+        },
+        {
+          "name": "Verde oliva",
+          "hex": "#7d8f69"
+        },
+        {
+          "name": "Negro mate",
+          "hex": "#2d2d2d"
+        }
+      ],
+      "finish_options": [
+        "wood_ash",
+        "white_lacquer"
+      ]
+    },
+    {
+      "name": "Puerta doble de nogal",
+      "materials": "Nogal macizo",
+      "color_options": [
+        {
+          "name": "Original",
+          "hex": "#7a5536"
+        },
+        {
+          "name": "Roble claro",
+          "hex": "#c8a27a"
+        },
+        {
+          "name": "Fresno",
+          "hex": "#d9c09b"
+        },
+        {
+          "name": "Nogal",
+          "hex": "#6b4a32"
+        },
+        {
+          "name": "Negro",
+          "hex": "#232323"
+        }
+      ],
+      "finish_options": [
+        "wood_ash",
+        "white_lacquer"
+      ]
+    },
+    {
+      "name": "Ventana corrediza",
+      "materials": "Aluminio y vidrio templado",
+      "color_options": [
+        {
+          "name": "Blanco",
+          "hex": "#f4f4f1"
+        },
+        {
+          "name": "Negro mate",
+          "hex": "#232323"
+        },
+        {
+          "name": "Latón",
+          "hex": "#b5924c"
+        },
+        {
+          "name": "Acero",
+          "hex": "#c9ccce"
+        }
+      ],
+      "finish_options": [
+        "metal_matte_black",
+        "white_lacquer"
+      ]
+    },
+    {
+      "name": "Ventanal panorámico",
+      "materials": "Aluminio negro y vidrio doble",
+      "color_options": [
+        {
+          "name": "Negro mate",
+          "hex": "#2d2d2d"
+        },
+        {
+          "name": "Negro mate",
+          "hex": "#232323"
+        },
+        {
+          "name": "Latón",
+          "hex": "#b5924c"
+        },
+        {
+          "name": "Acero",
+          "hex": "#c9ccce"
+        },
+        {
+          "name": "Blanco",
+          "hex": "#f4f4f1"
+        }
+      ],
+      "finish_options": [
+        "metal_matte_black",
+        "white_lacquer"
+      ]
+    },
+    {
+      "name": "Ventana pequeña",
+      "materials": "PVC y vidrio templado",
+      "color_options": [
+        {
+          "name": "Original",
+          "hex": "#ffffff"
+        },
+        {
+          "name": "Negro mate",
+          "hex": "#232323"
+        },
+        {
+          "name": "Latón",
+          "hex": "#b5924c"
+        },
+        {
+          "name": "Acero",
+          "hex": "#c9ccce"
+        },
+        {
+          "name": "Blanco",
+          "hex": "#f4f4f1"
+        }
+      ],
+      "finish_options": [
+        "metal_matte_black",
+        "white_lacquer"
+      ]
+    },
+    {
+      "name": "Sillón Bergère",
+      "materials": "Tela bouclé y patas de haya",
+      "color_options": [
+        {
+          "name": "Original",
+          "hex": "#e3d3bb"
+        },
+        {
+          "name": "Lino arena",
+          "hex": "#d8c8ae"
+        },
+        {
+          "name": "Gris perla",
+          "hex": "#b9b6b0"
+        },
+        {
+          "name": "Terracota",
+          "hex": "#c4704f"
+        },
+        {
+          "name": "Verde salvia",
+          "hex": "#a9b49a"
+        }
+      ],
+      "finish_options": [
+        "fabric_sand_linen",
+        "velvet_forest",
+        "leather_cognac"
+      ]
+    },
+    {
+      "name": "Sillón de cuero Milano",
+      "materials": "Cuero genuino y base de nogal",
+      "color_options": [
+        {
+          "name": "Coñac",
+          "hex": "#8a4b2a"
+        },
+        {
+          "name": "Chocolate",
+          "hex": "#4e3324"
+        },
+        {
+          "name": "Camel",
+          "hex": "#b07d4f"
+        },
+        {
+          "name": "Negro",
+          "hex": "#232323"
+        }
+      ],
+      "finish_options": [
+        "fabric_sand_linen",
+        "velvet_forest",
+        "leather_cognac"
+      ]
+    },
+    {
+      "name": "Sillón de terciopelo Ópera",
+      "materials": "Terciopelo y acero con baño de latón",
+      "color_options": [
+        {
+          "name": "Verde bosque",
+          "hex": "#3f5a46"
+        },
+        {
+          "name": "Azul noche",
+          "hex": "#2b3a55"
+        },
+        {
+          "name": "Rosa empolvado",
+          "hex": "#d4a5a0"
+        },
+        {
+          "name": "Mostaza",
+          "hex": "#c99a3b"
+        }
+      ],
+      "finish_options": [
+        "fabric_sand_linen",
+        "velvet_forest",
+        "leather_cognac"
+      ]
+    },
+    {
+      "name": "Sillón reclinable Descanso",
+      "materials": "Microfibra y mecanismo de acero",
+      "color_options": [
+        {
+          "name": "Original",
+          "hex": "#6f6a64"
+        },
+        {
+          "name": "Lino arena",
+          "hex": "#d8c8ae"
+        },
+        {
+          "name": "Gris perla",
+          "hex": "#b9b6b0"
+        },
+        {
+          "name": "Terracota",
+          "hex": "#c4704f"
+        },
+        {
+          "name": "Verde salvia",
+          "hex": "#a9b49a"
+        }
+      ],
+      "finish_options": [
+        "fabric_sand_linen",
+        "velvet_forest",
+        "leather_cognac"
+      ]
+    },
+    {
+      "name": "Puff redondo tejido",
+      "materials": "Algodón tejido a mano",
+      "color_options": [
+        {
+          "name": "Natural",
+          "hex": "#c9a96e"
+        },
+        {
+          "name": "Lino arena",
+          "hex": "#d8c8ae"
+        },
+        {
+          "name": "Gris perla",
+          "hex": "#b9b6b0"
+        },
+        {
+          "name": "Terracota",
+          "hex": "#c4704f"
+        },
+        {
+          "name": "Verde salvia",
+          "hex": "#a9b49a"
+        }
+      ],
+      "finish_options": [
+        "fabric_sand_linen",
+        "velvet_forest",
+        "leather_cognac"
+      ]
+    },
+    {
+      "name": "Puff de terciopelo",
+      "materials": "Terciopelo y relleno de espuma",
+      "color_options": [
+        {
+          "name": "Rosa empolvado",
+          "hex": "#d4a5a0"
+        },
+        {
+          "name": "Verde bosque",
+          "hex": "#3f5a46"
+        },
+        {
+          "name": "Azul noche",
+          "hex": "#2b3a55"
+        },
+        {
+          "name": "Mostaza",
+          "hex": "#c99a3b"
+        }
+      ],
+      "finish_options": [
+        "fabric_sand_linen",
+        "velvet_forest",
+        "leather_cognac"
+      ]
+    },
+    {
+      "name": "Banco pie de cama",
+      "materials": "Tela de lino y patas de roble",
+      "color_options": [
+        {
+          "name": "Original",
+          "hex": "#e3d3bb"
+        },
+        {
+          "name": "Lino arena",
+          "hex": "#d8c8ae"
+        },
+        {
+          "name": "Gris perla",
+          "hex": "#b9b6b0"
+        },
+        {
+          "name": "Terracota",
+          "hex": "#c4704f"
+        },
+        {
+          "name": "Verde salvia",
+          "hex": "#a9b49a"
+        }
+      ],
+      "finish_options": [
+        "fabric_sand_linen",
+        "velvet_forest",
+        "leather_cognac"
+      ]
+    },
+    {
+      "name": "Otomana de cuero",
+      "materials": "Cuero sintético y madera",
+      "color_options": [
+        {
+          "name": "Coñac",
+          "hex": "#8a4b2a"
+        },
+        {
+          "name": "Chocolate",
+          "hex": "#4e3324"
+        },
+        {
+          "name": "Camel",
+          "hex": "#b07d4f"
+        },
+        {
+          "name": "Negro",
+          "hex": "#232323"
+        }
+      ],
+      "finish_options": [
+        "fabric_sand_linen",
+        "velvet_forest",
+        "leather_cognac"
+      ]
+    },
+    {
+      "name": "Mesa auxiliar Tulipa",
+      "materials": "Base de acero y cubierta lacada",
+      "color_options": [
+        {
+          "name": "Blanco",
+          "hex": "#f5f4f0"
+        },
+        {
+          "name": "Gris niebla",
+          "hex": "#c9ccce"
+        },
+        {
+          "name": "Verde oliva",
+          "hex": "#7d8f69"
+        },
+        {
+          "name": "Negro mate",
+          "hex": "#2d2d2d"
+        }
+      ],
+      "finish_options": [
+        "white_lacquer",
+        "brass",
+        "wood_ash"
+      ]
+    },
+    {
+      "name": "Mesa auxiliar de mármol",
+      "materials": "Mármol y acero con baño de latón",
+      "color_options": [
+        {
+          "name": "Cuarzo claro",
+          "hex": "#e8e4dc"
+        },
+        {
+          "name": "Mármol",
+          "hex": "#f2f2ee"
+        },
+        {
+          "name": "Granito negro",
+          "hex": "#2d2d2d"
+        },
+        {
+          "name": "Concreto",
+          "hex": "#a7a39c"
+        }
+      ],
+      "finish_options": [
+        "white_lacquer",
+        "brass",
+        "wood_ash"
+      ]
+    },
+    {
+      "name": "Mesa nido de roble",
+      "materials": "Roble macizo",
+      "color_options": [
+        {
+          "name": "Roble claro",
+          "hex": "#c8a27a"
+        },
+        {
+          "name": "Fresno",
+          "hex": "#d9c09b"
+        },
+        {
+          "name": "Nogal",
+          "hex": "#6b4a32"
+        },
+        {
+          "name": "Negro",
+          "hex": "#232323"
+        }
+      ],
+      "finish_options": [
+        "white_lacquer",
+        "brass",
+        "wood_ash"
+      ]
+    },
+    {
+      "name": "Mesa de centro Nogal",
+      "materials": "Nogal macizo",
+      "color_options": [
+        {
+          "name": "Nogal",
+          "hex": "#6b4a32"
+        },
+        {
+          "name": "Roble claro",
+          "hex": "#c8a27a"
+        },
+        {
+          "name": "Fresno",
+          "hex": "#d9c09b"
+        },
+        {
+          "name": "Negro",
+          "hex": "#232323"
+        }
+      ],
+      "finish_options": [
+        "wood_ash",
+        "white_lacquer",
+        "metal_matte_black"
+      ]
+    },
+    {
+      "name": "Mesa de centro de mármol",
+      "materials": "Mármol blanco y acero",
+      "color_options": [
+        {
+          "name": "Cuarzo claro",
+          "hex": "#e8e4dc"
+        },
+        {
+          "name": "Mármol",
+          "hex": "#f2f2ee"
+        },
+        {
+          "name": "Granito negro",
+          "hex": "#2d2d2d"
+        },
+        {
+          "name": "Concreto",
+          "hex": "#a7a39c"
+        }
+      ],
+      "finish_options": [
+        "wood_ash",
+        "white_lacquer",
+        "metal_matte_black"
+      ]
+    },
+    {
+      "name": "Comedor redondo 4 puestos",
+      "materials": "Roble y base de acero",
+      "color_options": [
+        {
+          "name": "Roble claro",
+          "hex": "#c8a27a"
+        },
+        {
+          "name": "Fresno",
+          "hex": "#d9c09b"
+        },
+        {
+          "name": "Nogal",
+          "hex": "#6b4a32"
+        },
+        {
+          "name": "Negro",
+          "hex": "#232323"
+        }
+      ],
+      "finish_options": [
+        "wood_ash",
+        "white_lacquer",
+        "metal_matte_black"
+      ]
+    },
+    {
+      "name": "Comedor extensible 8 puestos",
+      "materials": "Fresno macizo",
+      "color_options": [
+        {
+          "name": "Fresno",
+          "hex": "#d9c09b"
+        },
+        {
+          "name": "Roble claro",
+          "hex": "#c8a27a"
+        },
+        {
+          "name": "Nogal",
+          "hex": "#6b4a32"
+        },
+        {
+          "name": "Negro",
+          "hex": "#232323"
+        }
+      ],
+      "finish_options": [
+        "wood_ash",
+        "white_lacquer",
+        "metal_matte_black"
+      ]
+    },
+    {
+      "name": "Mesa de cocina compacta",
+      "materials": "MDF lacado y patas de haya",
+      "color_options": [
+        {
+          "name": "Blanco",
+          "hex": "#f5f4f0"
+        },
+        {
+          "name": "Roble claro",
+          "hex": "#c8a27a"
+        },
+        {
+          "name": "Fresno",
+          "hex": "#d9c09b"
+        },
+        {
+          "name": "Nogal",
+          "hex": "#6b4a32"
+        },
+        {
+          "name": "Negro",
+          "hex": "#232323"
+        }
+      ],
+      "finish_options": [
+        "wood_ash",
+        "white_lacquer",
+        "metal_matte_black"
+      ]
+    },
+    {
+      "name": "Silla de comedor tapizada",
+      "materials": "Tela antimanchas y patas de roble",
+      "color_options": [
+        {
+          "name": "Gris perla",
+          "hex": "#b9b6b0"
+        },
+        {
+          "name": "Roble claro",
+          "hex": "#c8a27a"
+        },
+        {
+          "name": "Fresno",
+          "hex": "#d9c09b"
+        },
+        {
+          "name": "Nogal",
+          "hex": "#6b4a32"
+        },
+        {
+          "name": "Negro",
+          "hex": "#232323"
+        }
+      ],
+      "finish_options": [
+        "wood_ash",
+        "white_lacquer",
+        "metal_matte_black",
+        "rattan"
+      ]
+    },
+    {
+      "name": "Silla Eames blanca",
+      "materials": "Polipropileno y haya",
+      "color_options": [
+        {
+          "name": "Blanco",
+          "hex": "#f5f4f0"
+        },
+        {
+          "name": "Roble claro",
+          "hex": "#c8a27a"
+        },
+        {
+          "name": "Fresno",
+          "hex": "#d9c09b"
+        },
+        {
+          "name": "Nogal",
+          "hex": "#6b4a32"
+        },
+        {
+          "name": "Negro",
+          "hex": "#232323"
+        }
+      ],
+      "finish_options": [
+        "wood_ash",
+        "white_lacquer",
+        "metal_matte_black",
+        "rattan"
+      ]
+    },
+    {
+      "name": "Silla ergonómica de oficina",
+      "materials": "Malla transpirable y base de aluminio",
+      "color_options": [
+        {
+          "name": "Negro mate",
+          "hex": "#2d2d2d"
+        },
+        {
+          "name": "Roble claro",
+          "hex": "#c8a27a"
+        },
+        {
+          "name": "Fresno",
+          "hex": "#d9c09b"
+        },
+        {
+          "name": "Nogal",
+          "hex": "#6b4a32"
+        },
+        {
+          "name": "Negro",
+          "hex": "#232323"
+        }
+      ],
+      "finish_options": [
+        "wood_ash",
+        "white_lacquer",
+        "metal_matte_black",
+        "rattan"
+      ]
+    },
+    {
+      "name": "Silla de ratán",
+      "materials": "Ratán natural y madera de teca",
+      "color_options": [
+        {
+          "name": "Natural",
+          "hex": "#c19a5b"
+        },
+        {
+          "name": "Miel",
+          "hex": "#a8773f"
+        },
+        {
+          "name": "Blanqueado",
+          "hex": "#e0cfa9"
+        }
+      ],
+      "finish_options": [
+        "wood_ash",
+        "white_lacquer",
+        "metal_matte_black",
+        "rattan"
+      ]
+    },
+    {
+      "name": "Banqueta de barra Industrial",
+      "materials": "Acero negro y pino",
+      "color_options": [
+        {
+          "name": "Negro",
+          "hex": "#232323"
+        },
+        {
+          "name": "Roble claro",
+          "hex": "#c8a27a"
+        },
+        {
+          "name": "Fresno",
+          "hex": "#d9c09b"
+        },
+        {
+          "name": "Nogal",
+          "hex": "#6b4a32"
+        }
+      ],
+      "finish_options": [
+        "wood_ash",
+        "white_lacquer",
+        "metal_matte_black",
+        "leather_cognac"
+      ]
+    },
+    {
+      "name": "Banqueta tapizada",
+      "materials": "Cuero sintético y acero",
+      "color_options": [
+        {
+          "name": "Original",
+          "hex": "#b07d4f"
+        },
+        {
+          "name": "Roble claro",
+          "hex": "#c8a27a"
+        },
+        {
+          "name": "Fresno",
+          "hex": "#d9c09b"
+        },
+        {
+          "name": "Nogal",
+          "hex": "#6b4a32"
+        },
+        {
+          "name": "Negro",
+          "hex": "#232323"
+        }
+      ],
+      "finish_options": [
+        "wood_ash",
+        "white_lacquer",
+        "metal_matte_black",
+        "leather_cognac"
+      ]
+    },
+    {
+      "name": "Banqueta de roble",
+      "materials": "Roble macizo",
+      "color_options": [
+        {
+          "name": "Roble claro",
+          "hex": "#c8a27a"
+        },
+        {
+          "name": "Fresno",
+          "hex": "#d9c09b"
+        },
+        {
+          "name": "Nogal",
+          "hex": "#6b4a32"
+        },
+        {
+          "name": "Negro",
+          "hex": "#232323"
+        }
+      ],
+      "finish_options": [
+        "wood_ash",
+        "white_lacquer",
+        "metal_matte_black",
+        "leather_cognac"
+      ]
+    },
+    {
+      "name": "Lámpara de pie trípode",
+      "materials": "Nogal y lino",
+      "color_options": [
+        {
+          "name": "Nogal",
+          "hex": "#6b4a32"
+        },
+        {
+          "name": "Negro mate",
+          "hex": "#232323"
+        },
+        {
+          "name": "Latón",
+          "hex": "#b5924c"
+        },
+        {
+          "name": "Acero",
+          "hex": "#c9ccce"
+        },
+        {
+          "name": "Blanco",
+          "hex": "#f4f4f1"
+        }
+      ],
+      "finish_options": [
+        "brass",
+        "metal_matte_black",
+        "white_lacquer"
+      ]
+    },
+    {
+      "name": "Lámpara de escritorio articulada",
+      "materials": "Aluminio pintado",
+      "color_options": [
+        {
+          "name": "Negro mate",
+          "hex": "#232323"
+        },
+        {
+          "name": "Latón",
+          "hex": "#b5924c"
+        },
+        {
+          "name": "Acero",
+          "hex": "#c9ccce"
+        },
+        {
+          "name": "Blanco",
+          "hex": "#f4f4f1"
+        }
+      ],
+      "finish_options": [
+        "brass",
+        "metal_matte_black",
+        "white_lacquer"
+      ]
+    },
+    {
+      "name": "Lámpara de pie de ratán",
+      "materials": "Ratán y bambú",
+      "color_options": [
+        {
+          "name": "Natural",
+          "hex": "#c19a5b"
+        },
+        {
+          "name": "Miel",
+          "hex": "#a8773f"
+        },
+        {
+          "name": "Blanqueado",
+          "hex": "#e0cfa9"
+        }
+      ],
+      "finish_options": [
+        "brass",
+        "metal_matte_black",
+        "white_lacquer"
+      ]
+    },
+    {
+      "name": "Lámpara de lectura dorada",
+      "materials": "Acero con baño de latón",
+      "color_options": [
+        {
+          "name": "Latón",
+          "hex": "#b5924c"
+        },
+        {
+          "name": "Negro mate",
+          "hex": "#232323"
+        },
+        {
+          "name": "Acero",
+          "hex": "#c9ccce"
+        },
+        {
+          "name": "Blanco",
+          "hex": "#f4f4f1"
+        }
+      ],
+      "finish_options": [
+        "brass",
+        "metal_matte_black",
+        "white_lacquer"
+      ]
+    },
+    {
+      "name": "Estantería de cubos",
+      "materials": "Aglomerado lacado",
+      "color_options": [
+        {
+          "name": "Blanco",
+          "hex": "#f5f4f0"
+        },
+        {
+          "name": "Roble claro",
+          "hex": "#c8a27a"
+        },
+        {
+          "name": "Fresno",
+          "hex": "#d9c09b"
+        },
+        {
+          "name": "Nogal",
+          "hex": "#6b4a32"
+        },
+        {
+          "name": "Negro",
+          "hex": "#232323"
+        }
+      ],
+      "finish_options": [
+        "wood_ash",
+        "white_lacquer",
+        "metal_matte_black"
+      ]
+    },
+    {
+      "name": "Repisa baja de roble",
+      "materials": "Roble y acero",
+      "color_options": [
+        {
+          "name": "Roble claro",
+          "hex": "#c8a27a"
+        },
+        {
+          "name": "Fresno",
+          "hex": "#d9c09b"
+        },
+        {
+          "name": "Nogal",
+          "hex": "#6b4a32"
+        },
+        {
+          "name": "Negro",
+          "hex": "#232323"
+        }
+      ],
+      "finish_options": [
+        "wood_ash",
+        "white_lacquer",
+        "metal_matte_black"
+      ]
+    },
+    {
+      "name": "Biblioteca alta Nogal",
+      "materials": "Enchapado en nogal",
+      "color_options": [
+        {
+          "name": "Nogal",
+          "hex": "#6b4a32"
+        },
+        {
+          "name": "Roble claro",
+          "hex": "#c8a27a"
+        },
+        {
+          "name": "Fresno",
+          "hex": "#d9c09b"
+        },
+        {
+          "name": "Negro",
+          "hex": "#232323"
+        }
+      ],
+      "finish_options": [
+        "wood_ash",
+        "white_lacquer",
+        "metal_matte_black"
+      ]
+    },
+    {
+      "name": "Alfombra de lana gris",
+      "materials": "Lana y algodón",
+      "color_options": [
+        {
+          "name": "Gris",
+          "hex": "#8f8c86"
+        },
+        {
+          "name": "Natural",
+          "hex": "#c9a96e"
+        },
+        {
+          "name": "Crema",
+          "hex": "#efe6d6"
+        },
+        {
+          "name": "Terracota",
+          "hex": "#c4704f"
+        },
+        {
+          "name": "Azul",
+          "hex": "#4f6d8a"
+        }
+      ],
+      "finish_options": []
+    },
+    {
+      "name": "Alfombra kilim",
+      "materials": "Lana tejida en telar",
+      "color_options": [
+        {
+          "name": "Terracota",
+          "hex": "#c4704f"
+        },
+        {
+          "name": "Natural",
+          "hex": "#c9a96e"
+        },
+        {
+          "name": "Crema",
+          "hex": "#efe6d6"
+        },
+        {
+          "name": "Gris",
+          "hex": "#8f8c86"
+        },
+        {
+          "name": "Azul",
+          "hex": "#4f6d8a"
+        }
+      ],
+      "finish_options": []
+    },
+    {
+      "name": "Alfombra de pelo largo",
+      "materials": "Poliéster de pelo largo",
+      "color_options": [
+        {
+          "name": "Crema",
+          "hex": "#efe6d6"
+        },
+        {
+          "name": "Natural",
+          "hex": "#c9a96e"
+        },
+        {
+          "name": "Gris",
+          "hex": "#8f8c86"
+        },
+        {
+          "name": "Terracota",
+          "hex": "#c4704f"
+        },
+        {
+          "name": "Azul",
+          "hex": "#4f6d8a"
+        }
+      ],
+      "finish_options": []
+    },
+    {
+      "name": "Tapete de baño de algodón",
+      "materials": "Algodón y base de látex",
+      "color_options": [
+        {
+          "name": "Crema",
+          "hex": "#efe6d6"
+        },
+        {
+          "name": "Natural",
+          "hex": "#c9a96e"
+        },
+        {
+          "name": "Gris",
+          "hex": "#8f8c86"
+        },
+        {
+          "name": "Terracota",
+          "hex": "#c4704f"
+        },
+        {
+          "name": "Azul",
+          "hex": "#4f6d8a"
+        }
+      ],
+      "finish_options": []
+    },
+    {
+      "name": "Alfombra para escritorio",
+      "materials": "Fibra sintética resistente",
+      "color_options": [
+        {
+          "name": "Original",
+          "hex": "#4a4a48"
+        },
+        {
+          "name": "Natural",
+          "hex": "#c9a96e"
+        },
+        {
+          "name": "Crema",
+          "hex": "#efe6d6"
+        },
+        {
+          "name": "Gris",
+          "hex": "#8f8c86"
+        },
+        {
+          "name": "Terracota",
+          "hex": "#c4704f"
+        }
+      ],
+      "finish_options": []
+    },
+    {
+      "name": "Ficus lyrata",
+      "materials": "Planta natural con matera de cerámica",
+      "color_options": [
+        {
+          "name": "Original",
+          "hex": "#4c7a46"
+        },
+        {
+          "name": "Verde intenso",
+          "hex": "#3d805b"
+        },
+        {
+          "name": "Verde oliva",
+          "hex": "#7d8f69"
+        },
+        {
+          "name": "Verde lima",
+          "hex": "#8fae5d"
+        }
+      ],
+      "finish_options": []
+    },
+    {
+      "name": "Palma areca",
+      "materials": "Planta natural con matera de fibra",
+      "color_options": [
+        {
+          "name": "Original",
+          "hex": "#6a9a4f"
+        },
+        {
+          "name": "Verde intenso",
+          "hex": "#3d805b"
+        },
+        {
+          "name": "Verde oliva",
+          "hex": "#7d8f69"
+        },
+        {
+          "name": "Verde lima",
+          "hex": "#8fae5d"
+        }
+      ],
+      "finish_options": []
+    },
+    {
+      "name": "Sansevieria",
+      "materials": "Planta natural con matera de barro",
+      "color_options": [
+        {
+          "name": "Original",
+          "hex": "#3f6b4a"
+        },
+        {
+          "name": "Verde intenso",
+          "hex": "#3d805b"
+        },
+        {
+          "name": "Verde oliva",
+          "hex": "#7d8f69"
+        },
+        {
+          "name": "Verde lima",
+          "hex": "#8fae5d"
+        }
+      ],
+      "finish_options": []
+    },
+    {
+      "name": "Cactus columnar",
+      "materials": "Planta natural con matera de concreto",
+      "color_options": [
+        {
+          "name": "Original",
+          "hex": "#5f8a55"
+        },
+        {
+          "name": "Verde intenso",
+          "hex": "#3d805b"
+        },
+        {
+          "name": "Verde oliva",
+          "hex": "#7d8f69"
+        },
+        {
+          "name": "Verde lima",
+          "hex": "#8fae5d"
+        }
+      ],
+      "finish_options": []
+    },
+    {
+      "name": "Helecho de Boston",
+      "materials": "Planta natural con matera de cerámica",
+      "color_options": [
+        {
+          "name": "Original",
+          "hex": "#5c9a4c"
+        },
+        {
+          "name": "Verde intenso",
+          "hex": "#3d805b"
+        },
+        {
+          "name": "Verde oliva",
+          "hex": "#7d8f69"
+        },
+        {
+          "name": "Verde lima",
+          "hex": "#8fae5d"
+        }
+      ],
+      "finish_options": []
+    },
+    {
+      "name": "Escritorio elevable",
+      "materials": "Melamina y estructura de acero",
+      "color_options": [
+        {
+          "name": "Blanco",
+          "hex": "#f5f4f0"
+        },
+        {
+          "name": "Roble claro",
+          "hex": "#c8a27a"
+        },
+        {
+          "name": "Fresno",
+          "hex": "#d9c09b"
+        },
+        {
+          "name": "Nogal",
+          "hex": "#6b4a32"
+        },
+        {
+          "name": "Negro",
+          "hex": "#232323"
+        }
+      ],
+      "finish_options": [
+        "wood_ash",
+        "white_lacquer",
+        "metal_matte_black"
+      ]
+    },
+    {
+      "name": "Escritorio compacto",
+      "materials": "Madera de fresno",
+      "color_options": [
+        {
+          "name": "Fresno",
+          "hex": "#d9c09b"
+        },
+        {
+          "name": "Roble claro",
+          "hex": "#c8a27a"
+        },
+        {
+          "name": "Nogal",
+          "hex": "#6b4a32"
+        },
+        {
+          "name": "Negro",
+          "hex": "#232323"
+        }
+      ],
+      "finish_options": [
+        "wood_ash",
+        "white_lacquer",
+        "metal_matte_black"
+      ]
+    },
+    {
+      "name": "Escritorio ejecutivo Nogal",
+      "materials": "Enchapado en nogal",
+      "color_options": [
+        {
+          "name": "Nogal",
+          "hex": "#6b4a32"
+        },
+        {
+          "name": "Roble claro",
+          "hex": "#c8a27a"
+        },
+        {
+          "name": "Fresno",
+          "hex": "#d9c09b"
+        },
+        {
+          "name": "Negro",
+          "hex": "#232323"
+        }
+      ],
+      "finish_options": [
+        "wood_ash",
+        "white_lacquer",
+        "metal_matte_black"
+      ]
+    },
+    {
+      "name": "Archivador de oficina",
+      "materials": "Acero pintado",
+      "color_options": [
+        {
+          "name": "Gris niebla",
+          "hex": "#c9ccce"
+        },
+        {
+          "name": "Blanco",
+          "hex": "#f5f4f0"
+        },
+        {
+          "name": "Verde oliva",
+          "hex": "#7d8f69"
+        },
+        {
+          "name": "Negro mate",
+          "hex": "#2d2d2d"
+        }
+      ],
+      "finish_options": [
+        "wood_ash",
+        "white_lacquer",
+        "metal_matte_black",
+        "rattan"
+      ]
+    },
+    {
+      "name": "Aparador Nogal",
+      "materials": "Nogal macizo",
+      "color_options": [
+        {
+          "name": "Nogal",
+          "hex": "#6b4a32"
+        },
+        {
+          "name": "Roble claro",
+          "hex": "#c8a27a"
+        },
+        {
+          "name": "Fresno",
+          "hex": "#d9c09b"
+        },
+        {
+          "name": "Negro",
+          "hex": "#232323"
+        }
+      ],
+      "finish_options": [
+        "wood_ash",
+        "white_lacquer",
+        "metal_matte_black",
+        "rattan"
+      ]
+    },
+    {
+      "name": "Vitrina de comedor",
+      "materials": "Fresno y vidrio templado",
+      "color_options": [
+        {
+          "name": "Fresno",
+          "hex": "#d9c09b"
+        },
+        {
+          "name": "Blanco",
+          "hex": "#f5f4f0"
+        },
+        {
+          "name": "Gris niebla",
+          "hex": "#c9ccce"
+        },
+        {
+          "name": "Verde oliva",
+          "hex": "#7d8f69"
+        },
+        {
+          "name": "Negro mate",
+          "hex": "#2d2d2d"
+        }
+      ],
+      "finish_options": [
+        "wood_ash",
+        "white_lacquer",
+        "metal_matte_black",
+        "rattan"
+      ]
+    },
+    {
+      "name": "Mueble auxiliar de baño",
+      "materials": "MDF hidrófugo lacado",
+      "color_options": [
+        {
+          "name": "Blanco",
+          "hex": "#f5f4f0"
+        },
+        {
+          "name": "Gris niebla",
+          "hex": "#c9ccce"
+        },
+        {
+          "name": "Verde oliva",
+          "hex": "#7d8f69"
+        },
+        {
+          "name": "Negro mate",
+          "hex": "#2d2d2d"
+        }
+      ],
+      "finish_options": [
+        "wood_ash",
+        "white_lacquer",
+        "metal_matte_black",
+        "rattan"
+      ]
+    },
+    {
+      "name": "Despensero de cocina",
+      "materials": "MDF lacado",
+      "color_options": [
+        {
+          "name": "Blanco",
+          "hex": "#f5f4f0"
+        },
+        {
+          "name": "Gris niebla",
+          "hex": "#c9ccce"
+        },
+        {
+          "name": "Verde oliva",
+          "hex": "#7d8f69"
+        },
+        {
+          "name": "Negro mate",
+          "hex": "#2d2d2d"
+        }
+      ],
+      "finish_options": [
+        "wood_ash",
+        "white_lacquer",
+        "metal_matte_black",
+        "rattan"
+      ]
+    },
+    {
+      "name": "Cama sencilla juvenil",
+      "materials": "MDF lacado",
+      "color_options": [
+        {
+          "name": "Blanco",
+          "hex": "#f5f4f0"
+        },
+        {
+          "name": "Lino arena",
+          "hex": "#d8c8ae"
+        },
+        {
+          "name": "Gris perla",
+          "hex": "#b9b6b0"
+        },
+        {
+          "name": "Terracota",
+          "hex": "#c4704f"
+        },
+        {
+          "name": "Verde salvia",
+          "hex": "#a9b49a"
+        }
+      ],
+      "finish_options": [
+        "fabric_sand_linen",
+        "velvet_forest",
+        "wood_ash"
+      ]
+    },
+    {
+      "name": "Cama King Nogal",
+      "materials": "Nogal macizo",
+      "color_options": [
+        {
+          "name": "Nogal",
+          "hex": "#6b4a32"
+        },
+        {
+          "name": "Roble claro",
+          "hex": "#c8a27a"
+        },
+        {
+          "name": "Fresno",
+          "hex": "#d9c09b"
+        },
+        {
+          "name": "Negro",
+          "hex": "#232323"
+        }
+      ],
+      "finish_options": [
+        "fabric_sand_linen",
+        "velvet_forest",
+        "wood_ash"
+      ]
+    },
+    {
+      "name": "Cama de ratán",
+      "materials": "Ratán y madera de teca",
+      "color_options": [
+        {
+          "name": "Natural",
+          "hex": "#c19a5b"
+        },
+        {
+          "name": "Miel",
+          "hex": "#a8773f"
+        },
+        {
+          "name": "Blanqueado",
+          "hex": "#e0cfa9"
+        }
+      ],
+      "finish_options": [
+        "fabric_sand_linen",
+        "velvet_forest",
+        "wood_ash"
+      ]
+    },
+    {
+      "name": "Mesa de noche Nogal",
+      "materials": "Nogal macizo",
+      "color_options": [
+        {
+          "name": "Nogal",
+          "hex": "#6b4a32"
+        },
+        {
+          "name": "Roble claro",
+          "hex": "#c8a27a"
+        },
+        {
+          "name": "Fresno",
+          "hex": "#d9c09b"
+        },
+        {
+          "name": "Negro",
+          "hex": "#232323"
+        }
+      ],
+      "finish_options": [
+        "wood_ash",
+        "white_lacquer",
+        "metal_matte_black",
+        "rattan"
+      ]
+    },
+    {
+      "name": "Mesa de noche de ratán",
+      "materials": "Ratán y madera",
+      "color_options": [
+        {
+          "name": "Natural",
+          "hex": "#c19a5b"
+        },
+        {
+          "name": "Miel",
+          "hex": "#a8773f"
+        },
+        {
+          "name": "Blanqueado",
+          "hex": "#e0cfa9"
+        }
+      ],
+      "finish_options": [
+        "wood_ash",
+        "white_lacquer",
+        "metal_matte_black",
+        "rattan"
+      ]
+    },
+    {
+      "name": "Clóset corredizo con espejo",
+      "materials": "Fresno y espejo",
+      "color_options": [
+        {
+          "name": "Fresno",
+          "hex": "#d9c09b"
+        },
+        {
+          "name": "Blanco",
+          "hex": "#f5f4f0"
+        },
+        {
+          "name": "Gris niebla",
+          "hex": "#c9ccce"
+        },
+        {
+          "name": "Verde oliva",
+          "hex": "#7d8f69"
+        },
+        {
+          "name": "Negro mate",
+          "hex": "#2d2d2d"
+        }
+      ],
+      "finish_options": [
+        "wood_ash",
+        "white_lacquer",
+        "metal_matte_black"
+      ]
+    },
+    {
+      "name": "Clóset juvenil",
+      "materials": "MDF lacado",
+      "color_options": [
+        {
+          "name": "Blanco",
+          "hex": "#f5f4f0"
+        },
+        {
+          "name": "Gris niebla",
+          "hex": "#c9ccce"
+        },
+        {
+          "name": "Verde oliva",
+          "hex": "#7d8f69"
+        },
+        {
+          "name": "Negro mate",
+          "hex": "#2d2d2d"
+        }
+      ],
+      "finish_options": [
+        "wood_ash",
+        "white_lacquer",
+        "metal_matte_black"
+      ]
+    },
+    {
+      "name": "Mueble de TV de ratán",
+      "materials": "Ratán y madera",
+      "color_options": [
+        {
+          "name": "Natural",
+          "hex": "#c19a5b"
+        },
+        {
+          "name": "Miel",
+          "hex": "#a8773f"
+        },
+        {
+          "name": "Blanqueado",
+          "hex": "#e0cfa9"
+        }
+      ],
+      "finish_options": [
+        "wood_ash",
+        "white_lacquer",
+        "metal_matte_black"
+      ]
+    },
+    {
+      "name": "Televisor de 43 pulgadas",
+      "materials": "Pantalla LED 4K",
+      "color_options": [
+        {
+          "name": "Negro",
+          "hex": "#1c1c1e"
+        },
+        {
+          "name": "Plata",
+          "hex": "#c9ccce"
+        }
+      ],
+      "finish_options": []
+    },
+    {
+      "name": "Televisor de 55 pulgadas",
+      "materials": "Pantalla QLED 4K",
+      "color_options": [
+        {
+          "name": "Negro",
+          "hex": "#1c1c1e"
+        },
+        {
+          "name": "Plata",
+          "hex": "#c9ccce"
+        }
+      ],
+      "finish_options": []
+    },
+    {
+      "name": "Televisor de 65 pulgadas",
+      "materials": "Pantalla OLED 4K",
+      "color_options": [
+        {
+          "name": "Negro",
+          "hex": "#1c1c1e"
+        },
+        {
+          "name": "Plata",
+          "hex": "#c9ccce"
+        }
+      ],
+      "finish_options": []
+    },
+    {
+      "name": "Espejo de pie en arco",
+      "materials": "Espejo y marco de latón",
+      "color_options": [
+        {
+          "name": "Latón",
+          "hex": "#b5924c"
+        },
+        {
+          "name": "Negro mate",
+          "hex": "#232323"
+        },
+        {
+          "name": "Acero",
+          "hex": "#c9ccce"
+        },
+        {
+          "name": "Blanco",
+          "hex": "#f4f4f1"
+        }
+      ],
+      "finish_options": [
+        "brass",
+        "metal_matte_black",
+        "white_lacquer"
+      ]
+    },
+    {
+      "name": "Espejo con luz LED",
+      "materials": "Espejo y LED",
+      "color_options": [
+        {
+          "name": "Cuarzo claro",
+          "hex": "#e8e4dc"
+        },
+        {
+          "name": "Negro mate",
+          "hex": "#232323"
+        },
+        {
+          "name": "Latón",
+          "hex": "#b5924c"
+        },
+        {
+          "name": "Acero",
+          "hex": "#c9ccce"
+        },
+        {
+          "name": "Blanco",
+          "hex": "#f4f4f1"
+        }
+      ],
+      "finish_options": [
+        "brass",
+        "metal_matte_black",
+        "white_lacquer"
+      ]
+    },
+    {
+      "name": "Espejo sol de ratán",
+      "materials": "Ratán y espejo",
+      "color_options": [
+        {
+          "name": "Natural",
+          "hex": "#c19a5b"
+        },
+        {
+          "name": "Miel",
+          "hex": "#a8773f"
+        },
+        {
+          "name": "Blanqueado",
+          "hex": "#e0cfa9"
+        }
+      ],
+      "finish_options": [
+        "brass",
+        "metal_matte_black",
+        "white_lacquer"
+      ]
+    },
+    {
+      "name": "Lavamanos flotante Nogal",
+      "materials": "Nogal y porcelana",
+      "color_options": [
+        {
+          "name": "Nogal",
+          "hex": "#6b4a32"
+        },
+        {
+          "name": "Roble claro",
+          "hex": "#c8a27a"
+        },
+        {
+          "name": "Fresno",
+          "hex": "#d9c09b"
+        },
+        {
+          "name": "Negro",
+          "hex": "#232323"
+        }
+      ],
+      "finish_options": [
+        "wood_ash",
+        "white_lacquer",
+        "metal_matte_black"
+      ]
+    },
+    {
+      "name": "Inodoro inteligente",
+      "materials": "Porcelana y electrónica",
+      "color_options": [
+        {
+          "name": "Original",
+          "hex": "#ffffff"
+        },
+        {
+          "name": "Blanco",
+          "hex": "#f7f7f4"
+        },
+        {
+          "name": "Hueso",
+          "hex": "#efe6d6"
+        },
+        {
+          "name": "Gris",
+          "hex": "#b9b6b0"
+        },
+        {
+          "name": "Negro",
+          "hex": "#2d2d2d"
+        }
+      ],
+      "finish_options": []
+    },
+    {
+      "name": "Ducha esquinera",
+      "materials": "Vidrio templado y plato acrílico",
+      "color_options": [
+        {
+          "name": "Transparente",
+          "hex": "#dbe6e8"
+        },
+        {
+          "name": "Ahumado",
+          "hex": "#9aa5a8"
+        }
+      ],
+      "finish_options": []
+    },
+    {
+      "name": "Bañera de piedra",
+      "materials": "Piedra compuesta",
+      "color_options": [
+        {
+          "name": "Original",
+          "hex": "#d6d2c8"
+        },
+        {
+          "name": "Blanco",
+          "hex": "#f7f7f4"
+        },
+        {
+          "name": "Hueso",
+          "hex": "#efe6d6"
+        },
+        {
+          "name": "Gris",
+          "hex": "#b9b6b0"
+        },
+        {
+          "name": "Negro",
+          "hex": "#2d2d2d"
+        }
+      ],
+      "finish_options": []
+    },
+    {
+      "name": "Toallero de pie",
+      "materials": "Acero con baño de latón",
+      "color_options": [
+        {
+          "name": "Latón",
+          "hex": "#b5924c"
+        },
+        {
+          "name": "Negro mate",
+          "hex": "#232323"
+        },
+        {
+          "name": "Acero",
+          "hex": "#c9ccce"
+        },
+        {
+          "name": "Blanco",
+          "hex": "#f4f4f1"
+        }
+      ],
+      "finish_options": [
+        "brass",
+        "metal_matte_black",
+        "white_lacquer"
+      ]
+    },
+    {
+      "name": "Escalera toallero de bambú",
+      "materials": "Bambú",
+      "color_options": [
+        {
+          "name": "Fresno",
+          "hex": "#d9c09b"
+        },
+        {
+          "name": "Negro mate",
+          "hex": "#232323"
+        },
+        {
+          "name": "Latón",
+          "hex": "#b5924c"
+        },
+        {
+          "name": "Acero",
+          "hex": "#c9ccce"
+        },
+        {
+          "name": "Blanco",
+          "hex": "#f4f4f1"
+        }
+      ],
+      "finish_options": [
+        "brass",
+        "metal_matte_black",
+        "white_lacquer"
+      ]
+    },
+    {
+      "name": "Toallero calefactable",
+      "materials": "Acero negro",
+      "color_options": [
+        {
+          "name": "Negro mate",
+          "hex": "#232323"
+        },
+        {
+          "name": "Latón",
+          "hex": "#b5924c"
+        },
+        {
+          "name": "Acero",
+          "hex": "#c9ccce"
+        },
+        {
+          "name": "Blanco",
+          "hex": "#f4f4f1"
+        }
+      ],
+      "finish_options": [
+        "brass",
+        "metal_matte_black",
+        "white_lacquer"
+      ]
+    },
+    {
+      "name": "Nevera compacta",
+      "materials": "Acero pintado",
+      "color_options": [
+        {
+          "name": "Negro",
+          "hex": "#2d2d2d"
+        },
+        {
+          "name": "Acero",
+          "hex": "#c9ccce"
+        },
+        {
+          "name": "Blanco",
+          "hex": "#f5f4f0"
+        }
+      ],
+      "finish_options": [
+        "metal_matte_black",
+        "white_lacquer"
+      ]
+    },
+    {
+      "name": "Nevera side by side negra",
+      "materials": "Acero negro",
+      "color_options": [
+        {
+          "name": "Negro",
+          "hex": "#2d2d2d"
+        },
+        {
+          "name": "Acero",
+          "hex": "#c9ccce"
+        },
+        {
+          "name": "Blanco",
+          "hex": "#f5f4f0"
+        }
+      ],
+      "finish_options": [
+        "metal_matte_black",
+        "white_lacquer"
+      ]
+    },
+    {
+      "name": "Estufa profesional 6 puestos",
+      "materials": "Acero inoxidable",
+      "color_options": [
+        {
+          "name": "Acero",
+          "hex": "#c9ccce"
+        },
+        {
+          "name": "Blanco",
+          "hex": "#f5f4f0"
+        },
+        {
+          "name": "Negro",
+          "hex": "#2d2d2d"
+        }
+      ],
+      "finish_options": [
+        "metal_matte_black"
+      ]
+    },
+    {
+      "name": "Barra desayunador",
+      "materials": "Cuarzo y gabinete lacado",
+      "color_options": [
+        {
+          "name": "Cuarzo claro",
+          "hex": "#e8e4dc"
+        },
+        {
+          "name": "Mármol",
+          "hex": "#f2f2ee"
+        },
+        {
+          "name": "Granito negro",
+          "hex": "#2d2d2d"
+        },
+        {
+          "name": "Concreto",
+          "hex": "#a7a39c"
+        }
+      ],
+      "finish_options": [
+        "wood_ash",
+        "white_lacquer"
+      ]
+    },
+    {
+      "name": "Mesón de mármol",
+      "materials": "Mármol y gabinetes de MDF",
+      "color_options": [
+        {
+          "name": "Mármol",
+          "hex": "#f2f2ee"
+        },
+        {
+          "name": "Cuarzo claro",
+          "hex": "#e8e4dc"
+        },
+        {
+          "name": "Granito negro",
+          "hex": "#2d2d2d"
+        },
+        {
+          "name": "Concreto",
+          "hex": "#a7a39c"
+        }
+      ],
+      "finish_options": [
+        "wood_ash",
+        "white_lacquer"
+      ]
+    },
+    {
+      "name": "Lavadora carga frontal",
+      "materials": "Acero pintado",
+      "color_options": [
+        {
+          "name": "Blanco",
+          "hex": "#f5f4f0"
+        },
+        {
+          "name": "Acero",
+          "hex": "#c9ccce"
+        },
+        {
+          "name": "Negro",
+          "hex": "#2d2d2d"
+        }
+      ],
+      "finish_options": [
+        "white_lacquer",
+        "metal_matte_black"
+      ]
+    },
+    {
+      "name": "Secadora",
+      "materials": "Acero pintado",
+      "color_options": [
+        {
+          "name": "Blanco",
+          "hex": "#f5f4f0"
+        },
+        {
+          "name": "Acero",
+          "hex": "#c9ccce"
+        },
+        {
+          "name": "Negro",
+          "hex": "#2d2d2d"
+        }
+      ],
+      "finish_options": [
+        "white_lacquer",
+        "metal_matte_black"
+      ]
+    },
+    {
+      "name": "Lavavajillas",
+      "materials": "Acero inoxidable",
+      "color_options": [
+        {
+          "name": "Acero",
+          "hex": "#c9ccce"
+        },
+        {
+          "name": "Blanco",
+          "hex": "#f5f4f0"
+        },
+        {
+          "name": "Negro",
+          "hex": "#2d2d2d"
+        }
+      ],
+      "finish_options": [
+        "white_lacquer",
+        "metal_matte_black"
+      ]
+    },
+    {
+      "name": "Cuadro abstracto terracota",
+      "materials": "Lienzo y pino",
+      "color_options": [
+        {
+          "name": "Terracota",
+          "hex": "#c4704f"
+        },
+        {
+          "name": "Salvia",
+          "hex": "#7d8f69"
+        },
+        {
+          "name": "Océano",
+          "hex": "#4f6d8a"
+        },
+        {
+          "name": "Arena",
+          "hex": "#efe6d6"
+        },
+        {
+          "name": "Carbón",
+          "hex": "#2d2d2d"
+        }
+      ],
+      "finish_options": []
+    },
+    {
+      "name": "Tríptico botánico",
+      "materials": "Impresión giclée y marco negro",
+      "color_options": [
+        {
+          "name": "Salvia",
+          "hex": "#7d8f69"
+        },
+        {
+          "name": "Terracota",
+          "hex": "#c4704f"
+        },
+        {
+          "name": "Océano",
+          "hex": "#4f6d8a"
+        },
+        {
+          "name": "Arena",
+          "hex": "#efe6d6"
+        },
+        {
+          "name": "Carbón",
+          "hex": "#2d2d2d"
+        }
+      ],
+      "finish_options": []
+    },
+    {
+      "name": "Lámina de línea minimalista",
+      "materials": "Papel de algodón y marco de roble",
+      "color_options": [
+        {
+          "name": "Arena",
+          "hex": "#efe6d6"
+        },
+        {
+          "name": "Terracota",
+          "hex": "#c4704f"
+        },
+        {
+          "name": "Salvia",
+          "hex": "#7d8f69"
+        },
+        {
+          "name": "Océano",
+          "hex": "#4f6d8a"
+        },
+        {
+          "name": "Carbón",
+          "hex": "#2d2d2d"
+        }
+      ],
+      "finish_options": []
+    },
+    {
+      "name": "Cuadro grande océano",
+      "materials": "Acrílico sobre lienzo",
+      "color_options": [
+        {
+          "name": "Océano",
+          "hex": "#4f6d8a"
+        },
+        {
+          "name": "Terracota",
+          "hex": "#c4704f"
+        },
+        {
+          "name": "Salvia",
+          "hex": "#7d8f69"
+        },
+        {
+          "name": "Arena",
+          "hex": "#efe6d6"
+        },
+        {
+          "name": "Carbón",
+          "hex": "#2d2d2d"
+        }
+      ],
+      "finish_options": []
+    },
+    {
+      "name": "Fotografía en blanco y negro",
+      "materials": "Papel fotográfico y marco de aluminio",
+      "color_options": [
+        {
+          "name": "Gris",
+          "hex": "#8f8c86"
+        },
+        {
+          "name": "Terracota",
+          "hex": "#c4704f"
+        },
+        {
+          "name": "Salvia",
+          "hex": "#7d8f69"
+        },
+        {
+          "name": "Océano",
+          "hex": "#4f6d8a"
+        },
+        {
+          "name": "Arena",
+          "hex": "#efe6d6"
+        }
+      ],
+      "finish_options": []
+    },
+    {
+      "name": "Cortina de lino",
+      "materials": "Lino lavado",
+      "color_options": [
+        {
+          "name": "Crema",
+          "hex": "#efe6d6"
+        },
+        {
+          "name": "Lino arena",
+          "hex": "#d8c8ae"
+        },
+        {
+          "name": "Gris perla",
+          "hex": "#b9b6b0"
+        },
+        {
+          "name": "Terracota",
+          "hex": "#c4704f"
+        },
+        {
+          "name": "Verde salvia",
+          "hex": "#a9b49a"
+        }
+      ],
+      "finish_options": [
+        "fabric_sand_linen",
+        "velvet_forest"
+      ]
+    },
+    {
+      "name": "Cortina blackout",
+      "materials": "Poliéster de doble capa",
+      "color_options": [
+        {
+          "name": "Original",
+          "hex": "#6f6a64"
+        },
+        {
+          "name": "Lino arena",
+          "hex": "#d8c8ae"
+        },
+        {
+          "name": "Gris perla",
+          "hex": "#b9b6b0"
+        },
+        {
+          "name": "Terracota",
+          "hex": "#c4704f"
+        },
+        {
+          "name": "Verde salvia",
+          "hex": "#a9b49a"
+        }
+      ],
+      "finish_options": [
+        "fabric_sand_linen",
+        "velvet_forest"
+      ]
+    },
+    {
+      "name": "Cortina de terciopelo",
+      "materials": "Terciopelo",
+      "color_options": [
+        {
+          "name": "Verde bosque",
+          "hex": "#3f5a46"
+        },
+        {
+          "name": "Azul noche",
+          "hex": "#2b3a55"
+        },
+        {
+          "name": "Rosa empolvado",
+          "hex": "#d4a5a0"
+        },
+        {
+          "name": "Mostaza",
+          "hex": "#c99a3b"
+        }
+      ],
+      "finish_options": [
+        "fabric_sand_linen",
+        "velvet_forest"
+      ]
+    },
+    {
+      "name": "Jarrón de piso con ramas",
+      "materials": "Cerámica mate y ramas naturales",
+      "color_options": [
+        {
+          "name": "Cuarzo claro",
+          "hex": "#e8e4dc"
+        },
+        {
+          "name": "Blanco",
+          "hex": "#f7f7f4"
+        },
+        {
+          "name": "Hueso",
+          "hex": "#efe6d6"
+        },
+        {
+          "name": "Gris",
+          "hex": "#b9b6b0"
+        },
+        {
+          "name": "Negro",
+          "hex": "#2d2d2d"
+        }
+      ],
+      "finish_options": []
+    },
+    {
+      "name": "Escultura de cerámica",
+      "materials": "Gres esmaltado",
+      "color_options": [
+        {
+          "name": "Negro",
+          "hex": "#2d2d2d"
+        },
+        {
+          "name": "Blanco",
+          "hex": "#f7f7f4"
+        },
+        {
+          "name": "Hueso",
+          "hex": "#efe6d6"
+        },
+        {
+          "name": "Gris",
+          "hex": "#b9b6b0"
+        }
+      ],
+      "finish_options": []
+    },
+    {
+      "name": "Pampas en jarrón de barro",
+      "materials": "Barro cocido y pampas secas",
+      "color_options": [
+        {
+          "name": "Terracota",
+          "hex": "#c4704f"
+        },
+        {
+          "name": "Blanco",
+          "hex": "#f7f7f4"
+        },
+        {
+          "name": "Hueso",
+          "hex": "#efe6d6"
+        },
+        {
+          "name": "Gris",
+          "hex": "#b9b6b0"
+        },
+        {
+          "name": "Negro",
+          "hex": "#2d2d2d"
+        }
+      ],
+      "finish_options": []
+    },
+    {
+      "name": "Canasto de mimbre grande",
+      "materials": "Mimbre natural",
+      "color_options": [
+        {
+          "name": "Natural",
+          "hex": "#c19a5b"
+        },
+        {
+          "name": "Miel",
+          "hex": "#a8773f"
+        },
+        {
+          "name": "Blanqueado",
+          "hex": "#e0cfa9"
+        }
+      ],
+      "finish_options": []
+    },
+    {
+      "name": "Cesto para ropa",
+      "materials": "Fibra de palma",
+      "color_options": [
+        {
+          "name": "Natural",
+          "hex": "#c9a96e"
+        },
+        {
+          "name": "Natural",
+          "hex": "#c19a5b"
+        },
+        {
+          "name": "Miel",
+          "hex": "#a8773f"
+        },
+        {
+          "name": "Blanqueado",
+          "hex": "#e0cfa9"
+        }
+      ],
+      "finish_options": []
+    },
+    {
+      "name": "Canasto de algodón",
+      "materials": "Cuerda de algodón",
+      "color_options": [
+        {
+          "name": "Crema",
+          "hex": "#efe6d6"
+        },
+        {
+          "name": "Natural",
+          "hex": "#c19a5b"
+        },
+        {
+          "name": "Miel",
+          "hex": "#a8773f"
+        },
+        {
+          "name": "Blanqueado",
+          "hex": "#e0cfa9"
+        }
+      ],
+      "finish_options": []
     }
   ],
   "furniture_addons": [
@@ -1508,9 +6272,11 @@
       "categories": [
         "sofa",
         "bed",
-        "chair"
+        "chair",
+        "armchair"
       ],
-      "color_hex": "#e9dcc6"
+      "color_hex": "#e9dcc6",
+      "icon": "circle-dot"
     },
     {
       "slug": "throw_blanket",
@@ -1520,9 +6286,11 @@
       "visual": "throw",
       "categories": [
         "sofa",
-        "bed"
+        "bed",
+        "armchair"
       ],
-      "color_hex": "#c4704f"
+      "color_hex": "#c4704f",
+      "icon": "waves"
     },
     {
       "slug": "stain_guard",
@@ -1534,9 +6302,13 @@
         "sofa",
         "chair",
         "bed",
-        "rug"
+        "rug",
+        "armchair",
+        "pouf",
+        "curtain"
       ],
-      "color_hex": null
+      "color_hex": null,
+      "icon": "shield-check"
     },
     {
       "slug": "glass_top",
@@ -1546,9 +6318,11 @@
       "visual": "glass",
       "categories": [
         "table",
-        "desk"
+        "desk",
+        "side_table"
       ],
-      "color_hex": "#dfe9ec"
+      "color_hex": "#dfe9ec",
+      "icon": "gem"
     },
     {
       "slug": "brass_legs",
@@ -1561,9 +6335,14 @@
         "chair",
         "sofa",
         "storage",
-        "desk"
+        "desk",
+        "armchair",
+        "side_table",
+        "pouf",
+        "stool"
       ],
-      "color_hex": "#b5924c"
+      "color_hex": "#b5924c",
+      "icon": "sparkles"
     },
     {
       "slug": "led_strip",
@@ -1576,7 +6355,8 @@
         "storage",
         "desk"
       ],
-      "color_hex": "#ffd9a0"
+      "color_hex": "#ffd9a0",
+      "icon": "lightbulb"
     },
     {
       "slug": "ceramic_pot",
@@ -1587,7 +6367,8 @@
       "categories": [
         "plant"
       ],
-      "color_hex": "#c86f4b"
+      "color_hex": "#c86f4b",
+      "icon": "flower-2"
     },
     {
       "slug": "smart_bulb",
@@ -1598,7 +6379,274 @@
       "categories": [
         "lamp"
       ],
-      "color_hex": "#fff1c9"
+      "color_hex": "#fff1c9",
+      "icon": "lightbulb"
+    },
+    {
+      "slug": "books",
+      "name": "Libros decorativos",
+      "description": "Una pila de libros de arte y diseño.",
+      "price": 110000,
+      "visual": "books",
+      "categories": [
+        "shelf",
+        "desk",
+        "nightstand",
+        "storage",
+        "tv_stand",
+        "side_table"
+      ],
+      "color_hex": "#8a4b2a",
+      "icon": "book-open"
+    },
+    {
+      "slug": "centerpiece",
+      "name": "Centro de mesa con flores",
+      "description": "Jarrón de cerámica con flores frescas.",
+      "price": 140000,
+      "visual": "vase",
+      "categories": [
+        "table",
+        "storage",
+        "counter",
+        "side_table",
+        "nightstand"
+      ],
+      "color_hex": "#e8e4dc",
+      "icon": "flower"
+    },
+    {
+      "slug": "table_runner",
+      "name": "Camino de mesa de lino",
+      "description": "Tela a lo largo de la mesa.",
+      "price": 85000,
+      "visual": "runner",
+      "categories": [
+        "table",
+        "counter"
+      ],
+      "color_hex": "#efe6d6",
+      "icon": "rectangle-horizontal"
+    },
+    {
+      "slug": "table_lamp",
+      "name": "Lámpara de mesa a juego",
+      "description": "Lámpara pequeña con pantalla de lino.",
+      "price": 210000,
+      "visual": "lamp",
+      "categories": [
+        "nightstand",
+        "desk",
+        "side_table",
+        "storage",
+        "tv_stand"
+      ],
+      "color_hex": "#f3eee6",
+      "icon": "lamp"
+    },
+    {
+      "slug": "succulent",
+      "name": "Suculenta en maceta",
+      "description": "Una planta pequeña que casi no pide agua.",
+      "price": 45000,
+      "visual": "succulent",
+      "categories": [
+        "table",
+        "side_table",
+        "nightstand",
+        "desk",
+        "storage",
+        "tv_stand",
+        "counter",
+        "shelf",
+        "vanity"
+      ],
+      "color_hex": "#6a9a4f",
+      "icon": "sprout"
+    },
+    {
+      "slug": "headboard",
+      "name": "Cabecero tapizado",
+      "description": "Cabecero alto y acolchado.",
+      "price": 690000,
+      "visual": "headboard",
+      "categories": [
+        "bed"
+      ],
+      "color_hex": "#b9b6b0",
+      "icon": "bed-double"
+    },
+    {
+      "slug": "duvet",
+      "name": "Edredón de algodón",
+      "description": "Edredón y fundas a juego.",
+      "price": 320000,
+      "visual": "duvet",
+      "categories": [
+        "bed"
+      ],
+      "color_hex": "#a9b49a",
+      "icon": "layers"
+    },
+    {
+      "slug": "towels",
+      "name": "Juego de toallas",
+      "description": "Cuatro toallas de algodón egipcio.",
+      "price": 120000,
+      "visual": "towels",
+      "categories": [
+        "bath_accessory",
+        "vanity",
+        "bathtub",
+        "storage"
+      ],
+      "color_hex": "#efe6d6",
+      "icon": "layers"
+    },
+    {
+      "slug": "gold_frame",
+      "name": "Marco dorado",
+      "description": "Cambia el marco por uno de latón.",
+      "price": 160000,
+      "visual": "frame",
+      "categories": [
+        "art",
+        "mirror"
+      ],
+      "color_hex": "#b5924c",
+      "icon": "frame"
+    },
+    {
+      "slug": "sheer_layer",
+      "name": "Capa de visillo",
+      "description": "Velo translúcido delante de la cortina.",
+      "price": 180000,
+      "visual": "sheer",
+      "categories": [
+        "curtain"
+      ],
+      "color_hex": "#fbfbf8",
+      "icon": "blinds"
+    },
+    {
+      "slug": "soundbar",
+      "name": "Barra de sonido",
+      "description": "Sonido envolvente bajo el televisor.",
+      "price": 890000,
+      "visual": "soundbar",
+      "categories": [
+        "tv",
+        "tv_stand"
+      ],
+      "color_hex": "#2d2d2d",
+      "icon": "speaker"
+    },
+    {
+      "slug": "wall_mount",
+      "name": "Instalación en pared",
+      "description": "Lo colgamos con anclajes seguros.",
+      "price": 90000,
+      "visual": "none",
+      "categories": [
+        "art",
+        "mirror",
+        "tv",
+        "curtain",
+        "shelf"
+      ],
+      "color_hex": null,
+      "icon": "drill"
+    },
+    {
+      "slug": "assembly",
+      "name": "Armado profesional",
+      "description": "Lo armamos en tu casa el día de la entrega.",
+      "price": 120000,
+      "visual": "none",
+      "categories": [
+        "bed",
+        "wardrobe",
+        "desk",
+        "storage",
+        "shelf",
+        "table",
+        "tv_stand",
+        "nightstand"
+      ],
+      "color_hex": null,
+      "icon": "wrench"
+    },
+    {
+      "slug": "express_delivery",
+      "name": "Entrega en 48 horas",
+      "description": "Llega a tu casa en dos días hábiles.",
+      "price": 150000,
+      "visual": "none",
+      "categories": [
+        "sofa",
+        "armchair",
+        "bed",
+        "table",
+        "chair",
+        "desk",
+        "storage",
+        "wardrobe",
+        "fridge",
+        "stove",
+        "washer",
+        "tv"
+      ],
+      "color_hex": null,
+      "icon": "truck"
+    },
+    {
+      "slug": "warranty",
+      "name": "Garantía extendida 2 años",
+      "description": "Cubre defectos y reparaciones.",
+      "price": 190000,
+      "visual": "none",
+      "categories": [
+        "sofa",
+        "armchair",
+        "bed",
+        "fridge",
+        "stove",
+        "washer",
+        "tv",
+        "desk"
+      ],
+      "color_hex": null,
+      "icon": "badge-check"
+    },
+    {
+      "slug": "haul_away",
+      "name": "Retiro del mueble viejo",
+      "description": "Nos llevamos el anterior para reciclarlo.",
+      "price": 80000,
+      "visual": "none",
+      "categories": [
+        "sofa",
+        "armchair",
+        "bed",
+        "fridge",
+        "stove",
+        "washer",
+        "wardrobe"
+      ],
+      "color_hex": null,
+      "icon": "recycle"
+    },
+    {
+      "slug": "plant_care",
+      "name": "Kit de cuidado",
+      "description": "Abono, aspersor y guía de riego.",
+      "price": 45000,
+      "visual": "none",
+      "categories": [
+        "plant"
+      ],
+      "color_hex": null,
+      "icon": "droplet"
     }
   ],
   "inspiration_photos": [

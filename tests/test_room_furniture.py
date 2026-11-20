@@ -109,7 +109,14 @@ def test_migration_adds_room_furniture_to_a_seeded_database(tmp_path: Path):
         chair_rooms = connection.execute(
             sa.select(migration.categories.c.room_types).where(migration.categories.c.slug == "chair")
         ).scalar()
-    assert items == 23
+    catalog = migration._catalog()
+    new = migration.NEW_CATEGORIES
+    expected = [
+        i
+        for i in catalog["furniture_items"]
+        if i["category"] in new or i["name"] in migration.NEW_ITEMS_IN_EXISTING_CATEGORIES
+    ]
+    assert items == len(expected)
     assert "kitchen" in chair_rooms
 
     run(migration.downgrade)

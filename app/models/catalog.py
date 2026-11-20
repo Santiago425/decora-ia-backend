@@ -1,6 +1,6 @@
 from decimal import Decimal
 
-from sqlalchemy import JSON, Boolean, Column, Float, ForeignKey, Integer, Numeric, String, Table, Text
+from sqlalchemy import JSON, Boolean, Column, Float, ForeignKey, Integer, Numeric, String, Table, Text, text, true
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.models.base import Base
@@ -76,6 +76,8 @@ class FurnitureCategory(Base):
     icon: Mapped[str] = mapped_column(String(40), default="box")
     shape: Mapped[str] = mapped_column(String(40))
     room_types: Mapped[list[str]] = mapped_column(JSON, default=list)
+    # False for pieces that hang on the wall (art, curtains, a TV), so they never block the floor below them.
+    blocks_floor: Mapped[bool] = mapped_column(Boolean, default=True, server_default=true())
 
     items: Mapped[list["FurnitureItem"]] = relationship(back_populates="category")
 
@@ -93,6 +95,10 @@ class FurnitureItem(Base):
     height: Mapped[float] = mapped_column(Float)
     default_color: Mapped[str] = mapped_column(String(7))
     model_url: Mapped[str | None] = mapped_column(String(500))
+    materials: Mapped[str] = mapped_column(String(160), default="", server_default="")
+    # Colors the piece is sold in, as [{"name": ..., "hex": ...}], and the furniture finishes that suit it.
+    color_options: Mapped[list[dict]] = mapped_column(JSON, default=list, server_default=text("'[]'"))
+    finish_options: Mapped[list[str]] = mapped_column(JSON, default=list, server_default=text("'[]'"))
     is_active: Mapped[bool] = mapped_column(Boolean, default=True)
 
     category: Mapped[FurnitureCategory] = relationship(back_populates="items")
@@ -107,6 +113,7 @@ class FurnitureAddon(Base):
     description: Mapped[str] = mapped_column(Text, default="")
     price: Mapped[Decimal] = mapped_column(Numeric(12, 2))
     visual: Mapped[str] = mapped_column(String(20), default="none")
+    icon: Mapped[str] = mapped_column(String(40), default="sparkles", server_default="sparkles")
     color_hex: Mapped[str | None] = mapped_column(String(7))
     categories: Mapped[list[str]] = mapped_column(JSON, default=list)
     is_active: Mapped[bool] = mapped_column(Boolean, default=True)
