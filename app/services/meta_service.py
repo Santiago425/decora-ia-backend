@@ -33,13 +33,18 @@ def _demo_accounts(settings: Settings) -> list[DemoAccount]:
         return []
     return [
         DemoAccount(
-            role="user", name=settings.demo_user_name, email=settings.demo_user_email, password=settings.demo_password
+            role="user",
+            name=settings.demo_user_name,
+            email=settings.demo_user_email,
+            password=settings.demo_password,
+            greeting=settings.demo_greeting,
         ),
         DemoAccount(
             role="admin",
             name=settings.demo_admin_name,
             email=settings.demo_admin_email,
             password=settings.demo_password,
+            greeting=settings.demo_greeting,
         ),
     ]
 

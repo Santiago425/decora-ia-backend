@@ -36,6 +36,8 @@ class Settings(BaseSettings):
     demo_user_name: str
     demo_admin_email: str
     demo_admin_name: str
+    # Welcome line shown to whoever signs in with a demo account (empty keeps the usual greeting)
+    demo_greeting: str = ""
 
     currency_code: str = "COP"
 

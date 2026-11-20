@@ -23,6 +23,7 @@ os.environ.update(
         "DEMO_USER_NAME": "Test User",
         "DEMO_ADMIN_EMAIL": "admin@test.app",
         "DEMO_ADMIN_NAME": "Test Admin",
+        "DEMO_GREETING": "Welcome, dear tester",
     }
 )
 

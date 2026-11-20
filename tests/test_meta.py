@@ -3,6 +3,7 @@ from fastapi.testclient import TestClient
 from pydantic import ValidationError
 
 from app.core.settings import Settings, get_settings
+from app.seed import run_seed
 
 
 def test_public_meta_needs_no_session(client: TestClient):
@@ -25,6 +26,22 @@ def test_public_meta_lists_every_ai_provider_with_the_active_ones(client: TestCl
 def test_public_meta_hides_demo_accounts_when_disabled(client: TestClient, monkeypatch: pytest.MonkeyPatch):
     monkeypatch.setattr(get_settings(), "show_demo_accounts", False)
     assert client.get("/api/v1/meta/public").json()["demo_accounts"] == []
+
+
+def test_demo_accounts_carry_the_greeting_from_the_settings(client: TestClient):
+    accounts = client.get("/api/v1/meta/public").json()["demo_accounts"]
+    assert {account["greeting"] for account in accounts} == {"Welcome, dear tester"}
+
+
+def test_seed_renames_the_demo_account_from_the_settings(
+    client: TestClient, user_token: str, monkeypatch: pytest.MonkeyPatch
+):
+    monkeypatch.setattr(get_settings(), "demo_user_name", "Tester")
+    run_seed()
+    me = client.get("/api/v1/auth/me", headers={"Authorization": f"Bearer {user_token}"}).json()
+    monkeypatch.undo()
+    run_seed()
+    assert me["full_name"] == "Tester"
 
 
 def test_production_refuses_the_example_jwt_secret(monkeypatch: pytest.MonkeyPatch):

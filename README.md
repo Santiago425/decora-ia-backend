@@ -340,6 +340,7 @@ Todas están en [`.env.example`](.env.example) con comentarios y se leen en un s
 | `SEED_ON_STARTUP` | Cargar catálogo y cuentas de prueba al arrancar |
 | `SEED_DEMO_PROJECTS` | Agregar proyectos de ejemplo a la cuenta de usuario de prueba |
 | `DEMO_PASSWORD`, `DEMO_USER_*`, `DEMO_ADMIN_*` | Cuentas de prueba |
+| `DEMO_GREETING` | Saludo que ve quien entra con una cuenta de prueba (vacío deja el saludo normal) |
 | `CURRENCY_CODE`, `BUDGET_ECONOMIC_MAX`, `BUDGET_STANDARD_MAX` | Moneda y límites de cada estrategia de presupuesto |
 | `STORAGE_PROVIDER`, `MEDIA_DIR`, `MEDIA_URL_PATH` | Dónde se guardan las fotos |
 | `MAX_UPLOAD_MB`, `MIN_IMAGE_SIDE`, `MAX_IMAGE_SIDE` | Reglas de la cadena de validación de imágenes |
