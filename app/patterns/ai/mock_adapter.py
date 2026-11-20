@@ -2,7 +2,14 @@ import io
 
 from PIL import Image, ImageEnhance, ImageOps
 
-from app.patterns.ai.ai_provider import DesignAdvisor, DesignSuggestions, ImageData, ImageEditor
+from app.patterns.ai.ai_provider import (
+    DesignAdvisor,
+    DesignSuggestions,
+    ImageData,
+    ImageEditor,
+    StyleDescriber,
+    StyleDescription,
+)
 
 
 def _hex_to_rgb(value: str) -> tuple[int, int, int]:
@@ -35,3 +42,24 @@ class MockDesignAdvisor(DesignAdvisor):
 
     def suggest(self, image: ImageData, prompt: str) -> DesignSuggestions:
         return self.suggestions
+
+
+class MockStyleDescriber(StyleDescriber):
+    """Offline describer for development and tests: reads the dominant colors of the inspiration photo."""
+
+    name = "mock"
+    max_colors = 4
+
+    def describe(self, image: ImageData) -> StyleDescription:
+        photo = ImageOps.exif_transpose(Image.open(io.BytesIO(image.data))).convert("RGB")
+        photo.thumbnail((128, 128))
+        quantized = photo.quantize(colors=self.max_colors)
+        palette = quantized.getpalette() or []
+        ranked = sorted(quantized.getcolors() or [], reverse=True)
+        colors = ["#{:02x}{:02x}{:02x}".format(*palette[index * 3 : index * 3 + 3]) for _, index in ranked]
+        return StyleDescription(
+            name="Inspiración",
+            summary=f"Tonos tomados de tu foto: {', '.join(colors)}.",
+            prompt=f"a calm, cohesive interior that follows the mood of the reference photo, dominated by {', '.join(colors)}.",
+            colors=colors,
+        )

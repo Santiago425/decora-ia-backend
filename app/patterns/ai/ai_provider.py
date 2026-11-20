@@ -51,3 +51,36 @@ class DesignAdvisor(ABC):
 
     @abstractmethod
     def suggest(self, image: ImageData, prompt: str) -> DesignSuggestions: ...
+
+
+class StyleDescription(BaseModel):
+    """What the text model read from an inspiration photo: a short Spanish summary and an English style brief."""
+
+    name: str = Field(default="", max_length=80)
+    summary: str = Field(default="", max_length=400)
+    prompt: str = Field(min_length=1, max_length=800)
+    colors: list[str] = Field(default_factory=list, max_length=6)
+
+    def image_prompt(self, keep_structure: bool, keep_items: str | None = None) -> str:
+        lines = [
+            f"Restyle this room photo to match this interior design inspiration: {self.prompt}",
+            "Return a photorealistic image taken from the same camera angle, with natural light and real furniture.",
+        ]
+        if keep_structure:
+            lines.append(
+                "Respect the real room: keep walls, windows, doors, ceiling and floor layout in the same place and "
+                "size. Do not move, add or remove any window or door."
+            )
+        if keep_items:
+            lines.append(f"Keep these existing pieces exactly as they are, in the same place: {keep_items}.")
+        if self.colors:
+            lines.append(f"Use this color palette: {', '.join(self.colors)}.")
+        return " ".join(lines)
+
+
+# Adapter target: a text model with vision reads the style of an inspiration photo and returns it as text.
+class StyleDescriber(ABC):
+    name: str
+
+    @abstractmethod
+    def describe(self, image: ImageData) -> StyleDescription: ...
