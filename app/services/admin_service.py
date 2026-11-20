@@ -11,6 +11,8 @@ from app.repositories import (
     UserRepository,
 )
 from app.schemas.admin import (
+    AdminFurniture,
+    AdminFurniturePage,
     AdminStats,
     AdminStyle,
     AdminUser,
@@ -20,6 +22,10 @@ from app.schemas.admin import (
     StyleCount,
 )
 from app.services.meta_service import active_providers
+
+
+def _clean(text: str | None) -> str | None:
+    return text.strip() or None if text else None
 
 
 class AdminError(Exception):
@@ -75,9 +81,11 @@ class AdminService:
             days=days,
         )
 
-    def list_users(self, search: str | None, page: int) -> AdminUserPage:
+    def list_users(
+        self, search: str | None, page: int, role: UserRole | None = None, active: bool | None = None
+    ) -> AdminUserPage:
         size = self.settings.admin_page_size
-        rows, total = self.users.search(search.strip() if search else None, size, (page - 1) * size)
+        rows, total = self.users.search(_clean(search), size, (page - 1) * size, role=role, active=active)
         items = [AdminUser.model_validate(user).model_copy(update={"project_count": count}) for user, count in rows]
         return AdminUserPage(items=items, total=total, page=page, page_size=size)
 
@@ -97,8 +105,14 @@ class AdminService:
         saved = self.users.save(user)
         return AdminUser.model_validate(saved).model_copy(update={"project_count": len(saved.projects)})
 
-    def list_furniture(self):
-        return self.furniture.list_all()
+    def list_furniture(
+        self, search: str | None, category: str | None, active: bool | None, page: int
+    ) -> AdminFurniturePage:
+        size = self.settings.admin_page_size
+        items, total = self.furniture.search(_clean(search), _clean(category), active, size, (page - 1) * size)
+        return AdminFurniturePage(
+            items=[AdminFurniture.model_validate(item) for item in items], total=total, page=page, page_size=size
+        )
 
     def list_styles(self) -> list[AdminStyle]:
         return [

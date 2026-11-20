@@ -83,6 +83,13 @@ class AdminFurniture(BaseModel):
     category: FurnitureCategoryResponse
 
 
+class AdminFurniturePage(BaseModel):
+    items: list[AdminFurniture]
+    total: int
+    page: int
+    page_size: int
+
+
 class FurnitureCreate(BaseModel):
     category: str = Field(min_length=1, max_length=40)
     name: str = Field(min_length=2, max_length=80)

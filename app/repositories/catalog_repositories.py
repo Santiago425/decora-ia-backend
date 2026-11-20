@@ -79,14 +79,30 @@ class FurnitureRepository(BaseRepository[FurnitureItem]):
             query = query.where(FurnitureCategory.slug == category_slug)
         return list(self.session.scalars(query))
 
-    def list_all(self) -> list[FurnitureItem]:
+    def search(
+        self,
+        text: str | None,
+        category_slug: str | None,
+        active: bool | None,
+        limit: int,
+        offset: int,
+    ) -> tuple[list[FurnitureItem], int]:
+        filters = []
+        if text:
+            filters.append(func.lower(FurnitureItem.name).like(f"%{text.lower()}%"))
+        if category_slug:
+            filters.append(FurnitureCategory.slug == category_slug)
+        if active is not None:
+            filters.append(FurnitureItem.is_active.is_(active))
+        base = select(FurnitureItem).join(FurnitureItem.category).where(*filters)
+        total = self.session.scalar(select(func.count()).select_from(base.subquery())) or 0
         query = (
-            select(FurnitureItem)
-            .join(FurnitureItem.category)
-            .options(selectinload(FurnitureItem.category))
+            base.options(selectinload(FurnitureItem.category))
             .order_by(FurnitureCategory.name, FurnitureItem.name)
+            .limit(limit)
+            .offset(offset)
         )
-        return list(self.session.scalars(query))
+        return list(self.session.scalars(query)), total
 
     def prices_by_id(self, ids: set[int]) -> dict[int, float]:
         if not ids:

@@ -4,12 +4,14 @@ from typing import Annotated
 from fastapi import APIRouter, Depends, HTTPException, Query, Response, status
 
 from app.dependencies import AdminUser, get_admin_service, get_catalog_admin, get_report
+from app.models import UserRole
 from app.patterns.proxies.catalog_admin_proxy import CatalogAdminError, CatalogAdminProxy
 from app.patterns.reports.report_exporters import ReportExporter
 from app.schemas.admin import (
     AddonUpdate,
     AdminAddon,
     AdminFurniture,
+    AdminFurniturePage,
     AdminStats,
     AdminStyle,
     AdminUserPage,
@@ -43,9 +45,11 @@ def list_users(
     admin: AdminUser,
     service: Service,
     search: Annotated[str | None, Query(max_length=80)] = None,
+    role: UserRole | None = None,
+    active: bool | None = None,
     page: Annotated[int, Query(ge=1)] = 1,
 ):
-    return service.list_users(search, page)
+    return service.list_users(search, page, role=role, active=active)
 
 
 @router.patch("/users/{user_id}", response_model=AdminUserResponse)
@@ -53,9 +57,16 @@ def update_user(user_id: uuid.UUID, data: AdminUserUpdate, admin: AdminUser, ser
     return handle(lambda: service.update_user(admin, user_id, data))
 
 
-@router.get("/furniture", response_model=list[AdminFurniture])
-def list_furniture(admin: AdminUser, service: Service):
-    return service.list_furniture()
+@router.get("/furniture", response_model=AdminFurniturePage)
+def list_furniture(
+    admin: AdminUser,
+    service: Service,
+    search: Annotated[str | None, Query(max_length=80)] = None,
+    category: Annotated[str | None, Query(max_length=60)] = None,
+    active: bool | None = None,
+    page: Annotated[int, Query(ge=1)] = 1,
+):
+    return service.list_furniture(search, category, active, page)
 
 
 @router.post("/furniture", response_model=AdminFurniture, status_code=status.HTTP_201_CREATED)

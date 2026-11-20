@@ -119,3 +119,40 @@ def test_meta_info_lists_demo_accounts(client: TestClient, user_token: str):
     body = client.get("/api/v1/meta/info", headers=user_headers(user_token)).json()
     assert {account["role"] for account in body["demo_accounts"]} == {"user", "admin"}
     assert body["assistant_name"] == "Lumi"
+
+
+def test_users_filter_by_role_and_status(client: TestClient):
+    headers = admin_headers(client)
+    admins = client.get("/api/v1/admin/users", params={"role": "admin"}, headers=headers).json()
+    assert admins["total"] >= 1
+    assert all(user["role"] == "admin" for user in admins["items"])
+
+    inactive = client.get("/api/v1/admin/users", params={"active": "false"}, headers=headers).json()
+    assert all(user["is_active"] is False for user in inactive["items"])
+
+    bad = client.get("/api/v1/admin/users", params={"role": "owner"}, headers=headers)
+    assert bad.status_code == 422
+
+
+def test_furniture_list_is_paginated_and_filtered(client: TestClient):
+    headers = admin_headers(client)
+    first = client.get("/api/v1/admin/furniture", headers=headers).json()
+    assert first["page"] == 1
+    assert first["total"] >= len(first["items"])
+    assert len(first["items"]) <= first["page_size"]
+
+    category = first["items"][0]["category"]["slug"]
+    by_category = client.get("/api/v1/admin/furniture", params={"category": category}, headers=headers).json()
+    assert by_category["total"] >= 1
+    assert all(item["category"]["slug"] == category for item in by_category["items"])
+
+    name = first["items"][0]["name"]
+    found = client.get("/api/v1/admin/furniture", params={"search": name[:4].upper()}, headers=headers).json()
+    assert any(item["name"] == name for item in found["items"])
+
+    hidden = client.get("/api/v1/admin/furniture", params={"active": "false"}, headers=headers).json()
+    assert all(item["is_active"] is False for item in hidden["items"])
+
+    empty = client.get("/api/v1/admin/furniture", params={"page": 999}, headers=headers).json()
+    assert empty["items"] == []
+    assert empty["total"] == first["total"]
