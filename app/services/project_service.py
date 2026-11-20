@@ -90,7 +90,8 @@ class ProjectService:
     def create(self, user: User, data: ProjectCreate) -> ProjectDetail:
         style, room_type = self._style(data.style), self._room_type(data.room_type)
         project = Project(user_id=user.id, name=data.name.strip(), style_id=style.id, room_type_id=room_type.id)
-        project.scene = self._starter_scene(style, room_type, data.furnished)
+        size = (data.width, data.length, data.height)
+        project.scene = self._starter_scene(style, room_type, data.furnished, size)
         project.estimated_budget = self.estimate(project.scene)
         self.projects.add(project)
         return self.get(user, project.id)
@@ -173,9 +174,14 @@ class ProjectService:
         )
         return round(walk_scene(scene, visitor).total, 2)
 
-    def _starter_scene(self, style, room_type, furnished: bool) -> dict:
+    def _starter_scene(self, style, room_type, furnished: bool, size: tuple = (None, None, None)) -> dict:
         settings = self.settings
-        builder = RoomBuilder(settings.room_default_width, settings.room_default_length, settings.room_default_height)
+        width, length, height = size
+        builder = RoomBuilder(
+            width or settings.room_default_width,
+            length or settings.room_default_length,
+            height or settings.room_default_height,
+        )
         if style is not None:
             by_surface = {material.surface: material.slug for material in reversed(style.materials)}
             builder.with_walls(by_surface.get("wall")).with_floor(by_surface.get("floor"))
