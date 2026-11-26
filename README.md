@@ -324,6 +324,7 @@ docker run -p 8000:8000 --env-file .env habita-backend
 - **Ruff** como linter y formateador (`ruff check .` y `ruff format --check .`).
 - **Integración continua** con GitHub Actions: en cada push y pull request se instalan dependencias, se corren Ruff y las pruebas, se construye la imagen de Docker y se valida el `docker-compose.yml`.
 - Despliegue automático en **Render** desde `main`; las migraciones de Alembic se aplican al arrancar el contenedor.
+- **Keep alive** ([`keep-alive.yml`](.github/workflows/keep-alive.yml)): cada 10 minutos, de 6:00 a 23:59 (UTC-5), llama a `/api/v1/hello` para que Render free no duerma el servicio. Se puede lanzar a mano desde la pestaña Actions y la URL se cambia con la variable de repositorio `KEEP_ALIVE_URL`.
 
 ## Variables de entorno
 
